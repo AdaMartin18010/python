@@ -1,1015 +1,915 @@
-# 01-形式科学 (Formal Sciences)
+# 01. 形式科学层
 
 ## 概述
 
-形式科学层为软件工程提供了坚实的数学和逻辑基础。这一层涵盖了数学基础、逻辑学、集合论、范畴论和类型论等核心内容，为整个知识体系提供了形式化的理论基础。
+形式科学层是软件工程知识体系的数学和逻辑基础，提供形式化表达、数学建模和逻辑推理的理论支撑。本层建立从具体问题到抽象数学模型的桥梁。
 
 ## 目录结构
 
-```text
+```
 01-形式科学/
 ├── 01-数学基础/
-│   ├── 01-集合论基础.md
-│   ├── 02-函数论.md
-│   ├── 03-关系论.md
-│   └── 04-代数结构.md
-├── 02-逻辑学/
+│   ├── 01-集合论.md
+│   ├── 02-关系理论.md
+│   ├── 03-函数理论.md
+│   ├── 04-代数结构.md
+│   ├── 05-序理论.md
+│   └── 06-图论基础.md
+├── 02-逻辑理论/
 │   ├── 01-命题逻辑.md
 │   ├── 02-谓词逻辑.md
 │   ├── 03-模态逻辑.md
-│   └── 04-时序逻辑.md
-├── 03-集合论/
-│   ├── 01-朴素集合论.md
-│   ├── 02-公理集合论.md
-│   ├── 03-序数理论.md
-│   └── 04-基数理论.md
-├── 04-范畴论/
-│   ├── 01-范畴基础.md
-│   ├── 02-函子与自然变换.md
-│   ├── 03-极限与余极限.md
-│   └── 04-伴随函子.md
-└── 05-类型论/
-    ├── 01-简单类型论.md
-    ├── 02-依赖类型论.md
-    ├── 03-同伦类型论.md
-    └── 04-线性类型论.md
+│   ├── 04-时序逻辑.md
+│   └── 05-直觉逻辑.md
+├── 03-形式化方法/
+│   ├── 01-形式化规约.md
+│   ├── 02-形式化验证.md
+│   ├── 03-模型检测.md
+│   ├── 04-定理证明.md
+│   └── 05-抽象解释.md
+├── 04-计算理论/
+│   ├── 01-自动机理论.md
+│   ├── 02-形式语言.md
+│   ├── 03-可计算性.md
+│   ├── 04-复杂性理论.md
+│   └── 05-算法分析.md
+├── 05-概率统计/
+│   ├── 01-概率论基础.md
+│   ├── 02-随机过程.md
+│   ├── 03-统计推断.md
+│   ├── 04-信息论.md
+│   └── 05-机器学习数学.md
+└── README.md
 ```
 
-## 核心概念
+## 核心理念
 
-### 1. 数学基础 (Mathematical Foundation)
+### 1. 形式化表达
 
-数学基础为软件工程提供了精确的语言和工具。
+将软件系统的概念、行为和性质用精确的数学语言表达：
 
-```math
-\text{数学基础框架} M = (S, F, R, A)
+- **精确性**：消除歧义，提供精确的定义
+- **抽象性**：从具体实现中抽象出本质特征
+- **通用性**：适用于多种具体场景
+- **可推理性**：支持逻辑推理和证明
 
-\text{其中:}
-\begin{align}
-S &= \text{集合论 (Set Theory)} \\
-F &= \text{函数论 (Function Theory)} \\
-R &= \text{关系论 (Relation Theory)} \\
-A &= \text{代数结构 (Algebraic Structures)}
-\end{align}
-```
+### 2. 数学建模
 
-### 2. 逻辑学 (Logic)
+建立软件系统的数学模型：
 
-逻辑学为软件工程提供了推理和证明的基础。
+- **状态模型**：系统状态的形式化描述
+- **行为模型**：系统行为的形式化表达
+- **结构模型**：系统结构的形式化表示
+- **关系模型**：系统间关系的数学描述
 
-```math
-\text{逻辑系统} L = (P, I, R, T)
+### 3. 逻辑推理
 
-\text{其中:}
-\begin{align}
-P &= \text{命题集合} \\
-I &= \text{解释函数} \\
-R &= \text{推理规则} \\
-T &= \text{真值函数}
-\end{align}
-```
+基于形式化表达进行逻辑推理：
 
-### 3. 集合论 (Set Theory)
+- **演绎推理**：从一般到特殊的推理
+- **归纳推理**：从特殊到一般的推理
+- **反证法**：通过否定结论来证明
+- **构造性证明**：通过构造来证明存在性
 
-集合论为数据结构提供了理论基础。
+## 数学基础
 
-```math
-\text{集合论公理系统:}
+### 集合论基础
 
-\begin{align}
-\text{外延公理:} &\quad \forall x \forall y (\forall z (z \in x \leftrightarrow z \in y) \rightarrow x = y) \\
-\text{空集公理:} &\quad \exists x \forall y (y \notin x) \\
-\text{配对公理:} &\quad \forall x \forall y \exists z \forall w (w \in z \leftrightarrow w = x \vee w = y) \\
-\text{并集公理:} &\quad \forall F \exists A \forall x (x \in A \leftrightarrow \exists B (B \in F \wedge x \in B)) \\
-\text{幂集公理:} &\quad \forall x \exists y \forall z (z \in y \leftrightarrow z \subseteq x)
-\end{align}
-```
+**集合的基本概念**
 
-### 4. 范畴论 (Category Theory)
+集合是数学的基础概念，在软件工程中有广泛应用：
 
-范畴论为抽象数据类型提供了理论基础。
+$$\text{Set} = \{x \mid P(x)\}$$
 
-```math
-\text{范畴定义:}
-
-\text{范畴} \mathcal{C} = (\text{Ob}(\mathcal{C}), \text{Mor}(\mathcal{C}), \circ, \text{id})
-
-\text{其中:}
-\begin{align}
-\text{Ob}(\mathcal{C}) &= \text{对象集合} \\
-\text{Mor}(\mathcal{C}) &= \text{态射集合} \\
-\circ &= \text{复合运算} \\
-\text{id} &= \text{恒等态射}
-\end{align}
-```
-
-### 5. 类型论 (Type Theory)
-
-类型论为编程语言提供了理论基础。
-
-```math
-\text{类型论系统:}
-
-\begin{align}
-\text{类型形成:} &\quad \frac{\Gamma \vdash A : \text{Type} \quad \Gamma \vdash B : \text{Type}}{\Gamma \vdash A \rightarrow B : \text{Type}} \\
-\text{函数应用:} &\quad \frac{\Gamma \vdash f : A \rightarrow B \quad \Gamma \vdash a : A}{\Gamma \vdash f(a) : B} \\
-\text{函数抽象:} &\quad \frac{\Gamma, x : A \vdash b : B}{\Gamma \vdash \lambda x.b : A \rightarrow B}
-\end{align}
-```
-
-## Python实现
-
-### 1. 集合论实现
+其中 $P(x)$ 是谓词，定义集合中元素的性质。
 
 ```python
-from typing import Set, List, Dict, Any, TypeVar, Generic
+from typing import TypeVar, Generic, Set, Iterator
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 
 T = TypeVar('T')
-U = TypeVar('U')
 
-class SetTheory:
-    """集合论实现"""
+class Set(ABC, Generic[T]):
+    """集合抽象基类"""
     
-    @staticmethod
-    def union(sets: List[Set[T]]) -> Set[T]:
+    @abstractmethod
+    def contains(self, element: T) -> bool:
+        """判断元素是否属于集合"""
+        pass
+    
+    @abstractmethod
+    def size(self) -> int:
+        """集合大小"""
+        pass
+    
+    @abstractmethod
+    def iterator(self) -> Iterator[T]:
+        """集合迭代器"""
+        pass
+    
+    def union(self, other: 'Set[T]') -> 'Set[T]':
         """并集"""
-        result = set()
-        for s in sets:
-            result.update(s)
-        return result
+        return UnionSet(self, other)
     
-    @staticmethod
-    def intersection(sets: List[Set[T]]) -> Set[T]:
+    def intersection(self, other: 'Set[T]') -> 'Set[T]':
         """交集"""
-        if not sets:
-            return set()
-        result = sets[0].copy()
-        for s in sets[1:]:
-            result.intersection_update(s)
-        return result
+        return IntersectionSet(self, other)
     
-    @staticmethod
-    def difference(a: Set[T], b: Set[T]) -> Set[T]:
+    def difference(self, other: 'Set[T]') -> 'Set[T]':
         """差集"""
-        return a - b
-    
-    @staticmethod
-    def symmetric_difference(a: Set[T], b: Set[T]) -> Set[T]:
-        """对称差集"""
-        return a ^ b
-    
-    @staticmethod
-    def cartesian_product(a: Set[T], b: Set[U]) -> Set[tuple]:
-        """笛卡尔积"""
-        return {(x, y) for x in a for y in b}
-    
-    @staticmethod
-    def power_set(s: Set[T]) -> Set[frozenset]:
-        """幂集"""
-        elements = list(s)
-        n = len(elements)
-        power_set = set()
-        
-        for i in range(2**n):
-            subset = set()
-            for j in range(n):
-                if i & (1 << j):
-                    subset.add(elements[j])
-            power_set.add(frozenset(subset))
-        
-        return power_set
+        return DifferenceSet(self, other)
 
-@dataclass
-class Relation(Generic[T, U]):
-    """关系"""
-    domain: Set[T]
-    codomain: Set[U]
-    pairs: Set[tuple]
+class FiniteSet(Set[T]):
+    """有限集合"""
     
-    def is_function(self) -> bool:
-        """判断是否为函数"""
-        domain_elements = {pair[0] for pair in self.pairs}
-        if domain_elements != self.domain:
-            return False
-        
-        # 检查单值性
-        domain_to_codomain = {}
-        for x, y in self.pairs:
-            if x in domain_to_codomain and domain_to_codomain[x] != y:
-                return False
-            domain_to_codomain[x] = y
-        
-        return True
+    def __init__(self, elements: Set[T]):
+        self.elements = elements
     
-    def is_injective(self) -> bool:
-        """判断是否为单射"""
-        if not self.is_function():
-            return False
-        
-        codomain_elements = {pair[1] for pair in self.pairs}
-        return len(codomain_elements) == len(self.pairs)
+    def contains(self, element: T) -> bool:
+        return element in self.elements
     
-    def is_surjective(self) -> bool:
-        """判断是否为满射"""
-        if not self.is_function():
-            return False
-        
-        codomain_elements = {pair[1] for pair in self.pairs}
-        return codomain_elements == self.codomain
+    def size(self) -> int:
+        return len(self.elements)
     
-    def is_bijective(self) -> bool:
-        """判断是否为双射"""
-        return self.is_injective() and self.is_surjective()
+    def iterator(self) -> Iterator[T]:
+        return iter(self.elements)
+
+# 使用示例
+set1 = FiniteSet({1, 2, 3})
+set2 = FiniteSet({3, 4, 5})
+print(f"1 in set1: {set1.contains(1)}")  # True
+print(f"4 in set1: {set1.contains(4)}")  # False
 ```
 
-### 2. 逻辑学实现
+### 关系理论
+
+**二元关系**
+
+二元关系是集合论的重要概念，在软件工程中用于建模对象间的关系：
+
+$$R \subseteq A \times B$$
+
+其中 $A$ 和 $B$ 是集合，$R$ 是它们之间的二元关系。
 
 ```python
-from typing import Dict, List, Set, Any, Callable
+from typing import TypeVar, Generic, Set, Tuple
 from dataclasses import dataclass
-from enum import Enum
-import itertools
 
-class TruthValue(Enum):
-    """真值"""
-    TRUE = True
-    FALSE = False
-    UNKNOWN = None
+A = TypeVar('A')
+B = TypeVar('B')
+
+@dataclass
+class BinaryRelation(Generic[A, B]):
+    """二元关系"""
+    domain: Set[A]
+    codomain: Set[B]
+    pairs: Set[Tuple[A, B]]
+    
+    def contains(self, a: A, b: B) -> bool:
+        """判断关系是否包含对 (a, b)"""
+        return (a, b) in self.pairs
+    
+    def is_function(self) -> bool:
+        """判断是否为函数（每个域元素最多对应一个值域元素）"""
+        for a in self.domain:
+            codomain_elements = {b for (x, b) in self.pairs if x == a}
+            if len(codomain_elements) > 1:
+                return False
+        return True
+
+# 使用示例
+domain = {1, 2, 3}
+codomain = {'a', 'b', 'c'}
+pairs = {(1, 'a'), (2, 'b'), (3, 'c')}
+
+relation = BinaryRelation(domain, codomain, pairs)
+print(f"是函数: {relation.is_function()}")  # True
+```
+
+### 函数理论
+
+**函数的形式化定义**
+
+函数是特殊的二元关系，在软件工程中用于建模计算过程：
+
+$$f: A \rightarrow B$$
+
+其中 $f$ 是函数，$A$ 是定义域，$B$ 是值域。
+
+```python
+from typing import TypeVar, Generic, Callable
+from dataclasses import dataclass
+
+A = TypeVar('A')
+B = TypeVar('B')
+C = TypeVar('C')
+
+@dataclass
+class Function(Generic[A, B]):
+    """函数"""
+    domain: type[A]
+    codomain: type[B]
+    implementation: Callable[[A], B]
+    
+    def apply(self, a: A) -> B:
+        """函数应用"""
+        return self.implementation(a)
+    
+    def compose(self, other: 'Function[B, C]') -> 'Function[A, C]':
+        """函数复合"""
+        def composed(a: A) -> C:
+            return other.apply(self.apply(a))
+        return Function(self.domain, other.codomain, composed)
+
+# 使用示例
+def square(x: int) -> int:
+    return x ** 2
+
+def double(x: int) -> int:
+    return x * 2
+
+f = Function(int, int, square)
+g = Function(int, int, double)
+
+# 函数应用
+print(f"f(3) = {f.apply(3)}")  # 9
+print(f"g(3) = {g.apply(3)}")  # 6
+
+# 函数复合
+h = f.compose(g)
+print(f"h(3) = {h.apply(3)}")  # 36
+```
+
+### 代数结构
+
+**群论应用**
+
+群论在软件工程中用于建模具有对称性的系统：
+
+```python
+from abc import ABC, abstractmethod
+from typing import TypeVar, Generic
+
+T = TypeVar('T')
+
+class Group(ABC, Generic[T]):
+    """群抽象基类"""
+    
+    @abstractmethod
+    def identity(self) -> T:
+        """单位元"""
+        pass
+    
+    @abstractmethod
+    def operation(self, a: T, b: T) -> T:
+        """群运算"""
+        pass
+    
+    @abstractmethod
+    def inverse(self, a: T) -> T:
+        """逆元"""
+        pass
+
+class IntegerGroup(Group[int]):
+    """整数加法群"""
+    
+    def identity(self) -> int:
+        return 0
+    
+    def operation(self, a: int, b: int) -> int:
+        return a + b
+    
+    def inverse(self, a: int) -> int:
+        return -a
+
+# 使用示例
+group = IntegerGroup()
+print(f"单位元: {group.identity()}")  # 0
+print(f"3 + 5 = {group.operation(3, 5)}")  # 8
+print(f"3 的逆元: {group.inverse(3)}")  # -3
+```
+
+## 逻辑理论
+
+### 命题逻辑
+
+**命题逻辑基础**
+
+命题逻辑是形式逻辑的基础，用于建模简单的逻辑关系：
+
+```python
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 @dataclass
 class Proposition:
     """命题"""
     name: str
-    truth_value: TruthValue = TruthValue.UNKNOWN
+    value: bool
     
     def __str__(self) -> str:
-        return self.name
+        return f"{self.name} = {self.value}"
 
-class LogicalOperator:
-    """逻辑运算符"""
+class LogicalOperator(ABC):
+    """逻辑运算符抽象基类"""
     
-    @staticmethod
-    def negation(p: TruthValue) -> TruthValue:
-        """否定"""
-        if p == TruthValue.TRUE:
-            return TruthValue.FALSE
-        elif p == TruthValue.FALSE:
-            return TruthValue.TRUE
-        else:
-            return TruthValue.UNKNOWN
+    @abstractmethod
+    def evaluate(self, *args: bool) -> bool:
+        """计算逻辑值"""
+        pass
     
-    @staticmethod
-    def conjunction(p: TruthValue, q: TruthValue) -> TruthValue:
-        """合取"""
-        if p == TruthValue.FALSE or q == TruthValue.FALSE:
-            return TruthValue.FALSE
-        elif p == TruthValue.TRUE and q == TruthValue.TRUE:
-            return TruthValue.TRUE
-        else:
-            return TruthValue.UNKNOWN
-    
-    @staticmethod
-    def disjunction(p: TruthValue, q: TruthValue) -> TruthValue:
-        """析取"""
-        if p == TruthValue.TRUE or q == TruthValue.TRUE:
-            return TruthValue.TRUE
-        elif p == TruthValue.FALSE and q == TruthValue.FALSE:
-            return TruthValue.FALSE
-        else:
-            return TruthValue.UNKNOWN
-    
-    @staticmethod
-    def implication(p: TruthValue, q: TruthValue) -> TruthValue:
-        """蕴含"""
-        if p == TruthValue.FALSE:
-            return TruthValue.TRUE
-        elif p == TruthValue.TRUE and q == TruthValue.FALSE:
-            return TruthValue.FALSE
-        else:
-            return TruthValue.UNKNOWN
-    
-    @staticmethod
-    def equivalence(p: TruthValue, q: TruthValue) -> TruthValue:
-        """等价"""
-        if p == q:
-            return TruthValue.TRUE
-        elif p == TruthValue.UNKNOWN or q == TruthValue.UNKNOWN:
-            return TruthValue.UNKNOWN
-        else:
-            return TruthValue.FALSE
+    @abstractmethod
+    def symbol(self) -> str:
+        """运算符符号"""
+        pass
 
-class TruthTable:
-    """真值表"""
+class AndOperator(LogicalOperator):
+    """与运算符"""
     
-    def __init__(self, propositions: List[str]):
-        self.propositions = propositions
-        self.rows = self._generate_rows()
+    def evaluate(self, *args: bool) -> bool:
+        return all(args)
     
-    def _generate_rows(self) -> List[Dict[str, TruthValue]]:
-        """生成所有可能的真值组合"""
-        rows = []
-        for values in itertools.product([TruthValue.TRUE, TruthValue.FALSE], 
-                                      repeat=len(self.propositions)):
-            row = dict(zip(self.propositions, values))
-            rows.append(row)
-        return rows
-    
-    def evaluate_formula(self, formula: Callable) -> List[TruthValue]:
-        """评估公式"""
-        results = []
-        for row in self.rows:
-            result = formula(row)
-            results.append(result)
-        return results
-    
-    def is_tautology(self, formula: Callable) -> bool:
-        """判断是否为重言式"""
-        results = self.evaluate_formula(formula)
-        return all(result == TruthValue.TRUE for result in results)
-    
-    def is_contradiction(self, formula: Callable) -> bool:
-        """判断是否为矛盾式"""
-        results = self.evaluate_formula(formula)
-        return all(result == TruthValue.FALSE for result in results)
-    
-    def is_satisfiable(self, formula: Callable) -> bool:
-        """判断是否为可满足式"""
-        results = self.evaluate_formula(formula)
-        return any(result == TruthValue.TRUE for result in results)
+    def symbol(self) -> str:
+        return "∧"
 
-class PredicateLogic:
-    """谓词逻辑"""
+class OrOperator(LogicalOperator):
+    """或运算符"""
     
-    def __init__(self):
-        self.universe = set()
-        self.predicates = {}
+    def evaluate(self, *args: bool) -> bool:
+        return any(args)
     
-    def add_universe_element(self, element: Any) -> None:
-        """添加论域元素"""
-        self.universe.add(element)
+    def symbol(self) -> str:
+        return "∨"
+
+class NotOperator(LogicalOperator):
+    """非运算符"""
     
-    def add_predicate(self, name: str, arity: int, extension: Set[tuple]) -> None:
-        """添加谓词"""
-        self.predicates[name] = {
-            'arity': arity,
-            'extension': extension
-        }
+    def evaluate(self, *args: bool) -> bool:
+        if len(args) != 1:
+            raise ValueError("Not operator takes exactly one argument")
+        return not args[0]
     
-    def evaluate_predicate(self, name: str, arguments: tuple) -> bool:
-        """评估谓词"""
-        if name not in self.predicates:
-            return False
-        
-        predicate = self.predicates[name]
-        if len(arguments) != predicate['arity']:
-            return False
-        
-        return arguments in predicate['extension']
-    
-    def universal_quantification(self, predicate_name: str, variable: str) -> bool:
-        """全称量化"""
-        if predicate_name not in self.predicates:
-            return False
-        
-        predicate = self.predicates[predicate_name]
-        if predicate['arity'] != 1:
-            return False
-        
-        for element in self.universe:
-            if (element,) not in predicate['extension']:
-                return False
-        
-        return True
-    
-    def existential_quantification(self, predicate_name: str, variable: str) -> bool:
-        """存在量化"""
-        if predicate_name not in self.predicates:
-            return False
-        
-        predicate = self.predicates[predicate_name]
-        if predicate['arity'] != 1:
-            return False
-        
-        for element in self.universe:
-            if (element,) in predicate['extension']:
-                return True
-        
-        return False
+    def symbol(self) -> str:
+        return "¬"
+
+# 使用示例
+p = Proposition("P", True)
+q = Proposition("Q", False)
+
+# 创建逻辑表达式: P ∧ ¬Q
+not_q = LogicalExpression(NotOperator(), [q])
+expression = LogicalExpression(AndOperator(), [p, not_q])
+
+print(f"表达式: {expression}")
+print(f"结果: {expression.evaluate()}")  # True
 ```
 
-### 3. 范畴论实现
+### 谓词逻辑
+
+**谓词逻辑扩展**
+
+谓词逻辑扩展了命题逻辑，能够表达更复杂的逻辑关系：
 
 ```python
-from typing import Dict, List, Set, Any, Callable, TypeVar, Generic
-from abc import ABC, abstractmethod
+from typing import TypeVar, Generic, Callable, Set
 from dataclasses import dataclass
 
 T = TypeVar('T')
-U = TypeVar('U')
-V = TypeVar('V')
 
 @dataclass
-class Morphism(Generic[T, U]):
-    """态射"""
-    domain: T
-    codomain: U
-    function: Callable[[T], U]
-    name: str = ""
+class Predicate(Generic[T]):
+    """谓词"""
+    name: str
+    function: Callable[[T], bool]
     
-    def compose(self, other: 'Morphism[U, V]') -> 'Morphism[T, V]':
-        """复合"""
-        if self.codomain != other.domain:
-            raise ValueError("Cannot compose morphisms with mismatched domain/codomain")
-        
-        def composed_function(x: T) -> V:
-            return other.function(self.function(x))
-        
-        return Morphism(
-            domain=self.domain,
-            codomain=other.codomain,
-            function=composed_function,
-            name=f"{other.name} ∘ {self.name}"
-        )
-    
-    def __call__(self, x: T) -> U:
-        """应用态射"""
+    def apply(self, x: T) -> bool:
+        """应用谓词"""
         return self.function(x)
 
-class Category(Generic[T]):
-    """范畴"""
+class Quantifier(ABC):
+    """量词抽象基类"""
     
-    def __init__(self, name: str):
-        self.name = name
-        self.objects: Set[T] = set()
-        self.morphisms: Dict[tuple, List[Morphism]] = {}
-        self.identity_morphisms: Dict[T, Morphism] = {}
-    
-    def add_object(self, obj: T) -> None:
-        """添加对象"""
-        self.objects.add(obj)
-        # 创建恒等态射
-        def identity_function(x: T) -> T:
-            return x
-        
-        identity = Morphism(
-            domain=obj,
-            codomain=obj,
-            function=identity_function,
-            name=f"id_{obj}"
-        )
-        self.identity_morphisms[obj] = identity
-    
-    def add_morphism(self, morphism: Morphism) -> None:
-        """添加态射"""
-        if morphism.domain not in self.objects:
-            raise ValueError(f"Domain {morphism.domain} not in category")
-        if morphism.codomain not in self.objects:
-            raise ValueError(f"Codomain {morphism.codomain} not in category")
-        
-        key = (morphism.domain, morphism.codomain)
-        if key not in self.morphisms:
-            self.morphisms[key] = []
-        self.morphisms[key].append(morphism)
-    
-    def get_morphisms(self, domain: T, codomain: T) -> List[Morphism]:
-        """获取态射"""
-        key = (domain, codomain)
-        return self.morphisms.get(key, [])
-    
-    def get_identity(self, obj: T) -> Morphism:
-        """获取恒等态射"""
-        return self.identity_morphisms[obj]
-    
-    def compose_morphisms(self, f: Morphism, g: Morphism) -> Morphism:
-        """复合态射"""
-        return f.compose(g)
-    
-    def is_commutative_diagram(self, morphisms: List[Morphism]) -> bool:
-        """判断是否为交换图"""
-        # 简化的交换图检查
-        if len(morphisms) < 2:
-            return True
-        
-        # 检查路径的复合是否相等
-        path1 = morphisms[0]
-        for morphism in morphisms[1:]:
-            path1 = self.compose_morphisms(path1, morphism)
-        
-        return True  # 简化实现
-
-class Functor(Generic[T, U]):
-    """函子"""
-    
-    def __init__(self, name: str):
-        self.name = name
-        self.object_map: Dict[T, U] = {}
-        self.morphism_map: Dict[Morphism, Morphism] = {}
-    
-    def map_object(self, obj: T, image: U) -> None:
-        """映射对象"""
-        self.object_map[obj] = image
-    
-    def map_morphism(self, morphism: Morphism, image: Morphism) -> None:
-        """映射态射"""
-        self.morphism_map[morphism] = image
-    
-    def apply_to_object(self, obj: T) -> U:
-        """应用到对象"""
-        return self.object_map[obj]
-    
-    def apply_to_morphism(self, morphism: Morphism) -> Morphism:
-        """应用到态射"""
-        return self.morphism_map[morphism]
-    
-    def preserves_composition(self, category: Category) -> bool:
-        """保持复合"""
-        # 检查函子是否保持态射的复合
-        for obj1 in category.objects:
-            for obj2 in category.objects:
-                for obj3 in category.objects:
-                    morphisms1 = category.get_morphisms(obj1, obj2)
-                    morphisms2 = category.get_morphisms(obj2, obj3)
-                    
-                    for f in morphisms1:
-                        for g in morphisms2:
-                            composed = category.compose_morphisms(f, g)
-                            functor_composed = self.apply_to_morphism(composed)
-                            functor_f = self.apply_to_morphism(f)
-                            functor_g = self.apply_to_morphism(g)
-                            expected = functor_f.compose(functor_g)
-                            
-                            if functor_composed.domain != expected.domain or \
-                               functor_composed.codomain != expected.codomain:
-                                return False
-        
-        return True
-
-class NaturalTransformation(Generic[T]):
-    """自然变换"""
-    
-    def __init__(self, name: str, source: Functor, target: Functor):
-        self.name = name
-        self.source = source
-        self.target = target
-        self.components: Dict[T, Morphism] = {}
-    
-    def add_component(self, obj: T, morphism: Morphism) -> None:
-        """添加分量"""
-        self.components[obj] = morphism
-    
-    def is_natural(self, category: Category) -> bool:
-        """判断是否为自然变换"""
-        # 检查自然性条件
-        for obj1 in category.objects:
-            for obj2 in category.objects:
-                morphisms = category.get_morphisms(obj1, obj2)
-                
-                for morphism in morphisms:
-                    # 自然性条件: η_B ∘ F(f) = G(f) ∘ η_A
-                    eta_A = self.components[obj1]
-                    eta_B = self.components[obj2]
-                    F_f = self.source.apply_to_morphism(morphism)
-                    G_f = self.target.apply_to_morphism(morphism)
-                    
-                    # 检查等式是否成立
-                    left_side = F_f.compose(eta_B)
-                    right_side = eta_A.compose(G_f)
-                    
-                    if left_side.domain != right_side.domain or \
-                       left_side.codomain != right_side.codomain:
-                        return False
-        
-        return True
-```
-
-### 4. 类型论实现
-
-```python
-from typing import Dict, List, Set, Any, TypeVar, Generic, Union, Optional
-from dataclasses import dataclass
-from abc import ABC, abstractmethod
-from enum import Enum
-
-class TypeKind(Enum):
-    """类型种类"""
-    BASE = "base"
-    FUNCTION = "function"
-    PRODUCT = "product"
-    SUM = "sum"
-    DEPENDENT = "dependent"
-
-@dataclass
-class Type:
-    """类型"""
-    name: str
-    kind: TypeKind
-    parameters: List['Type'] = None
-    
-    def __post_init__(self):
-        if self.parameters is None:
-            self.parameters = []
-    
-    def __str__(self) -> str:
-        if self.parameters:
-            params_str = ", ".join(str(p) for p in self.parameters)
-            return f"{self.name}[{params_str}]"
-        return self.name
-
-@dataclass
-class Term:
-    """项"""
-    type: Type
-    value: Any
-    name: str = ""
-    
-    def __str__(self) -> str:
-        if self.name:
-            return self.name
-        return str(self.value)
-
-class TypeContext:
-    """类型上下文"""
-    
-    def __init__(self):
-        self.variables: Dict[str, Type] = {}
-        self.assumptions: List[tuple] = []
-    
-    def add_variable(self, name: str, type: Type) -> None:
-        """添加变量"""
-        self.variables[name] = type
-    
-    def add_assumption(self, term: Term, type: Type) -> None:
-        """添加假设"""
-        self.assumptions.append((term, type))
-    
-    def lookup_variable(self, name: str) -> Optional[Type]:
-        """查找变量类型"""
-        return self.variables.get(name)
-    
-    def get_assumptions(self) -> List[tuple]:
-        """获取假设"""
-        return self.assumptions.copy()
-
-class TypeChecker:
-    """类型检查器"""
-    
-    def __init__(self):
-        self.context = TypeContext()
-        self.rules = {
-            TypeKind.BASE: self._check_base_type,
-            TypeKind.FUNCTION: self._check_function_type,
-            TypeKind.PRODUCT: self._check_product_type,
-            TypeKind.SUM: self._check_sum_type,
-            TypeKind.DEPENDENT: self._check_dependent_type
-        }
-    
-    def check_type(self, term: Term, expected_type: Type) -> bool:
-        """检查类型"""
-        rule = self.rules.get(expected_type.kind)
-        if rule:
-            return rule(term, expected_type)
-        return False
-    
-    def _check_base_type(self, term: Term, expected_type: Type) -> bool:
-        """检查基本类型"""
-        return term.type.name == expected_type.name
-    
-    def _check_function_type(self, term: Term, expected_type: Type) -> bool:
-        """检查函数类型"""
-        if expected_type.kind != TypeKind.FUNCTION:
-            return False
-        
-        if len(expected_type.parameters) != 2:
-            return False
-        
-        domain_type = expected_type.parameters[0]
-        codomain_type = expected_type.parameters[1]
-        
-        # 检查是否为函数
-        if callable(term.value):
-            # 简化的函数类型检查
-            return True
-        
-        return False
-    
-    def _check_product_type(self, term: Term, expected_type: Type) -> bool:
-        """检查积类型"""
-        if expected_type.kind != TypeKind.PRODUCT:
-            return False
-        
-        if not isinstance(term.value, tuple):
-            return False
-        
-        if len(term.value) != len(expected_type.parameters):
-            return False
-        
-        # 检查每个分量的类型
-        for i, (component, param_type) in enumerate(zip(term.value, expected_type.parameters)):
-            component_term = Term(type=param_type, value=component)
-            if not self.check_type(component_term, param_type):
-                return False
-        
-        return True
-    
-    def _check_sum_type(self, term: Term, expected_type: Type) -> bool:
-        """检查和类型"""
-        if expected_type.kind != TypeKind.SUM:
-            return False
-        
-        # 简化的和类型检查
-        return True
-    
-    def _check_dependent_type(self, term: Term, expected_type: Type) -> bool:
-        """检查依赖类型"""
-        if expected_type.kind != TypeKind.DEPENDENT:
-            return False
-        
-        # 简化的依赖类型检查
-        return True
-
-class TypeInference:
-    """类型推导"""
-    
-    def __init__(self):
-        self.checker = TypeChecker()
-    
-    def infer_type(self, term: Term, context: TypeContext) -> Optional[Type]:
-        """推导类型"""
-        if term.name in context.variables:
-            return context.lookup_variable(term.name)
-        
-        # 根据项的值推导类型
-        if isinstance(term.value, int):
-            return Type("Int", TypeKind.BASE)
-        elif isinstance(term.value, str):
-            return Type("String", TypeKind.BASE)
-        elif isinstance(term.value, bool):
-            return Type("Bool", TypeKind.BASE)
-        elif isinstance(term.value, list):
-            if term.value:
-                element_type = self.infer_type(Term(type=None, value=term.value[0]), context)
-                return Type("List", TypeKind.BASE, [element_type])
-            else:
-                return Type("List", TypeKind.BASE, [Type("Any", TypeKind.BASE)])
-        elif isinstance(term.value, tuple):
-            element_types = []
-            for element in term.value:
-                element_type = self.infer_type(Term(type=None, value=element), context)
-                element_types.append(element_type)
-            return Type("Tuple", TypeKind.PRODUCT, element_types)
-        elif callable(term.value):
-            # 简化的函数类型推导
-            return Type("Function", TypeKind.FUNCTION, [Type("Any", TypeKind.BASE), Type("Any", TypeKind.BASE)])
-        
-        return None
-
-class DependentTypeSystem:
-    """依赖类型系统"""
-    
-    def __init__(self):
-        self.context = TypeContext()
-        self.checker = TypeChecker()
-        self.inference = TypeInference()
-    
-    def add_type_family(self, name: str, parameters: List[str]) -> None:
-        """添加类型族"""
-        # 简化的类型族实现
+    @abstractmethod
+    def evaluate(self, predicate: Predicate[T], domain: Set[T]) -> bool:
+        """计算量词的值"""
         pass
     
-    def check_dependent_function(self, 
-                                domain: Type, 
-                                codomain: Type, 
-                                body: Term) -> bool:
-        """检查依赖函数"""
-        # 将域变量添加到上下文
-        self.context.add_variable("x", domain)
-        
-        # 检查函数体
-        result = self.checker.check_type(body, codomain)
-        
-        # 清理上下文
-        if "x" in self.context.variables:
-            del self.context.variables["x"]
-        
-        return result
+    @abstractmethod
+    def symbol(self) -> str:
+        """量词符号"""
+        pass
+
+class UniversalQuantifier(Quantifier[T]):
+    """全称量词 ∀"""
     
-    def check_dependent_pair(self, 
-                            first_type: Type, 
-                            second_type: Type, 
-                            pair: Term) -> bool:
-        """检查依赖对"""
-        if not isinstance(pair.value, tuple) or len(pair.value) != 2:
-            return False
-        
-        first_term = Term(type=first_type, value=pair.value[0])
-        second_term = Term(type=second_type, value=pair.value[1])
-        
-        return (self.checker.check_type(first_term, first_type) and 
-                self.checker.check_type(second_term, second_type))
+    def evaluate(self, predicate: Predicate[T], domain: Set[T]) -> bool:
+        return all(predicate.apply(x) for x in domain)
+    
+    def symbol(self) -> str:
+        return "∀"
+
+class ExistentialQuantifier(Quantifier[T]):
+    """存在量词 ∃"""
+    
+    def evaluate(self, predicate: Predicate[T], domain: Set[T]) -> bool:
+        return any(predicate.apply(x) for x in domain)
+    
+    def symbol(self) -> str:
+        return "∃"
+
+# 使用示例
+domain = {1, 2, 3, 4, 5}
+is_even = Predicate("Even", lambda x: x % 2 == 0)
+is_positive = Predicate("Positive", lambda x: x > 0)
+
+# 全称量词：所有数都是正数
+universal_expr = QuantifiedExpression(
+    UniversalQuantifier(),
+    "x",
+    is_positive,
+    domain
+)
+
+# 存在量词：存在偶数
+existential_expr = QuantifiedExpression(
+    ExistentialQuantifier(),
+    "x",
+    is_even,
+    domain
+)
+
+print(f"{universal_expr} = {universal_expr.evaluate()}")  # True
+print(f"{existential_expr} = {existential_expr.evaluate()}")  # True
 ```
 
-## 应用示例
+## 形式化方法
 
-### 1. 集合论在数据结构中的应用
+### 形式化规约
+
+**Z 记法示例**
+
+Z 记法是一种形式化规约语言，用于精确描述软件系统的行为：
 
 ```python
-# 使用集合论实现集合操作
-def demonstrate_set_theory():
-    """演示集合论应用"""
-    # 创建集合
-    A = {1, 2, 3, 4, 5}
-    B = {4, 5, 6, 7, 8}
-    
-    # 基本操作
-    union_result = SetTheory.union([A, B])
-    intersection_result = SetTheory.intersection([A, B])
-    difference_result = SetTheory.difference(A, B)
-    symmetric_diff_result = SetTheory.symmetric_difference(A, B)
-    
-    print(f"A = {A}")
-    print(f"B = {B}")
-    print(f"A ∪ B = {union_result}")
-    print(f"A ∩ B = {intersection_result}")
-    print(f"A - B = {difference_result}")
-    print(f"A △ B = {symmetric_diff_result}")
-    
-    # 笛卡尔积
-    cartesian_result = SetTheory.cartesian_product(A, B)
-    print(f"A × B = {cartesian_result}")
-    
-    # 幂集
-    power_set_result = SetTheory.power_set({1, 2, 3})
-    print(f"P({1, 2, 3}) = {power_set_result}")
+from typing import Dict
+from dataclasses import dataclass
 
-# 关系示例
-def demonstrate_relations():
-    """演示关系"""
-    # 创建关系
-    domain = {1, 2, 3}
-    codomain = {4, 5, 6}
-    pairs = {(1, 4), (2, 5), (3, 6)}
+class BankAccount:
+    """银行账户系统"""
     
-    relation = Relation(domain, codomain, pairs)
+    def __init__(self):
+        self.accounts: Dict[str, int] = {}
+        self.max_balance = 1000000
     
-    print(f"关系是否为函数: {relation.is_function()}")
-    print(f"关系是否为单射: {relation.is_injective()}")
-    print(f"关系是否为满射: {relation.is_surjective()}")
-    print(f"关系是否为双射: {relation.is_bijective()}")
+    def open_account(self, account_id: str, initial_balance: int) -> bool:
+        """开户操作"""
+        # 前置条件
+        if account_id in self.accounts:
+            return False  # 账户已存在
+        
+        if initial_balance < 0 or initial_balance > self.max_balance:
+            return False  # 余额超出范围
+        
+        # 后置条件
+        self.accounts[account_id] = initial_balance
+        return True
+    
+    def deposit(self, account_id: str, amount: int) -> bool:
+        """存款操作"""
+        # 前置条件
+        if account_id not in self.accounts:
+            return False  # 账户不存在
+        
+        if amount <= 0:
+            return False  # 存款金额必须为正
+        
+        current_balance = self.accounts[account_id]
+        if current_balance + amount > self.max_balance:
+            return False  # 余额超出上限
+        
+        # 后置条件
+        self.accounts[account_id] = current_balance + amount
+        return True
+    
+    def withdraw(self, account_id: str, amount: int) -> bool:
+        """取款操作"""
+        # 前置条件
+        if account_id not in self.accounts:
+            return False  # 账户不存在
+        
+        if amount <= 0:
+            return False  # 取款金额必须为正
+        
+        current_balance = self.accounts[account_id]
+        if current_balance < amount:
+            return False  # 余额不足
+        
+        # 后置条件
+        self.accounts[account_id] = current_balance - amount
+        return True
+
+# 使用示例
+bank = BankAccount()
+
+# 开户
+print(f"开户成功: {bank.open_account('A001', 1000)}")  # True
+print(f"开户成功: {bank.open_account('A002', 500)}")   # True
+
+# 存款
+print(f"存款成功: {bank.deposit('A001', 200)}")  # True
+
+# 取款
+print(f"取款成功: {bank.withdraw('A001', 300)}")  # True
+
+# 违反前置条件
+print(f"取款失败: {bank.withdraw('A001', 1000)}")  # False (余额不足)
+print(f"存款失败: {bank.deposit('A003', 100)}")   # False (账户不存在)
 ```
 
-### 2. 逻辑学在程序验证中的应用
+### 模型检测
+
+**状态机模型检测**
+
+模型检测是一种自动化的形式化验证方法：
 
 ```python
-# 使用逻辑学进行程序验证
-def demonstrate_logic():
-    """演示逻辑学应用"""
-    # 创建真值表
-    propositions = ["p", "q"]
-    truth_table = TruthTable(propositions)
+from typing import Set, List, Optional
+from dataclasses import dataclass
+from enum import Enum
+
+class State(Enum):
+    """系统状态"""
+    IDLE = "idle"
+    BUSY = "busy"
+    ERROR = "error"
+
+class Event(Enum):
+    """系统事件"""
+    START = "start"
+    COMPLETE = "complete"
+    FAIL = "fail"
+    RESET = "reset"
+
+@dataclass
+class Transition:
+    """状态转移"""
+    from_state: State
+    event: Event
+    to_state: State
+    condition: Optional[str] = None
+
+class StateMachine:
+    """状态机"""
     
-    # 定义逻辑公式
-    def conjunction_formula(row):
-        p = row["p"]
-        q = row["q"]
-        return LogicalOperator.conjunction(p, q)
+    def __init__(self, initial_state: State):
+        self.current_state = initial_state
+        self.transitions: List[Transition] = []
+        self.states: Set[State] = {initial_state}
     
-    def disjunction_formula(row):
-        p = row["p"]
-        q = row["q"]
-        return LogicalOperator.disjunction(p, q)
+    def add_transition(self, transition: Transition) -> None:
+        """添加状态转移"""
+        self.transitions.append(transition)
+        self.states.add(transition.from_state)
+        self.states.add(transition.to_state)
     
-    def implication_formula(row):
-        p = row["p"]
-        q = row["q"]
-        return LogicalOperator.implication(p, q)
+    def can_transition(self, event: Event) -> bool:
+        """检查是否可以执行转移"""
+        for transition in self.transitions:
+            if (transition.from_state == self.current_state and 
+                transition.event == event):
+                return True
+        return False
     
-    # 检查逻辑性质
-    print(f"p ∧ q 是否为重言式: {truth_table.is_tautology(conjunction_formula)}")
-    print(f"p ∨ q 是否为重言式: {truth_table.is_tautology(disjunction_formula)}")
-    print(f"p → q 是否为重言式: {truth_table.is_tautology(implication_formula)}")
+    def transition(self, event: Event) -> bool:
+        """执行状态转移"""
+        for transition in self.transitions:
+            if (transition.from_state == self.current_state and 
+                transition.event == event):
+                self.current_state = transition.to_state
+                return True
+        return False
     
-    # 谓词逻辑示例
-    predicate_logic = PredicateLogic()
+    def get_reachable_states(self) -> Set[State]:
+        """获取可达状态"""
+        reachable = {self.current_state}
+        changed = True
+        
+        while changed:
+            changed = False
+            for transition in self.transitions:
+                if transition.from_state in reachable:
+                    if transition.to_state not in reachable:
+                        reachable.add(transition.to_state)
+                        changed = True
+        
+        return reachable
+
+class ModelChecker:
+    """模型检测器"""
     
-    # 添加论域
-    predicate_logic.add_universe_element(1)
-    predicate_logic.add_universe_element(2)
-    predicate_logic.add_universe_element(3)
+    def __init__(self, state_machine: StateMachine):
+        self.state_machine = state_machine
     
-    # 添加谓词
-    predicate_logic.add_predicate("Even", 1, {(2,)})
-    predicate_logic.add_predicate("Odd", 1, {(1,), (3,)})
+    def check_safety_property(self, bad_states: Set[State]) -> bool:
+        """检查安全性质（永远不进入坏状态）"""
+        reachable = self.state_machine.get_reachable_states()
+        return reachable.isdisjoint(bad_states)
     
-    # 检查量化
-    print(f"∀x Even(x): {predicate_logic.universal_quantification('Even', 'x')}")
-    print(f"∃x Odd(x): {predicate_logic.existential_quantification('Odd', 'x')}")
+    def check_liveness_property(self, good_states: Set[State]) -> bool:
+        """检查活性性质（最终会进入好状态）"""
+        reachable = self.state_machine.get_reachable_states()
+        return not reachable.isdisjoint(good_states)
+
+# 使用示例
+# 创建状态机
+fsm = StateMachine(State.IDLE)
+
+# 添加转移
+fsm.add_transition(Transition(State.IDLE, Event.START, State.BUSY))
+fsm.add_transition(Transition(State.BUSY, Event.COMPLETE, State.IDLE))
+fsm.add_transition(Transition(State.BUSY, Event.FAIL, State.ERROR))
+fsm.add_transition(Transition(State.ERROR, Event.RESET, State.IDLE))
+
+# 创建模型检测器
+checker = ModelChecker(fsm)
+
+# 检查安全性质：永远不会进入错误状态
+safety_result = checker.check_safety_property({State.ERROR})
+print(f"安全性质检查: {safety_result}")  # False (可能进入错误状态)
+
+# 检查活性性质：最终会回到空闲状态
+liveness_result = checker.check_liveness_property({State.IDLE})
+print(f"活性性质检查: {liveness_result}")  # True
 ```
 
-### 3. 范畴论在抽象数据类型中的应用
+## 计算理论
+
+### 自动机理论
+
+**有限状态自动机**
 
 ```python
-# 使用范畴论建模抽象数据类型
-def demonstrate_category_theory():
-    """演示范畴论应用"""
-    # 创建集合范畴
-    set_category = Category("Set")
+from typing import Set, Dict, Tuple, Optional, List
+from dataclasses import dataclass
+
+@dataclass
+class FiniteStateAutomaton:
+    """有限状态自动机"""
+    states: Set[str]
+    alphabet: Set[str]
+    transitions: Dict[Tuple[str, str], Set[str]]
+    initial_state: str
+    accepting_states: Set[str]
     
-    # 添加对象
-    set_category.add_object("Int")
-    set_category.add_object("String")
-    set_category.add_object("Bool")
+    def transition(self, current_states: Set[str], symbol: str) -> Set[str]:
+        """状态转移"""
+        next_states = set()
+        for state in current_states:
+            key = (state, symbol)
+            if key in self.transitions:
+                next_states.update(self.transitions[key])
+        return next_states
     
-    # 添加态射
-    def int_to_string(x: int) -> str:
-        return str(x)
+    def accepts(self, input_string: str) -> bool:
+        """判断是否接受输入字符串"""
+        current_states = {self.initial_state}
+        
+        for symbol in input_string:
+            if symbol not in self.alphabet:
+                return False
+            current_states = self.transition(current_states, symbol)
+            if not current_states:
+                return False
+        
+        return bool(current_states & self.accepting_states)
     
-    def string_to_bool(s: str) -> bool:
-        return len(s) > 0
-    
-    int_to_string_morphism = Morphism(
-        domain="Int",
-        codomain="String",
-        function=int_to_string,
-        name="toString"
-    )
-    
-    string_to_bool_morphism = Morphism(
-        domain="String",
-        codomain="Bool",
-        function=string_to_bool,
-        name="isEmpty"
-    )
-    
-    set_category.add_morphism(int_to_string_morphism)
-    set_category.add_morphism(string_to_bool_morphism)
-    
-    # 复合态射
-    composed = set_category.compose_morphisms(int_to_string_morphism, string_to_bool_morphism)
-    print(f"复合态射: {composed.name}")
-    
-    # 创建函子
-    functor = Functor("List")
-    functor.map_object("Int", "List[Int]")
-    functor.map_object("String", "List[String]")
-    functor.map_object("Bool", "List[Bool]")
-    
-    print(f"函子应用: {functor.apply_to_object('Int')}")
+    def is_deterministic(self) -> bool:
+        """判断是否为确定性自动机"""
+        for (state, symbol), next_states in self.transitions.items():
+            if len(next_states) > 1:
+                return False
+        return True
+
+# 使用示例：识别以 'ab' 结尾的字符串
+fsa = FiniteStateAutomaton(
+    states={'q0', 'q1', 'q2'},
+    alphabet={'a', 'b'},
+    transitions={
+        ('q0', 'a'): {'q1'},
+        ('q0', 'b'): {'q0'},
+        ('q1', 'a'): {'q1'},
+        ('q1', 'b'): {'q2'},
+        ('q2', 'a'): {'q1'},
+        ('q2', 'b'): {'q0'}
+    },
+    initial_state='q0',
+    accepting_states={'q2'}
+)
+
+# 测试
+test_strings = ['ab', 'aab', 'abb', 'abab', 'ba']
+for s in test_strings:
+    result = fsa.accepts(s)
+    print(f"'{s}' 被接受: {result}")
 ```
 
-### 4. 类型论在编程语言中的应用
+### 形式语言
+
+**正则表达式引擎**
 
 ```python
-# 使用类型论进行类型检查
-def demonstrate_type_theory():
-    """演示类型论应用"""
-    # 创建类型检查器
-    checker = TypeChecker()
-    inference = TypeInference()
-    context = TypeContext()
+from typing import Optional, Set, List
+from dataclasses import dataclass
+from enum import Enum
+
+class TokenType(Enum):
+    """词法单元类型"""
+    CHAR = "char"
+    STAR = "*"
+    PLUS = "+"
+    QUESTION = "?"
+    OR = "|"
+    LPAREN = "("
+    RPAREN = ")"
+
+@dataclass
+class Token:
+    """词法单元"""
+    type: TokenType
+    value: str
+
+class RegexParser:
+    """正则表达式解析器"""
     
-    # 基本类型
-    int_type = Type("Int", TypeKind.BASE)
-    string_type = Type("String", TypeKind.BASE)
-    bool_type = Type("Bool", TypeKind.BASE)
+    def __init__(self, pattern: str):
+        self.pattern = pattern
+        self.tokens = self.tokenize()
+        self.pos = 0
     
-    # 函数类型
-    function_type = Type("Function", TypeKind.FUNCTION, [int_type, string_type])
+    def tokenize(self) -> List[Token]:
+        """词法分析"""
+        tokens = []
+        i = 0
+        while i < len(self.pattern):
+            char = self.pattern[i]
+            if char == '*':
+                tokens.append(Token(TokenType.STAR, char))
+            elif char == '+':
+                tokens.append(Token(TokenType.PLUS, char))
+            elif char == '?':
+                tokens.append(Token(TokenType.QUESTION, char))
+            elif char == '|':
+                tokens.append(Token(TokenType.OR, char))
+            elif char == '(':
+                tokens.append(Token(TokenType.LPAREN, char))
+            elif char == ')':
+                tokens.append(Token(TokenType.RPAREN, char))
+            else:
+                tokens.append(Token(TokenType.CHAR, char))
+            i += 1
+        return tokens
+
+class RegexEngine:
+    """正则表达式引擎"""
     
-    # 积类型
-    product_type = Type("Tuple", TypeKind.PRODUCT, [int_type, string_type])
+    def __init__(self, pattern: str):
+        parser = RegexParser(pattern)
+        self.ast = parser.parse()
     
-    # 创建项
-    int_term = Term(type=int_type, value=42, name="x")
-    string_term = Term(type=string_type, value="hello", name="y")
-    tuple_term = Term(type=product_type, value=(42, "hello"), name="pair")
+    def match(self, text: str) -> bool:
+        """完全匹配"""
+        matches = self.ast.matches(text, 0)
+        return len(text) in matches
     
-    # 类型检查
-    print(f"x: Int 类型检查: {checker.check_type(int_term, int_type)}")
-    print(f"y: String 类型检查: {checker.check_type(string_term, string_type)}")
-    print(f"pair: Tuple 类型检查: {checker.check_type(tuple_term, product_type)}")
+    def search(self, text: str) -> Optional[int]:
+        """搜索匹配"""
+        for i in range(len(text) + 1):
+            matches = self.ast.matches(text, i)
+            if matches:
+                return i
+        return None
+
+# 使用示例
+patterns = ['a*', 'a+', 'ab', 'a|b', '(ab)*']
+test_strings = ['', 'a', 'aa', 'ab', 'aba', 'b']
+
+for pattern in patterns:
+    print(f"\n模式: {pattern}")
+    engine = RegexEngine(pattern)
+    for text in test_strings:
+        result = engine.match(text)
+        print(f"  '{text}' -> {result}")
+```
+
+## 概率统计
+
+### 概率论基础
+
+**概率分布**
+
+```python
+from typing import TypeVar, Generic, Dict, List, Callable
+from abc import ABC, abstractmethod
+import random
+import math
+
+T = TypeVar('T')
+
+class ProbabilityDistribution(ABC, Generic[T]):
+    """概率分布抽象基类"""
     
-    # 类型推导
-    inferred_int = inference.infer_type(Term(type=None, value=42), context)
-    inferred_string = inference.infer_type(Term(type=None, value="hello"), context)
-    inferred_list = inference.infer_type(Term(type=None, value=[1, 2, 3]), context)
+    @abstractmethod
+    def probability(self, value: T) -> float:
+        """计算概率"""
+        pass
     
-    print(f"42 推导类型: {inferred_int}")
-    print(f"'hello' 推导类型: {inferred_string}")
-    print(f"[1, 2, 3] 推导类型: {inferred_list}")
+    @abstractmethod
+    def sample(self) -> T:
+        """采样"""
+        pass
+    
+    @abstractmethod
+    def expectation(self) -> float:
+        """期望"""
+        pass
+    
+    @abstractmethod
+    def variance(self) -> float:
+        """方差"""
+        pass
+
+class DiscreteDistribution(ProbabilityDistribution[T]):
+    """离散分布"""
+    
+    def __init__(self, probabilities: Dict[T, float]):
+        self.probabilities = probabilities
+        self._validate()
+    
+    def _validate(self) -> None:
+        """验证概率分布"""
+        total = sum(self.probabilities.values())
+        if not math.isclose(total, 1.0, abs_tol=1e-6):
+            raise ValueError(f"Probabilities must sum to 1, got {total}")
+    
+    def probability(self, value: T) -> float:
+        return self.probabilities.get(value, 0.0)
+    
+    def sample(self) -> T:
+        r = random.random()
+        cumulative = 0.0
+        
+        for value, prob in self.probabilities.items():
+            cumulative += prob
+            if r <= cumulative:
+                return value
+        
+        # 处理浮点误差
+        return list(self.probabilities.keys())[-1]
+    
+    def expectation(self) -> float:
+        if not all(isinstance(k, (int, float)) for k in self.probabilities.keys()):
+            raise ValueError("Expectation only defined for numeric values")
+        return sum(value * prob for value, prob in self.probabilities.items())
+    
+    def variance(self) -> float:
+        if not all(isinstance(k, (int, float)) for k in self.probabilities.keys()):
+            raise ValueError("Variance only defined for numeric values")
+        mean = self.expectation()
+        return sum(prob * (value - mean) ** 2 for value, prob in self.probabilities.items())
+
+class BernoulliDistribution(DiscreteDistribution[int]):
+    """伯努利分布"""
+    
+    def __init__(self, p: float):
+        super().__init__({0: 1 - p, 1: p})
+        self.p = p
+    
+    def expectation(self) -> float:
+        return self.p
+    
+    def variance(self) -> float:
+        return self.p * (1 - self.p)
+
+# 使用示例
+print("=== 伯努利分布 ===")
+bernoulli = BernoulliDistribution(0.3)
+print(f"期望: {bernoulli.expectation()}")
+print(f"方差: {bernoulli.variance()}")
+samples = [bernoulli.sample() for _ in range(10)]
+print(f"样本: {samples}")
 ```
 
 ## 总结
 
-形式科学层为软件工程提供了坚实的数学和逻辑基础。通过集合论、逻辑学、范畴论和类型论等工具，我们能够：
+形式科学层为软件工程提供了坚实的数学和逻辑基础：
 
-1. **精确建模**: 使用数学语言精确描述软件系统的结构和行为
-2. **严格推理**: 使用逻辑规则进行严格的推理和证明
-3. **抽象思维**: 使用范畴论进行高层次的抽象和建模
-4. **类型安全**: 使用类型论确保程序的类型安全性
+1. **数学基础**：集合论、关系理论、函数理论、代数结构
+2. **逻辑理论**：命题逻辑、谓词逻辑、形式化推理
+3. **形式化方法**：形式化规约、模型检测、定理证明
+4. **计算理论**：自动机理论、形式语言、可计算性
+5. **概率统计**：概率分布、随机过程、统计推断
 
-这些理论基础为软件工程的其他层次提供了可靠的形式化支撑。
+这些理论基础将指导后续各层的具体实现，确保软件系统的正确性、可靠性和可验证性。
 
 ---
 
