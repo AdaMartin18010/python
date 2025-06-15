@@ -1,600 +1,582 @@
-# 02-理论基础
+# 02-理论基础层
 
 ## 概述
 
-理论基础层是知识库的科学基础，包含计算理论、算法理论、系统理论、信息论等核心理论。这一层为软件工程和计算科学提供科学理论基础，建立从形式科学到具体应用的桥梁。
+理论基础层是计算机科学的核心理论，包括算法理论、数据结构、计算复杂度、编程语言理论、软件工程理论和系统理论。这一层为具体的技术实现提供理论支撑。
 
 ## 目录结构
 
 ```
 02-理论基础/
-├── 001-计算理论/           # 图灵机、可计算性、复杂度理论
-├── 002-算法理论/           # 算法设计、分析、优化理论
-├── 003-系统理论/           # 系统论、控制论、信息论
-├── 004-语言理论/           # 形式语言、自动机、语法理论
-├── 005-并发理论/           # 进程代数、时序逻辑、并发模型
-├── 006-分布式理论/         # 分布式算法、一致性、容错理论
-├── 007-密码学理论/         # 密码学基础、安全协议、零知识证明
-└── 008-机器学习理论/       # 统计学习、深度学习、优化理论
+├── README.md                    # 本文件
+├── 01-算法理论/                 # 算法设计与分析
+├── 02-数据结构/                 # 数据结构理论
+├── 03-计算复杂度/               # 计算复杂度理论
+├── 04-编程语言理论/             # 编程语言理论基础
+├── 05-软件工程理论/             # 软件工程理论
+└── 06-系统理论/                 # 系统理论
 ```
 
 ## 核心理论
 
-### 1. 计算理论
+### 1. 算法理论 (Algorithm Theory)
 
+**定义**: 算法理论研究算法的设计、分析和优化。
+
+**算法设计范式**:
+- **分治法**: 将问题分解为子问题
+- **动态规划**: 通过子问题的最优解构造全局最优解
+- **贪心算法**: 每步选择局部最优解
+- **回溯法**: 通过试错寻找解
+
+**Python实现**:
 ```python
-from typing import List, Dict, Set, Tuple, Optional, Any
-from dataclasses import dataclass
-from enum import Enum
+from typing import List, Any, Callable, Tuple
 import time
 
-class TapeSymbol(Enum):
-    BLANK = "_"
-    ZERO = "0"
-    ONE = "1"
-
-class Movement(Enum):
-    LEFT = "L"
-    RIGHT = "R"
-    STAY = "S"
-
-@dataclass
-class TuringMachineState:
-    """图灵机状态"""
-    name: str
-    is_accepting: bool = False
-    is_rejecting: bool = False
-
-@dataclass
-class TuringMachineTransition:
-    """图灵机转移函数"""
-    current_state: str
-    current_symbol: TapeSymbol
-    new_state: str
-    new_symbol: TapeSymbol
-    movement: Movement
-
-class TuringMachine:
-    """图灵机实现"""
+class AlgorithmTheory:
+    """算法理论实现"""
     
-    def __init__(self, states: List[TuringMachineState], 
-                 transitions: List[TuringMachineTransition],
-                 initial_state: str):
-        self.states = {state.name: state for state in states}
-        self.transitions = self._build_transition_table(transitions)
-        self.current_state = initial_state
-        self.tape: List[TapeSymbol] = [TapeSymbol.BLANK]
-        self.head_position = 0
+    @staticmethod
+    def divide_and_conquer(problem: List[Any], solve_small: Callable, 
+                          combine: Callable, threshold: int = 1) -> Any:
+        """分治法模板"""
+        if len(problem) <= threshold:
+            return solve_small(problem)
         
-    def _build_transition_table(self, transitions: List[TuringMachineTransition]) -> Dict:
-        """构建转移表"""
-        table = {}
-        for transition in transitions:
-            key = (transition.current_state, transition.current_symbol)
-            table[key] = transition
-        return table
+        mid = len(problem) // 2
+        left = AlgorithmTheory.divide_and_conquer(problem[:mid], solve_small, combine, threshold)
+        right = AlgorithmTheory.divide_and_conquer(problem[mid:], solve_small, combine, threshold)
+        
+        return combine(left, right)
     
-    def step(self) -> bool:
-        """执行一步计算"""
-        current_symbol = self.tape[self.head_position]
-        key = (self.current_state, current_symbol)
+    @staticmethod
+    def dynamic_programming(problem_size: int, subproblem_solver: Callable) -> List[Any]:
+        """动态规划模板"""
+        dp = [None] * (problem_size + 1)
+        dp[0] = subproblem_solver(0, dp)
         
-        if key not in self.transitions:
-            return False  # 停机
+        for i in range(1, problem_size + 1):
+            dp[i] = subproblem_solver(i, dp)
         
-        transition = self.transitions[key]
-        self.current_state = transition.new_state
-        self.tape[self.head_position] = transition.new_symbol
-        
-        # 移动读写头
-        if transition.movement == Movement.LEFT:
-            if self.head_position == 0:
-                self.tape.insert(0, TapeSymbol.BLANK)
-            else:
-                self.head_position -= 1
-        elif transition.movement == Movement.RIGHT:
-            self.head_position += 1
-            if self.head_position >= len(self.tape):
-                self.tape.append(TapeSymbol.BLANK)
-        
-        return True
+        return dp
     
-    def run(self, input_tape: List[TapeSymbol], max_steps: int = 1000) -> Dict[str, Any]:
-        """运行图灵机"""
-        self.tape = input_tape.copy()
-        self.head_position = 0
-        steps = 0
+    @staticmethod
+    def greedy_algorithm(choices: List[Any], 
+                        selection_criteria: Callable,
+                        is_feasible: Callable) -> List[Any]:
+        """贪心算法模板"""
+        solution = []
+        remaining_choices = choices.copy()
         
-        while steps < max_steps:
-            if not self.step():
-                break
-            steps += 1
+        while remaining_choices:
+            best_choice = max(remaining_choices, key=selection_criteria)
+            if is_feasible(solution + [best_choice]):
+                solution.append(best_choice)
+            remaining_choices.remove(best_choice)
+        
+        return solution
+    
+    @staticmethod
+    def backtracking(problem: List[Any], 
+                    is_valid: Callable,
+                    is_complete: Callable,
+                    get_candidates: Callable) -> List[List[Any]]:
+        """回溯法模板"""
+        solutions = []
+        
+        def backtrack(partial_solution: List[Any]):
+            if is_complete(partial_solution):
+                solutions.append(partial_solution.copy())
+                return
             
-            current_state = self.states[self.current_state]
-            if current_state.is_accepting:
-                return {"result": "accept", "steps": steps, "tape": self.tape}
-            elif current_state.is_rejecting:
-                return {"result": "reject", "steps": steps, "tape": self.tape}
+            for candidate in get_candidates(partial_solution):
+                if is_valid(partial_solution + [candidate]):
+                    partial_solution.append(candidate)
+                    backtrack(partial_solution)
+                    partial_solution.pop()
         
-        return {"result": "timeout", "steps": steps, "tape": self.tape}
+        backtrack([])
+        return solutions
 
-# 示例：识别回文串的图灵机
-def create_palindrome_tm() -> TuringMachine:
-    """创建识别回文串的图灵机"""
-    states = [
-        TuringMachineState("q0"),  # 初始状态
-        TuringMachineState("q1"),  # 向右移动
-        TuringMachineState("q2"),  # 向左移动
-        TuringMachineState("q3"),  # 比较
-        TuringMachineState("q_accept", is_accepting=True),
-        TuringMachineState("q_reject", is_rejecting=True)
-    ]
+# 算法理论示例
+def algorithm_theory_example():
+    """算法理论示例"""
     
-    transitions = [
-        # 初始状态：向右移动到末尾
-        TuringMachineTransition("q0", TapeSymbol.ZERO, "q1", TapeSymbol.ZERO, Movement.RIGHT),
-        TuringMachineTransition("q0", TapeSymbol.ONE, "q1", TapeSymbol.ONE, Movement.RIGHT),
-        TuringMachineTransition("q0", TapeSymbol.BLANK, "q2", TapeSymbol.BLANK, Movement.LEFT),
-        
-        # 向右移动
-        TuringMachineTransition("q1", TapeSymbol.ZERO, "q1", TapeSymbol.ZERO, Movement.RIGHT),
-        TuringMachineTransition("q1", TapeSymbol.ONE, "q1", TapeSymbol.ONE, Movement.RIGHT),
-        TuringMachineTransition("q1", TapeSymbol.BLANK, "q2", TapeSymbol.BLANK, Movement.LEFT),
-        
-        # 向左移动并比较
-        TuringMachineTransition("q2", TapeSymbol.ZERO, "q3", TapeSymbol.BLANK, Movement.LEFT),
-        TuringMachineTransition("q2", TapeSymbol.ONE, "q3", TapeSymbol.BLANK, Movement.LEFT),
-        TuringMachineTransition("q2", TapeSymbol.BLANK, "q_accept", TapeSymbol.BLANK, Movement.STAY),
-        
-        # 比较阶段
-        TuringMachineTransition("q3", TapeSymbol.ZERO, "q3", TapeSymbol.ZERO, Movement.LEFT),
-        TuringMachineTransition("q3", TapeSymbol.ONE, "q3", TapeSymbol.ONE, Movement.LEFT),
-        TuringMachineTransition("q3", TapeSymbol.BLANK, "q_reject", TapeSymbol.BLANK, Movement.STAY)
-    ]
+    # 分治法：归并排序
+    def merge_sort_solve_small(arr):
+        return arr
     
-    return TuringMachine(states, transitions, "q0")
-```
-
-### 2. 算法理论
-
-```python
-from typing import TypeVar, Callable, List, Tuple, Optional
-import math
-import random
-
-T = TypeVar('T')
-
-class Algorithm:
-    """算法的基础定义"""
-    
-    def __init__(self, name: str, complexity: str):
-        self.name = name
-        self.complexity = complexity
-        self.step_count = 0
-    
-    def reset_step_count(self):
-        """重置步数计数"""
-        self.step_count = 0
-    
-    def get_step_count(self) -> int:
-        """获取步数"""
-        return self.step_count
-
-class SortingAlgorithm(Algorithm):
-    """排序算法基类"""
-    
-    def sort(self, arr: List[T], key: Optional[Callable[[T], Any]] = None) -> List[T]:
-        """排序接口"""
-        self.reset_step_count()
-        return self._sort_impl(arr, key)
-    
-    def _sort_impl(self, arr: List[T], key: Optional[Callable[[T], Any]] = None) -> List[T]:
-        """排序实现"""
-        raise NotImplementedError
-
-class QuickSort(SortingAlgorithm):
-    """快速排序算法"""
-    
-    def __init__(self):
-        super().__init__("QuickSort", "O(n log n) average, O(n²) worst")
-    
-    def _sort_impl(self, arr: List[T], key: Optional[Callable[[T], Any]] = None) -> List[T]:
-        if len(arr) <= 1:
-            return arr
-        
-        self.step_count += 1
-        
-        # 选择基准
-        pivot = arr[len(arr) // 2]
-        
-        # 分区
-        left = [x for x in arr if (key(x) if key else x) < (key(pivot) if key else pivot)]
-        middle = [x for x in arr if (key(x) if key else x) == (key(pivot) if key else pivot)]
-        right = [x for x in arr if (key(x) if key else x) > (key(pivot) if key else pivot)]
-        
-        # 递归排序
-        return self._sort_impl(left, key) + middle + self._sort_impl(right, key)
-
-class MergeSort(SortingAlgorithm):
-    """归并排序算法"""
-    
-    def __init__(self):
-        super().__init__("MergeSort", "O(n log n)")
-    
-    def _sort_impl(self, arr: List[T], key: Optional[Callable[[T], Any]] = None) -> List[T]:
-        if len(arr) <= 1:
-            return arr
-        
-        self.step_count += 1
-        
-        # 分割
-        mid = len(arr) // 2
-        left = self._sort_impl(arr[:mid], key)
-        right = self._sort_impl(arr[mid:], key)
-        
-        # 合并
-        return self._merge(left, right, key)
-    
-    def _merge(self, left: List[T], right: List[T], key: Optional[Callable[[T], Any]]) -> List[T]:
-        """合并两个有序数组"""
+    def merge_sort_combine(left, right):
         result = []
         i = j = 0
-        
         while i < len(left) and j < len(right):
-            self.step_count += 1
-            left_val = key(left[i]) if key else left[i]
-            right_val = key(right[j]) if key else right[j]
-            
-            if left_val <= right_val:
+            if left[i] <= right[j]:
                 result.append(left[i])
                 i += 1
             else:
                 result.append(right[j])
                 j += 1
-        
         result.extend(left[i:])
         result.extend(right[j:])
         return result
+    
+    # 动态规划：斐波那契数列
+    def fibonacci_solver(n, dp):
+        if n <= 1:
+            return n
+        return dp[n-1] + dp[n-2]
+    
+    # 贪心算法：活动选择
+    activities = [(1, 4), (3, 5), (0, 6), (5, 7), (3, 8), (5, 9), (6, 10), (8, 11)]
+    
+    def activity_selection_criteria(activity):
+        return activity[1]  # 按结束时间排序
+    
+    def activity_is_feasible(solution):
+        if not solution:
+            return True
+        last_activity = solution[-1]
+        return True  # 简化版本
+    
+    # 回溯法：N皇后问题
+    def n_queens_is_valid(partial_solution):
+        if not partial_solution:
+            return True
+        current_row = len(partial_solution)
+        current_col = partial_solution[-1]
+        
+        for row, col in enumerate(partial_solution[:-1]):
+            if col == current_col or abs(row - current_row) == abs(col - current_col):
+                return False
+        return True
+    
+    def n_queens_is_complete(partial_solution):
+        return len(partial_solution) == 4  # 4皇后问题
+    
+    def n_queens_get_candidates(partial_solution):
+        return [0, 1, 2, 3]
+    
+    print("算法理论示例:")
+    print("=" * 50)
+    
+    # 测试分治法
+    arr = [3, 1, 4, 1, 5, 9, 2, 6]
+    sorted_arr = AlgorithmTheory.divide_and_conquer(arr, merge_sort_solve_small, merge_sort_combine)
+    print(f"归并排序: {arr} -> {sorted_arr}")
+    
+    # 测试动态规划
+    fib_dp = AlgorithmTheory.dynamic_programming(10, fibonacci_solver)
+    print(f"斐波那契数列: {fib_dp}")
+    
+    # 测试贪心算法
+    selected_activities = AlgorithmTheory.greedy_algorithm(
+        activities, activity_selection_criteria, activity_is_feasible
+    )
+    print(f"活动选择: {selected_activities}")
+    
+    # 测试回溯法
+    n_queens_solutions = AlgorithmTheory.backtracking(
+        [], n_queens_is_valid, n_queens_is_complete, n_queens_get_candidates
+    )
+    print(f"4皇后问题解的数量: {len(n_queens_solutions)}")
 
-class AlgorithmAnalyzer:
-    """算法分析器"""
+if __name__ == "__main__":
+    algorithm_theory_example()
+```
+
+### 2. 数据结构理论 (Data Structure Theory)
+
+**定义**: 数据结构理论研究数据的组织、存储和访问方式。
+
+**基本数据结构**:
+- **线性结构**: 数组、链表、栈、队列
+- **树形结构**: 二叉树、B树、红黑树
+- **图结构**: 邻接矩阵、邻接表
+- **散列结构**: 散列表
+
+**Python实现**:
+```python
+from typing import Any, Optional, List, Dict
+from abc import ABC, abstractmethod
+
+class DataStructure(ABC):
+    """数据结构抽象基类"""
+    
+    @abstractmethod
+    def insert(self, key: Any, value: Any) -> None:
+        pass
+    
+    @abstractmethod
+    def search(self, key: Any) -> Optional[Any]:
+        pass
+    
+    @abstractmethod
+    def delete(self, key: Any) -> bool:
+        pass
+    
+    @abstractmethod
+    def size(self) -> int:
+        pass
+
+class BinarySearchTree(DataStructure):
+    """二叉搜索树"""
+    
+    class Node:
+        def __init__(self, key: Any, value: Any):
+            self.key = key
+            self.value = value
+            self.left: Optional[BinarySearchTree.Node] = None
+            self.right: Optional[BinarySearchTree.Node] = None
+    
+    def __init__(self):
+        self.root: Optional[BinarySearchTree.Node] = None
+        self._size = 0
+    
+    def insert(self, key: Any, value: Any) -> None:
+        self.root = self._insert_recursive(self.root, key, value)
+        self._size += 1
+    
+    def _insert_recursive(self, node: Optional[Node], key: Any, value: Any) -> Node:
+        if node is None:
+            return BinarySearchTree.Node(key, value)
+        
+        if key < node.key:
+            node.left = self._insert_recursive(node.left, key, value)
+        elif key > node.key:
+            node.right = self._insert_recursive(node.right, key, value)
+        else:
+            node.value = value
+            self._size -= 1  # 重复键不增加大小
+        
+        return node
+    
+    def search(self, key: Any) -> Optional[Any]:
+        node = self._search_recursive(self.root, key)
+        return node.value if node else None
+    
+    def _search_recursive(self, node: Optional[Node], key: Any) -> Optional[Node]:
+        if node is None or node.key == key:
+            return node
+        
+        if key < node.key:
+            return self._search_recursive(node.left, key)
+        else:
+            return self._search_recursive(node.right, key)
+    
+    def delete(self, key: Any) -> bool:
+        if self._delete_recursive(self.root, key):
+            self._size -= 1
+            return True
+        return False
+    
+    def _delete_recursive(self, node: Optional[Node], key: Any) -> Optional[Node]:
+        if node is None:
+            return None
+        
+        if key < node.key:
+            node.left = self._delete_recursive(node.left, key)
+        elif key > node.key:
+            node.right = self._delete_recursive(node.right, key)
+        else:
+            # 找到要删除的节点
+            if node.left is None:
+                return node.right
+            elif node.right is None:
+                return node.left
+            else:
+                # 有两个子节点，找到后继节点
+                successor = self._find_min(node.right)
+                node.key = successor.key
+                node.value = successor.value
+                node.right = self._delete_recursive(node.right, successor.key)
+        
+        return node
+    
+    def _find_min(self, node: Node) -> Node:
+        while node.left:
+            node = node.left
+        return node
+    
+    def size(self) -> int:
+        return self._size
+    
+    def inorder_traversal(self) -> List[Any]:
+        """中序遍历"""
+        result = []
+        self._inorder_recursive(self.root, result)
+        return result
+    
+    def _inorder_recursive(self, node: Optional[Node], result: List[Any]) -> None:
+        if node:
+            self._inorder_recursive(node.left, result)
+            result.append(node.key)
+            self._inorder_recursive(node.right, result)
+
+class HashTable(DataStructure):
+    """散列表"""
+    
+    def __init__(self, initial_size: int = 16, load_factor: float = 0.75):
+        self.size = initial_size
+        self.load_factor = load_factor
+        self.table: List[List[tuple]] = [[] for _ in range(initial_size)]
+        self._count = 0
+    
+    def _hash(self, key: Any) -> int:
+        return hash(key) % self.size
+    
+    def insert(self, key: Any, value: Any) -> None:
+        if self._count / self.size >= self.load_factor:
+            self._resize()
+        
+        hash_value = self._hash(key)
+        bucket = self.table[hash_value]
+        
+        # 检查是否已存在
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                bucket[i] = (key, value)
+                return
+        
+        bucket.append((key, value))
+        self._count += 1
+    
+    def search(self, key: Any) -> Optional[Any]:
+        hash_value = self._hash(key)
+        bucket = self.table[hash_value]
+        
+        for k, v in bucket:
+            if k == key:
+                return v
+        return None
+    
+    def delete(self, key: Any) -> bool:
+        hash_value = self._hash(key)
+        bucket = self.table[hash_value]
+        
+        for i, (k, v) in enumerate(bucket):
+            if k == key:
+                bucket.pop(i)
+                self._count -= 1
+                return True
+        return False
+    
+    def size(self) -> int:
+        return self._count
+    
+    def _resize(self) -> None:
+        old_table = self.table
+        self.size *= 2
+        self.table = [[] for _ in range(self.size)]
+        self._count = 0
+        
+        for bucket in old_table:
+            for key, value in bucket:
+                self.insert(key, value)
+
+# 数据结构理论示例
+def data_structure_theory_example():
+    """数据结构理论示例"""
+    
+    print("数据结构理论示例:")
+    print("=" * 50)
+    
+    # 二叉搜索树示例
+    print("二叉搜索树:")
+    bst = BinarySearchTree()
+    keys = [5, 3, 7, 2, 4, 6, 8]
+    
+    for key in keys:
+        bst.insert(key, f"value_{key}")
+    
+    print(f"中序遍历: {bst.inorder_traversal()}")
+    print(f"搜索键3: {bst.search(3)}")
+    print(f"删除键3: {bst.delete(3)}")
+    print(f"删除后中序遍历: {bst.inorder_traversal()}")
+    
+    # 散列表示例
+    print("\n散列表:")
+    ht = HashTable()
+    test_data = [("apple", 1), ("banana", 2), ("cherry", 3), ("apple", 4)]
+    
+    for key, value in test_data:
+        ht.insert(key, value)
+    
+    print(f"表大小: {ht.size()}")
+    print(f"搜索'apple': {ht.search('apple')}")
+    print(f"搜索'orange': {ht.search('orange')}")
+    print(f"删除'banana': {ht.delete('banana')}")
+    print(f"删除后搜索'banana': {ht.search('banana')}")
+
+if __name__ == "__main__":
+    data_structure_theory_example()
+```
+
+### 3. 计算复杂度理论 (Computational Complexity Theory)
+
+**定义**: 计算复杂度理论研究算法和问题的计算资源需求。
+
+**复杂度类**:
+- **P**: 多项式时间可解问题
+- **NP**: 非确定性多项式时间可验证问题
+- **NP-完全**: NP中最难的问题
+- **PSPACE**: 多项式空间可解问题
+
+**Python实现**:
+```python
+from typing import List, Tuple, Set, Callable
+import time
+import random
+
+class ComplexityTheory:
+    """计算复杂度理论"""
     
     @staticmethod
-    def analyze_time_complexity(algorithm: Algorithm, input_sizes: List[int], 
-                               input_generator: Callable[[int], List[T]]) -> Dict[str, List[float]]:
-        """分析算法时间复杂度"""
-        results = {"sizes": [], "times": [], "steps": []}
-        
-        for size in input_sizes:
-            # 生成测试数据
-            test_data = input_generator(size)
-            
-            # 运行算法
+    def polynomial_time_algorithm(n: int) -> int:
+        """多项式时间算法 O(n²)"""
+        result = 0
+        for i in range(n):
+            for j in range(n):
+                result += i * j
+        return result
+    
+    @staticmethod
+    def exponential_time_algorithm(n: int) -> int:
+        """指数时间算法 O(2ⁿ)"""
+        if n <= 1:
+            return n
+        return (ComplexityTheory.exponential_time_algorithm(n-1) + 
+                ComplexityTheory.exponential_time_algorithm(n-2))
+    
+    @staticmethod
+    def np_verification_solution(problem_instance: List[int], 
+                                certificate: List[int], 
+                                verification_function: Callable) -> bool:
+        """NP问题验证"""
+        return verification_function(problem_instance, certificate)
+    
+    @staticmethod
+    def subset_sum_verification(numbers: List[int], target: int, 
+                               subset: List[int]) -> bool:
+        """子集和问题验证"""
+        return sum(subset) == target and all(x in numbers for x in subset)
+    
+    @staticmethod
+    def measure_complexity(algorithm: Callable, inputs: List[int]) -> List[float]:
+        """测量算法复杂度"""
+        times = []
+        for n in inputs:
             start_time = time.time()
-            algorithm.sort(test_data.copy())
+            algorithm(n)
             end_time = time.time()
-            
-            results["sizes"].append(size)
-            results["times"].append(end_time - start_time)
-            results["steps"].append(algorithm.get_step_count())
-        
-        return results
+            times.append(end_time - start_time)
+        return times
     
     @staticmethod
-    def estimate_complexity(sizes: List[int], steps: List[int]) -> str:
-        """估计算法复杂度"""
-        if len(sizes) < 2:
-            return "insufficient data"
+    def analyze_complexity(input_sizes: List[int], execution_times: List[float]) -> str:
+        """分析复杂度类型"""
+        if len(input_sizes) < 2:
+            return "数据不足"
         
         # 计算增长率
         ratios = []
-        for i in range(1, len(sizes)):
-            size_ratio = sizes[i] / sizes[i-1]
-            step_ratio = steps[i] / steps[i-1]
-            ratios.append(step_ratio / size_ratio)
+        for i in range(1, len(input_sizes)):
+            time_ratio = execution_times[i] / execution_times[i-1]
+            size_ratio = input_sizes[i] / input_sizes[i-1]
+            ratios.append(time_ratio / size_ratio)
         
         avg_ratio = sum(ratios) / len(ratios)
         
-        if avg_ratio < 1.1:
-            return "O(1)"
-        elif avg_ratio < 1.5:
-            return "O(log n)"
-        elif avg_ratio < 2.5:
-            return "O(n)"
-        elif avg_ratio < 4:
-            return "O(n log n)"
-        elif avg_ratio < 8:
-            return "O(n²)"
+        if avg_ratio < 0.1:
+            return "O(1) - 常数时间"
+        elif avg_ratio < 0.5:
+            return "O(log n) - 对数时间"
+        elif avg_ratio < 2:
+            return "O(n) - 线性时间"
+        elif avg_ratio < 5:
+            return "O(n log n) - 线性对数时间"
+        elif avg_ratio < 10:
+            return "O(n²) - 多项式时间"
         else:
-            return "O(n³) or higher"
+            return "O(2ⁿ) - 指数时间"
+
+# 计算复杂度理论示例
+def complexity_theory_example():
+    """计算复杂度理论示例"""
+    
+    print("计算复杂度理论示例:")
+    print("=" * 50)
+    
+    # 测量多项式时间算法
+    print("多项式时间算法 (O(n²)):")
+    poly_inputs = [10, 20, 40, 80]
+    poly_times = ComplexityTheory.measure_complexity(
+        ComplexityTheory.polynomial_time_algorithm, poly_inputs
+    )
+    
+    for n, t in zip(poly_inputs, poly_times):
+        print(f"  输入规模 {n}: {t:.6f} 秒")
+    
+    poly_complexity = ComplexityTheory.analyze_complexity(poly_inputs, poly_times)
+    print(f"  复杂度分析: {poly_complexity}")
+    
+    # NP问题验证示例
+    print("\nNP问题验证 (子集和问题):")
+    numbers = [1, 2, 3, 4, 5]
+    target = 7
+    
+    # 正确的证书
+    correct_certificate = [2, 5]
+    is_correct = ComplexityTheory.subset_sum_verification(numbers, target, correct_certificate)
+    print(f"  证书 {correct_certificate} 验证结果: {is_correct}")
+    
+    # 错误的证书
+    wrong_certificate = [1, 2, 3]
+    is_wrong = ComplexityTheory.subset_sum_verification(numbers, target, wrong_certificate)
+    print(f"  证书 {wrong_certificate} 验证结果: {is_wrong}")
+    
+    # 指数时间算法（小规模测试）
+    print("\n指数时间算法 (O(2ⁿ)):")
+    exp_inputs = [10, 15, 20, 25]
+    exp_times = ComplexityTheory.measure_complexity(
+        ComplexityTheory.exponential_time_algorithm, exp_inputs
+    )
+    
+    for n, t in zip(exp_inputs, exp_times):
+        print(f"  输入规模 {n}: {t:.6f} 秒")
+    
+    exp_complexity = ComplexityTheory.analyze_complexity(exp_inputs, exp_times)
+    print(f"  复杂度分析: {exp_complexity}")
+
+if __name__ == "__main__":
+    complexity_theory_example()
 ```
 
-### 3. 系统理论
+## 导航链接
 
-```python
-from typing import Dict, List, Set, Tuple, Optional, Callable
-from dataclasses import dataclass
-import numpy as np
+- **上级目录**: [../README.md](../README.md)
+- **同级目录**: 
+  - [00-理念基础/](../00-理念基础/)
+  - [01-形式科学/](../01-形式科学/)
+  - [03-具体科学/](../03-具体科学/)
+  - [04-行业领域/](../04-行业领域/)
+  - [05-架构领域/](../05-架构领域/)
+  - [06-组件算法/](../06-组件算法/)
+  - [07-实践应用/](../07-实践应用/)
+  - [08-项目进度/](../08-项目进度/)
+- **下级目录**:
+  - [01-算法理论/](01-算法理论/)
+  - [02-数据结构/](02-数据结构/)
+  - [03-计算复杂度/](03-计算复杂度/)
+  - [04-编程语言理论/](04-编程语言理论/)
+  - [05-软件工程理论/](05-软件工程理论/)
+  - [06-系统理论/](06-系统理论/)
 
-@dataclass
-class SystemState:
-    """系统状态"""
-    variables: Dict[str, float]
-    timestamp: float
-    
-    def __str__(self) -> str:
-        return f"State at {self.timestamp}: {self.variables}"
+## 参考文献
 
-class System:
-    """系统基类"""
-    
-    def __init__(self, name: str, state_variables: List[str]):
-        self.name = name
-        self.state_variables = state_variables
-        self.current_state: Optional[SystemState] = None
-        self.history: List[SystemState] = []
-    
-    def initialize(self, initial_values: Dict[str, float], timestamp: float = 0.0):
-        """初始化系统状态"""
-        self.current_state = SystemState(initial_values, timestamp)
-        self.history = [self.current_state]
-    
-    def update(self, new_values: Dict[str, float], timestamp: float):
-        """更新系统状态"""
-        self.current_state = SystemState(new_values, timestamp)
-        self.history.append(self.current_state)
-    
-    def get_state(self) -> Optional[SystemState]:
-        """获取当前状态"""
-        return self.current_state
-    
-    def get_history(self) -> List[SystemState]:
-        """获取历史状态"""
-        return self.history.copy()
-
-class LinearSystem(System):
-    """线性系统"""
-    
-    def __init__(self, name: str, A: np.ndarray, B: np.ndarray, C: np.ndarray, D: np.ndarray):
-        super().__init__(name, [f"x{i}" for i in range(A.shape[0])])
-        self.A = A  # 状态矩阵
-        self.B = B  # 输入矩阵
-        self.C = C  # 输出矩阵
-        self.D = D  # 直接传递矩阵
-    
-    def step(self, u: np.ndarray, dt: float) -> np.ndarray:
-        """系统步进"""
-        if self.current_state is None:
-            raise ValueError("System not initialized")
-        
-        # 当前状态
-        x = np.array([self.current_state.variables[f"x{i}"] for i in range(len(self.state_variables))])
-        
-        # 状态更新: dx/dt = Ax + Bu
-        dx = self.A @ x + self.B @ u
-        
-        # 欧拉积分
-        x_new = x + dx * dt
-        
-        # 输出: y = Cx + Du
-        y = self.C @ x + self.D @ u
-        
-        # 更新状态
-        new_values = {f"x{i}": x_new[i] for i in range(len(x_new))}
-        self.update(new_values, self.current_state.timestamp + dt)
-        
-        return y
-    
-    def is_stable(self) -> bool:
-        """检查系统稳定性"""
-        eigenvalues = np.linalg.eigvals(self.A)
-        return all(np.real(eigenvalue) < 0 for eigenvalue in eigenvalues)
-    
-    def is_controllable(self) -> bool:
-        """检查系统可控性"""
-        n = self.A.shape[0]
-        controllability_matrix = np.hstack([np.linalg.matrix_power(self.A, i) @ self.B 
-                                          for i in range(n)])
-        return np.linalg.matrix_rank(controllability_matrix) == n
-    
-    def is_observable(self) -> bool:
-        """检查系统可观性"""
-        n = self.A.shape[0]
-        observability_matrix = np.vstack([self.C @ np.linalg.matrix_power(self.A, i) 
-                                        for i in range(n)])
-        return np.linalg.matrix_rank(observability_matrix) == n
-
-class SystemAnalyzer:
-    """系统分析器"""
-    
-    @staticmethod
-    def analyze_stability(system: LinearSystem) -> Dict[str, Any]:
-        """分析系统稳定性"""
-        eigenvalues = np.linalg.eigvals(system.A)
-        
-        return {
-            "eigenvalues": eigenvalues,
-            "is_stable": system.is_stable(),
-            "natural_frequencies": np.abs(eigenvalues),
-            "damping_ratios": -np.real(eigenvalues) / np.abs(eigenvalues)
-        }
-    
-    @staticmethod
-    def analyze_controllability(system: LinearSystem) -> Dict[str, Any]:
-        """分析系统可控性"""
-        return {
-            "is_controllable": system.is_controllable(),
-            "controllability_gramian": SystemAnalyzer._compute_controllability_gramian(system)
-        }
-    
-    @staticmethod
-    def analyze_observability(system: LinearSystem) -> Dict[str, Any]:
-        """分析系统可观性"""
-        return {
-            "is_observable": system.is_observable(),
-            "observability_gramian": SystemAnalyzer._compute_observability_gramian(system)
-        }
-    
-    @staticmethod
-    def _compute_controllability_gramian(system: LinearSystem) -> np.ndarray:
-        """计算可控性格拉姆矩阵"""
-        # 简化实现
-        return np.eye(system.A.shape[0])
-    
-    @staticmethod
-    def _compute_observability_gramian(system: LinearSystem) -> np.ndarray:
-        """计算可观性格拉姆矩阵"""
-        # 简化实现
-        return np.eye(system.A.shape[0])
-```
-
-## 数学基础
-
-### 计算复杂度理论
-
-```math
-\text{时间复杂度定义}: T(n) = O(f(n)) \text{ 当且仅当存在常数 } c > 0 \text{ 和 } n_0 \text{ 使得}
-
-\forall n \geq n_0: T(n) \leq c \cdot f(n)
-
-\text{空间复杂度定义}: S(n) = O(f(n)) \text{ 当且仅当存在常数 } c > 0 \text{ 和 } n_0 \text{ 使得}
-
-\forall n \geq n_0: S(n) \leq c \cdot f(n)
-```
-
-### 系统理论
-
-```math
-\text{线性时不变系统}: 
-\begin{align}
-\dot{x}(t) &= Ax(t) + Bu(t) \\
-y(t) &= Cx(t) + Du(t)
-\end{align}
-
-\text{系统稳定性条件}: \text{所有特征值的实部为负}
-
-\text{可控性条件}: \text{可控性矩阵满秩}
-
-\text{可观性条件}: \text{可观性矩阵满秩}
-```
-
-### 信息论
-
-```math
-\text{信息熵}: H(X) = -\sum_{i=1}^{n} p(x_i) \log_2 p(x_i)
-
-\text{互信息}: I(X;Y) = H(X) - H(X|Y) = H(Y) - H(Y|X)
-
-\text{信道容量}: C = \max_{p(x)} I(X;Y)
-```
-
-## 应用示例
-
-### 1. 图灵机应用
-
-```python
-# 创建回文串识别图灵机
-tm = create_palindrome_tm()
-
-# 测试输入
-test_inputs = [
-    [TapeSymbol.ONE, TapeSymbol.ZERO, TapeSymbol.ONE],  # 101 (回文)
-    [TapeSymbol.ONE, TapeSymbol.ZERO, TapeSymbol.ZERO], # 100 (非回文)
-    [TapeSymbol.ONE],  # 1 (回文)
-    []  # 空串 (回文)
-]
-
-for i, input_tape in enumerate(test_inputs):
-    result = tm.run(input_tape)
-    print(f"输入 {i+1}: {[s.value for s in input_tape]} -> {result['result']}")
-```
-
-### 2. 算法分析
-
-```python
-# 创建排序算法
-quicksort = QuickSort()
-mergesort = MergeSort()
-
-# 生成测试数据
-def generate_random_data(size: int) -> List[int]:
-    return [random.randint(1, 1000) for _ in range(size)]
-
-# 分析算法性能
-input_sizes = [100, 500, 1000, 2000, 5000]
-
-quicksort_results = AlgorithmAnalyzer.analyze_time_complexity(
-    quicksort, input_sizes, generate_random_data)
-mergesort_results = AlgorithmAnalyzer.analyze_time_complexity(
-    mergesort, input_sizes, generate_random_data)
-
-print("快速排序复杂度估计:", 
-      AlgorithmAnalyzer.estimate_complexity(
-          quicksort_results["sizes"], 
-          quicksort_results["steps"]))
-print("归并排序复杂度估计:", 
-      AlgorithmAnalyzer.estimate_complexity(
-          mergesort_results["sizes"], 
-          mergesort_results["steps"]))
-```
-
-### 3. 系统分析
-
-```python
-# 创建二阶系统
-A = np.array([[-1, 1], [0, -2]])
-B = np.array([[1], [0]])
-C = np.array([[1, 0]])
-D = np.array([[0]])
-
-system = LinearSystem("Second Order System", A, B, C, D)
-
-# 初始化系统
-system.initialize({"x0": 1.0, "x1": 0.0})
-
-# 系统分析
-stability_analysis = SystemAnalyzer.analyze_stability(system)
-controllability_analysis = SystemAnalyzer.analyze_controllability(system)
-observability_analysis = SystemAnalyzer.analyze_observability(system)
-
-print("稳定性分析:", stability_analysis)
-print("可控性分析:", controllability_analysis)
-print("可观性分析:", observability_analysis)
-
-# 系统仿真
-dt = 0.1
-time_steps = 50
-u = np.array([[1.0]])  # 单位阶跃输入
-
-for i in range(time_steps):
-    y = system.step(u, dt)
-    if i % 10 == 0:
-        print(f"t={i*dt:.1f}, y={y[0]:.3f}")
-```
-
-## 质量保证
-
-### 1. 理论严谨性
-- 数学定义的精确性
-- 证明过程的完整性
-- 理论框架的一致性
-
-### 2. 实现正确性
-- 算法的正确性验证
-- 系统的稳定性分析
-- 性能的准确评估
-
-### 3. 应用有效性
-- 理论到实践的映射
-- 抽象到具体的转换
-- 复杂度的实际评估
-
-## 相关链接
-
-- [01-形式科学](../01-形式科学/README.md) - 数学和逻辑基础
-- [03-具体科学](../03-具体科学/README.md) - 软件工程理论
-- [04-行业领域](../04-行业领域/README.md) - 行业应用
-
----
-
-*最后更新：2024年12月*
+1. Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). Introduction to Algorithms. MIT Press.
+2. Aho, A. V., Hopcroft, J. E., & Ullman, J. D. (1974). The Design and Analysis of Computer Algorithms. Addison-Wesley.
+3. Sipser, M. (2012). Introduction to the Theory of Computation. Cengage Learning.
+4. Pierce, B. C. (2002). Types and Programming Languages. MIT Press.
+5. Sommerville, I. (2011). Software Engineering. Pearson Education.
+6. Bertsekas, D. P., & Tsitsiklis, J. N. (2002). Introduction to Probability. Athena Scientific.
