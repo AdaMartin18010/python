@@ -23,6 +23,7 @@
 **定义**: 确保一个类只有一个实例，并提供全局访问点。
 
 **Python实现**:
+
 ```python
 import threading
 from typing import Optional, Any
@@ -111,6 +112,7 @@ if __name__ == "__main__":
 **定义**: 定义一个创建对象的接口，让子类决定实例化哪一个类。
 
 **Python实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import Dict, Type
@@ -207,6 +209,7 @@ if __name__ == "__main__":
 **定义**: 提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们的具体类。
 
 **Python实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import List
@@ -327,6 +330,7 @@ if __name__ == "__main__":
 **定义**: 将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。
 
 **Python实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import List, Optional
@@ -474,6 +478,7 @@ if __name__ == "__main__":
 **定义**: 用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。
 
 **Python实现**:
+
 ```python
 import copy
 from abc import ABC, abstractmethod
@@ -601,6 +606,7 @@ if __name__ == "__main__":
 **定义**: 将一个类的接口转换成客户希望的另外一个接口。
 
 **Python实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import List
@@ -665,7 +671,7 @@ if __name__ == "__main__":
 ## 导航链接
 
 - **上级目录**: [../README.md](../README.md)
-- **同级目录**: 
+- **同级目录**:
   - [02-架构模式/](02-架构模式/)
   - [03-并发编程/](03-并发编程/)
   - [04-分布式系统/](04-分布式系统/)
@@ -682,4 +688,4 @@ if __name__ == "__main__":
 
 1. Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1994). Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley.
 2. Freeman, E., Robson, E., Sierra, K., & Bates, B. (2004). Head First Design Patterns. O'Reilly Media.
-3. Larman, C. (2004). Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. Prentice Hall. 
+3. Larman, C. (2004). Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development. Prentice Hall.

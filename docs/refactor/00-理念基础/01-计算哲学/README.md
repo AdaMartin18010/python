@@ -32,6 +32,7 @@
 #### 1.2.1 图灵机模型
 
 **定义**: 图灵机是一个七元组 $M = (Q, \Sigma, \Gamma, \delta, q_0, q_{accept}, q_{reject})$，其中：
+
 - $Q$ 是有限状态集
 - $\Sigma$ 是输入字母表
 - $\Gamma$ 是带字母表，$\Sigma \subseteq \Gamma$
@@ -40,6 +41,7 @@
 - $q_{accept}, q_{reject} \in Q$ 是接受和拒绝状态
 
 **Python实现**:
+
 ```python
 from enum import Enum
 from typing import Dict, Tuple, Optional, List
@@ -160,16 +162,19 @@ if __name__ == "__main__":
 **定义**: Lambda演算是一个形式化系统，用于研究函数定义、函数应用和递归。
 
 **语法**:
+
 - 变量: $x, y, z, \ldots$
 - 抽象: $\lambda x.M$ (函数定义)
 - 应用: $(M N)$ (函数应用)
 
 **公理**:
+
 - $\alpha$-等价: $\lambda x.M = \lambda y.M[y/x]$ (变量重命名)
 - $\beta$-归约: $(\lambda x.M) N = M[N/x]$ (函数应用)
 - $\eta$-等价: $\lambda x.(M x) = M$ (外延性)
 
 **Python实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
@@ -321,18 +326,21 @@ if __name__ == "__main__":
 
 **证明**:
 假设存在图灵机 $H$ 可以判定停机问题。构造图灵机 $D$：
+
 1. $D$ 接受输入 $M$（图灵机的编码）
 2. $D$ 运行 $H(M, M)$
 3. 如果 $H$ 输出"停机"，则 $D$ 进入无限循环
 4. 如果 $H$ 输出"不停机"，则 $D$ 停机
 
 现在考虑 $D(D)$：
+
 - 如果 $D(D)$ 停机，则 $H(D, D)$ 输出"停机"，但 $D$ 会进入无限循环，矛盾
 - 如果 $D(D)$ 不停机，则 $H(D, D)$ 输出"不停机"，但 $D$ 会停机，矛盾
 
 因此，停机问题是不可判定的。
 
 **Python实现**:
+
 ```python
 from typing import Callable, Any
 import time
@@ -418,6 +426,7 @@ if __name__ == "__main__":
 **定义**: 算法的时间复杂度是算法执行时间随输入规模增长的变化规律。
 
 **常见复杂度类**:
+
 - $O(1)$: 常数时间
 - $O(\log n)$: 对数时间
 - $O(n)$: 线性时间
@@ -426,6 +435,7 @@ if __name__ == "__main__":
 - $O(2^n)$: 指数时间
 
 **Python实现**:
+
 ```python
 import time
 import matplotlib.pyplot as plt
@@ -538,6 +548,7 @@ if __name__ == "__main__":
 ### 4.1 定义
 
 **计算思维**是一种解决问题的思维方式，包括：
+
 - **分解**: 将复杂问题分解为简单子问题
 - **模式识别**: 识别问题中的模式和规律
 - **抽象**: 提取问题的本质特征
@@ -546,6 +557,7 @@ if __name__ == "__main__":
 ### 4.2 计算思维方法
 
 **Python实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import List, Any, Callable
@@ -682,6 +694,7 @@ if __name__ == "__main__":
 4. **责任性**: 明确算法使用者的责任
 
 **Python实现**:
+
 ```python
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
@@ -854,7 +867,7 @@ if __name__ == "__main__":
 ## 导航链接
 
 - **上级目录**: [../README.md](../README.md)
-- **同级目录**: 
+- **同级目录**:
   - [02-软件工程哲学/](../02-软件工程哲学/)
   - [03-形式化思维/](../03-形式化思维/)
   - [04-系统思维/](../04-系统思维/)
@@ -872,4 +885,4 @@ if __name__ == "__main__":
 2. Turing, A. M. (1937). On computable numbers, with an application to the Entscheidungsproblem. Proceedings of the London Mathematical Society, 42(1), 230-265.
 3. Sipser, M. (2012). Introduction to the Theory of Computation. Cengage Learning.
 4. Wing, J. M. (2006). Computational thinking. Communications of the ACM, 49(3), 33-35.
-5. Floridi, L., Cowls, J., Beltrametti, M., Chatila, R., Chazerand, P., Dignum, V., ... & Vayena, E. (2018). AI4People—An ethical framework for a good AI society: opportunities, risks, principles, and recommendations. Minds and Machines, 28(4), 689-707. 
+5. Floridi, L., Cowls, J., Beltrametti, M., Chatila, R., Chazerand, P., Dignum, V., ... & Vayena, E. (2018). AI4People—An ethical framework for a good AI society: opportunities, risks, principles, and recommendations. Minds and Machines, 28(4), 689-707.

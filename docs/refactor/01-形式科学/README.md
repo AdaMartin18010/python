@@ -24,6 +24,7 @@
 **定义**: 集合论是研究集合及其性质的数学分支。
 
 **公理系统**:
+
 - **外延公理**: 两个集合相等当且仅当它们包含相同的元素
 - **空集公理**: 存在一个不包含任何元素的集合
 - **配对公理**: 对于任意两个集合，存在包含它们的集合
@@ -31,6 +32,7 @@
 - **幂集公理**: 对于任意集合，存在包含其所有子集的集合
 
 **Python实现**:
+
 ```python
 from typing import Set, List, Any, Callable
 from abc import ABC, abstractmethod
@@ -108,11 +110,13 @@ if __name__ == "__main__":
 **定义**: 逻辑学是研究推理形式和有效性的学科。
 
 **命题逻辑**:
+
 - **原子命题**: 基本命题单元
 - **逻辑连接词**: ¬, ∧, ∨, →, ↔
 - **真值表**: 命题的真值组合
 
 **Python实现**:
+
 ```python
 from typing import Dict, List, Callable
 from dataclasses import dataclass
@@ -208,11 +212,13 @@ if __name__ == "__main__":
 **定义**: 代数结构是带有运算的集合。
 
 **群论**:
+
 - **群**: 满足结合律、单位元、逆元的代数结构
 - **环**: 带有两种运算的代数结构
 - **域**: 可除环
 
 **Python实现**:
+
 ```python
 from typing import Dict, Any, Callable
 from abc import ABC, abstractmethod
@@ -280,7 +286,7 @@ if __name__ == "__main__":
 ## 导航链接
 
 - **上级目录**: [../README.md](../README.md)
-- **同级目录**: 
+- **同级目录**:
   - [00-理念基础/](../00-理念基础/)
   - [02-理论基础/](../02-理论基础/)
   - [03-具体科学/](../03-具体科学/)
