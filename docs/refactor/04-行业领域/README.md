@@ -2,303 +2,816 @@
 
 ## 概述
 
-行业领域层包含各行业特定的应用领域知识，涵盖金融科技、游戏开发、物联网、人工智能、区块链等各个行业的技术选型、架构设计和最佳实践。这一层将通用技术转化为行业解决方案。
+行业领域层是知识库的应用层，包含金融科技、人工智能、物联网、游戏开发、区块链等各行业的具体应用和领域知识。这一层将软件工程和计算科学理论应用到具体的行业场景中。
 
 ## 目录结构
 
 ```
 04-行业领域/
-├── README.md                    # 本文件
-├── 01-金融科技/                 # 金融科技领域
-│   ├── 01-支付系统.md
-│   ├── 02-银行核心系统.md
-│   ├── 03-保险系统.md
-│   ├── 04-投资交易系统.md
-│   ├── 05-风控系统.md
-│   └── 06-合规审计.md
-├── 02-游戏开发/                 # 游戏开发领域
-│   ├── 01-游戏引擎架构.md
-│   ├── 02-网络游戏服务器.md
-│   ├── 03-实时渲染系统.md
-│   ├── 04-物理引擎.md
-│   ├── 05-音频系统.md
-│   └── 06-性能优化.md
-├── 03-物联网/                   # 物联网领域
-│   ├── 01-设备管理平台.md
-│   ├── 02-数据采集系统.md
-│   ├── 03-边缘计算.md
-│   ├── 04-传感器网络.md
-│   ├── 05-智能家居.md
-│   └── 06-安全机制.md
-├── 04-人工智能/                 # 人工智能领域
-│   ├── 01-模型训练平台.md
-│   ├── 02-推理服务.md
-│   ├── 03-数据处理管道.md
-│   ├── 04-特征工程.md
-│   ├── 05-模型部署.md
-│   └── 06-MLOps架构.md
-├── 05-区块链/                   # 区块链领域
-│   ├── 01-智能合约平台.md
-│   ├── 02-去中心化应用.md
-│   ├── 03-加密货币系统.md
-│   ├── 04-NFT平台.md
-│   ├── 05-DeFi应用.md
-│   └── 06-共识机制.md
-├── 06-云计算/                   # 云计算领域
-│   ├── 01-云原生应用.md
-│   ├── 02-容器编排.md
-│   ├── 03-服务网格.md
-│   ├── 04-分布式存储.md
-│   ├── 05-网络服务.md
-│   └── 06-微服务架构.md
-├── 07-大数据/                   # 大数据领域
-│   ├── 01-数据仓库.md
-│   ├── 02-流处理系统.md
-│   ├── 03-数据湖.md
-│   ├── 04-实时分析.md
-│   ├── 05-数据可视化.md
-│   └── 06-机器学习管道.md
-├── 08-网络安全/                 # 网络安全领域
-│   ├── 01-安全扫描工具.md
-│   ├── 02-入侵检测系统.md
-│   ├── 03-加密服务.md
-│   ├── 04-身份认证.md
-│   ├── 05-威胁情报.md
-│   └── 06-安全监控.md
-├── 09-医疗健康/                 # 医疗健康领域
-│   ├── 01-医疗信息系统.md
-│   ├── 02-健康监测设备.md
-│   ├── 03-药物研发平台.md
-│   ├── 04-医疗影像处理.md
-│   ├── 05-临床试验管理.md
-│   └── 06-患者数据安全.md
-├── 10-教育科技/                 # 教育科技领域
-│   ├── 01-在线学习平台.md
-│   ├── 02-教育管理系统.md
-│   ├── 03-智能评估系统.md
-│   ├── 04-内容管理系统.md
-│   ├── 05-协作工具.md
-│   └── 06-学习分析.md
-├── 11-汽车自动驾驶/             # 汽车自动驾驶领域
-│   ├── 01-自动驾驶系统.md
-│   ├── 02-车载软件.md
-│   ├── 03-交通管理系统.md
-│   ├── 04-车辆通信.md
-│   ├── 05-安全系统.md
-│   └── 06-传感器融合.md
-├── 12-电子商务/                 # 电子商务领域
-│   ├── 01-在线商城平台.md
-│   ├── 02-支付处理系统.md
-│   ├── 03-库存管理系统.md
-│   ├── 04-推荐引擎.md
-│   ├── 05-客户关系管理.md
-│   └── 06-物流跟踪.md
-├── 13-社交媒体/                 # 社交媒体领域
-│   ├── 01-社交网络平台.md
-│   ├── 02-内容推荐系统.md
-│   ├── 03-实时消息系统.md
-│   ├── 04-媒体处理.md
-│   ├── 05-用户分析.md
-│   └── 06-内容审核.md
-├── 14-企业软件/                 # 企业软件领域
-│   ├── 01-企业资源规划.md
-│   ├── 02-客户关系管理.md
-│   ├── 03-人力资源管理.md
-│   ├── 04-供应链管理.md
-│   ├── 05-业务流程自动化.md
-│   └── 06-企业集成.md
-└── 15-移动应用/                 # 移动应用领域
-    ├── 01-移动应用开发.md
-    ├── 02-跨平台框架.md
-    ├── 03-性能优化.md
-    ├── 04-离线功能.md
-    ├── 05-推送通知.md
-    └── 06-应用安全.md
+├── 001-金融科技/           # 支付系统、银行核心、风控系统
+├── 002-人工智能/           # 机器学习、深度学习、NLP
+├── 003-物联网/             # 设备管理、数据采集、边缘计算
+├── 004-游戏开发/           # 游戏引擎、网络游戏、实时渲染
+├── 005-区块链/             # 智能合约、DeFi、NFT
+├── 006-云计算/             # 云原生、容器化、微服务
+├── 007-大数据/             # 数据仓库、流处理、数据分析
+├── 008-网络安全/           # 安全扫描、入侵检测、威胁分析
+├── 009-医疗健康/           # 医疗系统、健康监测、药物研发
+├── 010-教育科技/           # 在线教育、学习分析、智能评估
+├── 011-电子商务/           # 电商平台、推荐系统、支付处理
+├── 012-汽车工业/           # 自动驾驶、车联网、智能座舱
+└── 013-制造业/             # 工业4.0、智能制造、供应链
 ```
 
 ## 核心内容
 
 ### 1. 金融科技 (FinTech)
 
-- **支付系统**: 实时支付、跨境支付、数字货币
-- **银行核心系统**: 核心银行系统、清算系统、风控系统
-- **保险系统**: 保险产品管理、理赔处理、精算系统
-- **投资交易系统**: 交易执行、订单管理、市场数据
-- **风控系统**: 信用评估、欺诈检测、合规监控
-- **合规审计**: 监管报告、审计追踪、合规检查
+```python
+from typing import Dict, List, Optional, Any, Union
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from decimal import Decimal
+import uuid
+import hashlib
 
-### 2. 游戏开发 (Game Development)
+@dataclass
+class Transaction:
+    """交易记录"""
+    id: str
+    from_account: str
+    to_account: str
+    amount: Decimal
+    currency: str
+    timestamp: datetime
+    status: str
+    transaction_type: str
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    
+    def __post_init__(self):
+        if not self.id:
+            self.id = str(uuid.uuid4())
+    
+    def calculate_hash(self) -> str:
+        """计算交易哈希"""
+        data = f"{self.from_account}{self.to_account}{self.amount}{self.currency}{self.timestamp}"
+        return hashlib.sha256(data.encode()).hexdigest()
+    
+    def is_valid(self) -> bool:
+        """验证交易有效性"""
+        return (
+            self.amount > 0 and
+            self.from_account != self.to_account and
+            self.status in ["pending", "completed", "failed"]
+        )
 
-- **游戏引擎架构**: 渲染引擎、物理引擎、音频引擎
-- **网络游戏服务器**: 多人游戏、实时同步、服务器架构
-- **实时渲染系统**: 3D渲染、光照系统、特效系统
-- **物理引擎**: 碰撞检测、刚体动力学、软体模拟
-- **音频系统**: 3D音频、音效处理、音乐系统
-- **性能优化**: 内存优化、CPU优化、GPU优化
+@dataclass
+class Account:
+    """账户"""
+    id: str
+    user_id: str
+    account_type: str
+    balance: Decimal
+    currency: str
+    status: str
+    created_at: datetime
+    updated_at: datetime
+    
+    def can_withdraw(self, amount: Decimal) -> bool:
+        """检查是否可以提款"""
+        return self.balance >= amount and self.status == "active"
+    
+    def withdraw(self, amount: Decimal) -> bool:
+        """提款"""
+        if self.can_withdraw(amount):
+            self.balance -= amount
+            self.updated_at = datetime.now()
+            return True
+        return False
+    
+    def deposit(self, amount: Decimal) -> bool:
+        """存款"""
+        if self.status == "active":
+            self.balance += amount
+            self.updated_at = datetime.now()
+            return True
+        return False
+
+class PaymentSystem:
+    """支付系统"""
+    
+    def __init__(self):
+        self.accounts: Dict[str, Account] = {}
+        self.transactions: List[Transaction] = []
+        self.fraud_detector = FraudDetector()
+    
+    def process_payment(self, from_account_id: str, to_account_id: str, 
+                       amount: Decimal, currency: str) -> Dict[str, Any]:
+        """处理支付"""
+        # 验证账户
+        if from_account_id not in self.accounts or to_account_id not in self.accounts:
+            return {"success": False, "error": "Invalid account"}
+        
+        from_account = self.accounts[from_account_id]
+        to_account = self.accounts[to_account_id]
+        
+        # 检查余额
+        if not from_account.can_withdraw(amount):
+            return {"success": False, "error": "Insufficient balance"}
+        
+        # 欺诈检测
+        if self.fraud_detector.is_suspicious(from_account_id, to_account_id, amount):
+            return {"success": False, "error": "Suspicious transaction"}
+        
+        # 执行交易
+        transaction = Transaction(
+            from_account=from_account_id,
+            to_account=to_account_id,
+            amount=amount,
+            currency=currency,
+            timestamp=datetime.now(),
+            status="pending",
+            transaction_type="transfer"
+        )
+        
+        # 原子性操作
+        try:
+            from_account.withdraw(amount)
+            to_account.deposit(amount)
+            transaction.status = "completed"
+            self.transactions.append(transaction)
+            return {"success": True, "transaction_id": transaction.id}
+        except Exception as e:
+            # 回滚
+            from_account.deposit(amount)
+            to_account.withdraw(amount)
+            transaction.status = "failed"
+            return {"success": False, "error": str(e)}
+
+class FraudDetector:
+    """欺诈检测器"""
+    
+    def __init__(self):
+        self.suspicious_patterns: List[Dict[str, Any]] = []
+        self.user_risk_scores: Dict[str, float] = {}
+    
+    def is_suspicious(self, from_account: str, to_account: str, amount: Decimal) -> bool:
+        """检测可疑交易"""
+        # 检查金额阈值
+        if amount > Decimal("10000"):
+            return True
+        
+        # 检查频率
+        if self._check_frequency(from_account):
+            return True
+        
+        # 检查风险评分
+        if self.user_risk_scores.get(from_account, 0) > 0.8:
+            return True
+        
+        return False
+    
+    def _check_frequency(self, account_id: str) -> bool:
+        """检查交易频率"""
+        # 简化实现
+        return False
+    
+    def update_risk_score(self, account_id: str, score: float):
+        """更新风险评分"""
+        self.user_risk_scores[account_id] = max(0.0, min(1.0, score))
+
+class RiskManagementSystem:
+    """风险管理系统"""
+    
+    def __init__(self):
+        self.risk_models: Dict[str, Any] = {}
+        self.risk_thresholds: Dict[str, float] = {}
+    
+    def calculate_credit_risk(self, user_data: Dict[str, Any]) -> float:
+        """计算信用风险"""
+        # 简化实现
+        factors = {
+            "income": user_data.get("income", 0),
+            "credit_history": user_data.get("credit_history", 0),
+            "debt_ratio": user_data.get("debt_ratio", 0),
+            "employment_length": user_data.get("employment_length", 0)
+        }
+        
+        # 加权计算
+        weights = {"income": 0.3, "credit_history": 0.3, "debt_ratio": 0.2, "employment_length": 0.2}
+        risk_score = sum(factors[key] * weights[key] for key in factors)
+        
+        return max(0.0, min(1.0, risk_score))
+    
+    def should_approve_loan(self, user_data: Dict[str, Any], loan_amount: float) -> bool:
+        """是否应该批准贷款"""
+        risk_score = self.calculate_credit_risk(user_data)
+        return risk_score < 0.7  # 风险阈值
+```
+
+### 2. 人工智能 (AI/ML)
+
+```python
+from typing import List, Dict, Any, Optional, Tuple, Union
+import numpy as np
+from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import torch
+import torch.nn as nn
+
+@dataclass
+class Dataset:
+    """数据集"""
+    name: str
+    features: np.ndarray
+    labels: np.ndarray
+    feature_names: List[str]
+    target_name: str
+    split_ratios: Tuple[float, float, float] = (0.7, 0.15, 0.15)
+    
+    def split(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray, 
+                           np.ndarray, np.ndarray, np.ndarray]:
+        """分割数据集"""
+        n_samples = len(self.features)
+        train_size = int(n_samples * self.split_ratios[0])
+        val_size = int(n_samples * self.split_ratios[1])
+        
+        # 随机打乱
+        indices = np.random.permutation(n_samples)
+        
+        train_indices = indices[:train_size]
+        val_indices = indices[train_size:train_size + val_size]
+        test_indices = indices[train_size + val_size:]
+        
+        return (
+            self.features[train_indices], self.labels[train_indices],
+            self.features[val_indices], self.labels[val_indices],
+            self.features[test_indices], self.labels[test_indices]
+        )
+
+class MLModel:
+    """机器学习模型"""
+    
+    def __init__(self, name: str, model_type: str):
+        self.name = name
+        self.model_type = model_type
+        self.model: Optional[BaseEstimator] = None
+        self.training_history: List[Dict[str, float]] = []
+        self.evaluation_metrics: Dict[str, float] = {}
+    
+    def train(self, X_train: np.ndarray, y_train: np.ndarray, 
+              X_val: Optional[np.ndarray] = None, y_val: Optional[np.ndarray] = None):
+        """训练模型"""
+        if self.model is None:
+            raise ValueError("Model not initialized")
+        
+        # 训练
+        self.model.fit(X_train, y_train)
+        
+        # 记录训练历史
+        train_score = self.model.score(X_train, y_train)
+        self.training_history.append({"train_score": train_score})
+        
+        if X_val is not None and y_val is not None:
+            val_score = self.model.score(X_val, y_val)
+            self.training_history[-1]["val_score"] = val_score
+    
+    def evaluate(self, X_test: np.ndarray, y_test: np.ndarray) -> Dict[str, float]:
+        """评估模型"""
+        if self.model is None:
+            raise ValueError("Model not trained")
+        
+        y_pred = self.model.predict(X_test)
+        
+        self.evaluation_metrics = {
+            "accuracy": accuracy_score(y_test, y_pred),
+            "precision": precision_score(y_test, y_pred, average='weighted'),
+            "recall": recall_score(y_test, y_pred, average='weighted'),
+            "f1": f1_score(y_test, y_pred, average='weighted')
+        }
+        
+        return self.evaluation_metrics
+    
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        """预测"""
+        if self.model is None:
+            raise ValueError("Model not trained")
+        return self.model.predict(X)
+
+class NeuralNetwork(nn.Module):
+    """神经网络"""
+    
+    def __init__(self, input_size: int, hidden_sizes: List[int], output_size: int):
+        super().__init__()
+        self.layers = nn.ModuleList()
+        
+        # 输入层到第一个隐藏层
+        self.layers.append(nn.Linear(input_size, hidden_sizes[0]))
+        
+        # 隐藏层
+        for i in range(len(hidden_sizes) - 1):
+            self.layers.append(nn.Linear(hidden_sizes[i], hidden_sizes[i + 1]))
+        
+        # 输出层
+        self.layers.append(nn.Linear(hidden_sizes[-1], output_size))
+        
+        # 激活函数
+        self.activation = nn.ReLU()
+        self.output_activation = nn.Softmax(dim=1)
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """前向传播"""
+        for i, layer in enumerate(self.layers[:-1]):
+            x = self.activation(layer(x))
+        
+        x = self.layers[-1](x)
+        return self.output_activation(x)
+
+class ModelPipeline:
+    """模型流水线"""
+    
+    def __init__(self, name: str):
+        self.name = name
+        self.preprocessing_steps: List[Any] = []
+        self.model: Optional[MLModel] = None
+        self.postprocessing_steps: List[Any] = []
+    
+    def add_preprocessing(self, step: Any):
+        """添加预处理步骤"""
+        self.preprocessing_steps.append(step)
+    
+    def set_model(self, model: MLModel):
+        """设置模型"""
+        self.model = model
+    
+    def add_postprocessing(self, step: Any):
+        """添加后处理步骤"""
+        self.postprocessing_steps.append(step)
+    
+    def fit(self, X: np.ndarray, y: np.ndarray):
+        """训练流水线"""
+        # 预处理
+        X_processed = X.copy()
+        for step in self.preprocessing_steps:
+            if hasattr(step, 'fit'):
+                step.fit(X_processed)
+            if hasattr(step, 'transform'):
+                X_processed = step.transform(X_processed)
+        
+        # 训练模型
+        if self.model:
+            self.model.train(X_processed, y)
+    
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        """预测"""
+        # 预处理
+        X_processed = X.copy()
+        for step in self.preprocessing_steps:
+            if hasattr(step, 'transform'):
+                X_processed = step.transform(X_processed)
+        
+        # 模型预测
+        if self.model:
+            predictions = self.model.predict(X_processed)
+        else:
+            raise ValueError("No model set")
+        
+        # 后处理
+        for step in self.postprocessing_steps:
+            if hasattr(step, 'transform'):
+                predictions = step.transform(predictions)
+        
+        return predictions
+
+class ModelRegistry:
+    """模型注册表"""
+    
+    def __init__(self):
+        self.models: Dict[str, MLModel] = {}
+        self.versions: Dict[str, List[str]] = {}
+        self.metadata: Dict[str, Dict[str, Any]] = {}
+    
+    def register_model(self, model: MLModel, version: str = "1.0.0"):
+        """注册模型"""
+        model_key = f"{model.name}_{version}"
+        self.models[model_key] = model
+        self.versions[model.name] = self.versions.get(model.name, []) + [version]
+        self.metadata[model_key] = {
+            "created_at": datetime.now(),
+            "model_type": model.model_type,
+            "version": version
+        }
+    
+    def get_model(self, name: str, version: str = "latest") -> Optional[MLModel]:
+        """获取模型"""
+        if version == "latest":
+            versions = self.versions.get(name, [])
+            if not versions:
+                return None
+            version = versions[-1]
+        
+        model_key = f"{name}_{version}"
+        return self.models.get(model_key)
+    
+    def list_models(self) -> List[str]:
+        """列出所有模型"""
+        return list(self.versions.keys())
+```
 
 ### 3. 物联网 (IoT)
 
-- **设备管理平台**: 设备注册、状态监控、远程控制
-- **数据采集系统**: 传感器数据、数据预处理、数据存储
-- **边缘计算**: 边缘节点、本地处理、云端协同
-- **传感器网络**: 网络拓扑、路由协议、能量管理
-- **智能家居**: 设备互联、场景控制、用户界面
-- **安全机制**: 设备认证、数据加密、访问控制
+```python
+from typing import Dict, List, Optional, Any, Union
+from dataclasses import dataclass, field
+from datetime import datetime
+import json
+import asyncio
 
-### 4. 人工智能 (AI/ML)
+@dataclass
+class Device:
+    """IoT设备"""
+    id: str
+    name: str
+    device_type: str
+    location: Dict[str, float]
+    status: str
+    capabilities: List[str]
+    last_seen: datetime
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    
+    def is_online(self) -> bool:
+        """检查设备是否在线"""
+        time_diff = datetime.now() - self.last_seen
+        return time_diff.total_seconds() < 300  # 5分钟超时
+    
+    def update_status(self, status: str):
+        """更新设备状态"""
+        self.status = status
+        self.last_seen = datetime.now()
+    
+    def get_telemetry(self) -> Dict[str, Any]:
+        """获取遥测数据"""
+        return {
+            "device_id": self.id,
+            "timestamp": self.last_seen.isoformat(),
+            "status": self.status,
+            "location": self.location
+        }
 
-- **模型训练平台**: 分布式训练、超参数优化、模型版本管理
-- **推理服务**: 模型部署、负载均衡、推理优化
-- **数据处理管道**: 数据清洗、特征提取、数据标注
-- **特征工程**: 特征选择、特征变换、特征组合
-- **模型部署**: 容器化部署、模型服务化、A/B测试
-- **MLOps架构**: 模型生命周期管理、自动化部署、监控告警
+@dataclass
+class SensorData:
+    """传感器数据"""
+    device_id: str
+    sensor_type: str
+    value: float
+    unit: str
+    timestamp: datetime
+    quality: float = 1.0
+    
+    def to_json(self) -> str:
+        """转换为JSON"""
+        return json.dumps({
+            "device_id": self.device_id,
+            "sensor_type": self.sensor_type,
+            "value": self.value,
+            "unit": self.unit,
+            "timestamp": self.timestamp.isoformat(),
+            "quality": self.quality
+        })
 
-### 5. 区块链 (Blockchain)
+class DeviceManager:
+    """设备管理器"""
+    
+    def __init__(self):
+        self.devices: Dict[str, Device] = {}
+        self.data_buffer: List[SensorData] = []
+        self.alerts: List[Dict[str, Any]] = []
+    
+    def register_device(self, device: Device):
+        """注册设备"""
+        self.devices[device.id] = device
+    
+    def unregister_device(self, device_id: str):
+        """注销设备"""
+        if device_id in self.devices:
+            del self.devices[device_id]
+    
+    def update_device_data(self, device_id: str, sensor_data: SensorData):
+        """更新设备数据"""
+        if device_id in self.devices:
+            self.devices[device_id].update_status("active")
+            self.data_buffer.append(sensor_data)
+            
+            # 检查告警条件
+            self._check_alerts(device_id, sensor_data)
+    
+    def _check_alerts(self, device_id: str, sensor_data: SensorData):
+        """检查告警条件"""
+        # 简化实现：检查数值范围
+        if sensor_data.sensor_type == "temperature" and sensor_data.value > 80:
+            self.alerts.append({
+                "device_id": device_id,
+                "type": "high_temperature",
+                "value": sensor_data.value,
+                "timestamp": sensor_data.timestamp,
+                "severity": "high"
+            })
+    
+    def get_device_status(self) -> Dict[str, Any]:
+        """获取设备状态概览"""
+        total_devices = len(self.devices)
+        online_devices = sum(1 for device in self.devices.values() if device.is_online())
+        
+        return {
+            "total_devices": total_devices,
+            "online_devices": online_devices,
+            "offline_devices": total_devices - online_devices,
+            "online_rate": online_devices / total_devices if total_devices > 0 else 0
+        }
 
-- **智能合约平台**: 合约开发、合约部署、合约执行
-- **去中心化应用**: DApp架构、前端界面、后端服务
-- **加密货币系统**: 钱包系统、交易处理、共识机制
-- **NFT平台**: NFT铸造、NFT交易、NFT存储
-- **DeFi应用**: 借贷协议、DEX、流动性挖矿
-- **共识机制**: PoW、PoS、DPoS、BFT
+class EdgeComputing:
+    """边缘计算"""
+    
+    def __init__(self):
+        self.local_processing: Dict[str, Any] = {}
+        self.data_cache: Dict[str, List[SensorData]] = {}
+        self.processing_rules: List[Dict[str, Any]] = []
+    
+    def add_processing_rule(self, rule: Dict[str, Any]):
+        """添加处理规则"""
+        self.processing_rules.append(rule)
+    
+    def process_data_locally(self, sensor_data: SensorData) -> Optional[Dict[str, Any]]:
+        """本地数据处理"""
+        # 缓存数据
+        if sensor_data.device_id not in self.data_cache:
+            self.data_cache[sensor_data.device_id] = []
+        self.data_cache[sensor_data.device_id].append(sensor_data)
+        
+        # 应用处理规则
+        for rule in self.processing_rules:
+            if self._matches_rule(sensor_data, rule):
+                return self._apply_rule(sensor_data, rule)
+        
+        return None
+    
+    def _matches_rule(self, sensor_data: SensorData, rule: Dict[str, Any]) -> bool:
+        """检查是否匹配规则"""
+        return (
+            sensor_data.sensor_type == rule.get("sensor_type") and
+            sensor_data.value > rule.get("threshold", float('-inf'))
+        )
+    
+    def _apply_rule(self, sensor_data: SensorData, rule: Dict[str, Any]) -> Dict[str, Any]:
+        """应用规则"""
+        return {
+            "action": rule.get("action", "alert"),
+            "device_id": sensor_data.device_id,
+            "processed_value": sensor_data.value * rule.get("multiplier", 1.0),
+            "timestamp": sensor_data.timestamp
+        }
 
-### 6. 云计算 (Cloud Computing)
+class IoTPlatform:
+    """IoT平台"""
+    
+    def __init__(self):
+        self.device_manager = DeviceManager()
+        self.edge_computing = EdgeComputing()
+        self.data_analytics = DataAnalytics()
+    
+    async def start(self):
+        """启动平台"""
+        # 启动数据收集
+        asyncio.create_task(self._collect_data())
+        
+        # 启动数据分析
+        asyncio.create_task(self._analyze_data())
+        
+        # 启动告警处理
+        asyncio.create_task(self._handle_alerts())
+    
+    async def _collect_data(self):
+        """数据收集任务"""
+        while True:
+            # 模拟数据收集
+            for device in self.device_manager.devices.values():
+                if device.is_online():
+                    # 生成模拟传感器数据
+                    sensor_data = SensorData(
+                        device_id=device.id,
+                        sensor_type="temperature",
+                        value=20 + np.random.normal(0, 5),
+                        unit="°C",
+                        timestamp=datetime.now()
+                    )
+                    
+                    self.device_manager.update_device_data(device.id, sensor_data)
+                    self.edge_computing.process_data_locally(sensor_data)
+            
+            await asyncio.sleep(10)  # 每10秒收集一次
+    
+    async def _analyze_data(self):
+        """数据分析任务"""
+        while True:
+            # 分析缓存的数据
+            for device_id, data_list in self.edge_computing.data_cache.items():
+                if len(data_list) >= 10:  # 积累足够的数据
+                    analysis_result = self.data_analytics.analyze_trend(data_list)
+                    print(f"Device {device_id} trend analysis: {analysis_result}")
+            
+            await asyncio.sleep(60)  # 每分钟分析一次
+    
+    async def _handle_alerts(self):
+        """告警处理任务"""
+        while True:
+            if self.device_manager.alerts:
+                alert = self.device_manager.alerts.pop(0)
+                print(f"Alert: {alert}")
+            
+            await asyncio.sleep(1)
 
-- **云原生应用**: 微服务架构、容器化部署、服务网格
-- **容器编排**: Kubernetes、Docker Swarm、服务发现
-- **服务网格**: Istio、Linkerd、流量管理
-- **分布式存储**: 对象存储、块存储、文件存储
-- **网络服务**: 负载均衡、CDN、VPN
-- **微服务架构**: 服务拆分、服务通信、服务治理
+class DataAnalytics:
+    """数据分析"""
+    
+    def analyze_trend(self, data_list: List[SensorData]) -> Dict[str, Any]:
+        """分析趋势"""
+        if len(data_list) < 2:
+            return {"trend": "insufficient_data"}
+        
+        values = [data.value for data in data_list]
+        
+        # 计算趋势
+        if len(values) >= 2:
+            trend = "increasing" if values[-1] > values[0] else "decreasing"
+        else:
+            trend = "stable"
+        
+        return {
+            "trend": trend,
+            "mean": np.mean(values),
+            "std": np.std(values),
+            "min": min(values),
+            "max": max(values)
+        }
+```
 
-### 7. 大数据 (Big Data)
+## 数学基础
 
-- **数据仓库**: 数据建模、ETL流程、数据质量
-- **流处理系统**: 实时数据处理、流式计算、事件驱动
-- **数据湖**: 数据存储、数据治理、数据目录
-- **实时分析**: 实时查询、流式分析、实时报表
-- **数据可视化**: 图表展示、交互式分析、仪表板
-- **机器学习管道**: 特征工程、模型训练、模型评估
+### 金融风险模型
 
-### 8. 网络安全 (Cybersecurity)
+```math
+\text{风险价值 (VaR)}: \text{VaR}_\alpha = \inf\{l \in \mathbb{R}: P(L \leq l) \geq \alpha\}
 
-- **安全扫描工具**: 漏洞扫描、代码审计、依赖检查
-- **入侵检测系统**: 异常检测、威胁识别、响应机制
-- **加密服务**: 对称加密、非对称加密、密钥管理
-- **身份认证**: 多因子认证、单点登录、权限管理
-- **威胁情报**: 威胁情报收集、威胁分析、威胁共享
-- **安全监控**: 日志监控、行为分析、安全事件响应
+\text{期望损失 (ES)}: \text{ES}_\alpha = \mathbb{E}[L | L \geq \text{VaR}_\alpha]
 
-### 9. 医疗健康 (Healthcare)
+\text{夏普比率}: S = \frac{R_p - R_f}{\sigma_p}
 
-- **医疗信息系统**: 电子病历、医嘱系统、护理系统
-- **健康监测设备**: 可穿戴设备、远程监护、健康数据
-- **药物研发平台**: 分子建模、临床试验、药物发现
-- **医疗影像处理**: 图像分析、诊断辅助、影像存储
-- **临床试验管理**: 试验设计、数据收集、结果分析
-- **患者数据安全**: 隐私保护、数据加密、访问控制
+\text{其中：}
+\begin{align}
+R_p &= \text{投资组合收益率} \\
+R_f &= \text{无风险利率} \\
+\sigma_p &= \text{投资组合标准差}
+\end{align}
+```
 
-### 10. 教育科技 (EdTech)
+### 机器学习评估
 
-- **在线学习平台**: 课程管理、学习路径、进度跟踪
-- **教育管理系统**: 学生管理、教师管理、课程管理
-- **智能评估系统**: 自动评分、学习分析、个性化推荐
-- **内容管理系统**: 内容创作、内容分发、版本控制
-- **协作工具**: 在线讨论、团队协作、实时通信
-- **学习分析**: 学习行为分析、学习效果评估、数据挖掘
+```math
+\text{准确率}: \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
 
-## 技术栈参考
+\text{精确率}: \text{Precision} = \frac{TP}{TP + FP}
 
-### Python 技术栈
+\text{召回率}: \text{Recall} = \frac{TP}{TP + FN}
 
-- **Web框架**: Django、Flask、FastAPI、Tornado
-- **异步框架**: asyncio、aiohttp、uvloop
-- **数据处理**: pandas、numpy、scipy、scikit-learn
-- **深度学习**: TensorFlow、PyTorch、Keras
-- **数据库**: PostgreSQL、MySQL、MongoDB、Redis
-- **消息队列**: RabbitMQ、Kafka、Celery
-- **容器化**: Docker、Kubernetes、Helm
-- **监控**: Prometheus、Grafana、ELK Stack
+\text{F1分数}: \text{F1} = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+```
 
-### 行业特定工具
+### IoT数据分析
 
-- **金融**: pandas-ta、yfinance、ccxt、pyfolio
-- **游戏**: pygame、arcade、kivy、pyglet
-- **IoT**: paho-mqtt、opencv-python、tensorflow-lite
-- **AI/ML**: transformers、spacy、nltk、gensim
-- **区块链**: web3.py、eth-account、solidity
-- **云原生**: kubernetes、docker-compose、helm
-- **大数据**: apache-spark、apache-beam、dask
-- **安全**: cryptography、paramiko、scapy
+```math
+\text{数据质量}: Q = \frac{\text{有效数据点数}}{\text{总数据点数}}
 
-## 架构模式
+\text{设备可用性}: A = \frac{\text{在线时间}}{\text{总时间}}
 
-### 1. 微服务架构
+\text{数据压缩率}: C = \frac{\text{原始数据大小}}{\text{压缩后数据大小}}
+```
 
-- **服务拆分**: 按业务领域拆分服务
-- **服务通信**: REST API、gRPC、消息队列
-- **服务发现**: 服务注册、服务发现、负载均衡
-- **服务治理**: 熔断、限流、重试、降级
+## 应用示例
 
-### 2. 事件驱动架构
+### 1. 金融科技应用
 
-- **事件发布**: 事件源、事件存储、事件流
-- **事件处理**: 事件处理器、事件路由、事件聚合
-- **事件溯源**: 状态重建、审计追踪、版本控制
+```python
+# 创建支付系统
+payment_system = PaymentSystem()
 
-### 3. 领域驱动设计
+# 创建账户
+account1 = Account("acc1", "user1", "checking", Decimal("1000"), "USD", "active", datetime.now(), datetime.now())
+account2 = Account("acc2", "user2", "checking", Decimal("500"), "USD", "active", datetime.now(), datetime.now())
 
-- **领域模型**: 实体、值对象、聚合、服务
-- **限界上下文**: 上下文映射、上下文边界、上下文集成
-- **战略设计**: 通用语言、领域专家、持续集成
+payment_system.accounts["acc1"] = account1
+payment_system.accounts["acc2"] = account2
+
+# 处理支付
+result = payment_system.process_payment("acc1", "acc2", Decimal("100"), "USD")
+print("支付结果:", result)
+
+# 风险管理系统
+risk_system = RiskManagementSystem()
+user_data = {
+    "income": 50000,
+    "credit_history": 0.8,
+    "debt_ratio": 0.3,
+    "employment_length": 5
+}
+
+risk_score = risk_system.calculate_credit_risk(user_data)
+loan_approved = risk_system.should_approve_loan(user_data, 10000)
+print(f"风险评分: {risk_score:.2f}, 贷款批准: {loan_approved}")
+```
+
+### 2. 人工智能应用
+
+```python
+# 创建数据集
+np.random.seed(42)
+X = np.random.randn(1000, 10)
+y = (X[:, 0] + X[:, 1] > 0).astype(int)
+
+dataset = Dataset("synthetic", X, y, [f"feature_{i}" for i in range(10)], "target")
+X_train, y_train, X_val, y_val, X_test, y_test = dataset.split()
+
+# 创建模型流水线
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
+
+pipeline = ModelPipeline("classification_pipeline")
+pipeline.add_preprocessing(StandardScaler())
+
+model = MLModel("random_forest", "classification")
+model.model = RandomForestClassifier(n_estimators=100, random_state=42)
+pipeline.set_model(model)
+
+# 训练和评估
+pipeline.fit(X_train, y_train)
+predictions = pipeline.predict(X_test)
+evaluation = model.evaluate(X_test, y_test)
+print("模型评估结果:", evaluation)
+
+# 模型注册
+registry = ModelRegistry()
+registry.register_model(model, "1.0.0")
+print("注册的模型:", registry.list_models())
+```
+
+### 3. 物联网应用
+
+```python
+# 创建IoT平台
+platform = IoTPlatform()
+
+# 注册设备
+device1 = Device("dev1", "Temperature Sensor 1", "sensor", {"lat": 40.7128, "lon": -74.0060}, "active", ["temperature"], datetime.now())
+device2 = Device("dev2", "Humidity Sensor 1", "sensor", {"lat": 40.7128, "lon": -74.0060}, "active", ["humidity"], datetime.now())
+
+platform.device_manager.register_device(device1)
+platform.device_manager.register_device(device2)
+
+# 添加边缘计算规则
+platform.edge_computing.add_processing_rule({
+    "sensor_type": "temperature",
+    "threshold": 25,
+    "action": "alert",
+    "multiplier": 1.0
+})
+
+# 启动平台
+import asyncio
+asyncio.run(platform.start())
+```
 
 ## 质量保证
 
-### 1. 性能要求
+### 1. 行业专业性
+- 领域知识的准确性
+- 业务逻辑的正确性
+- 行业标准的遵循
 
-- **响应时间**: 根据业务需求设定响应时间目标
-- **吞吐量**: 系统能够处理的请求数量
-- **并发性**: 系统能够支持的并发用户数
-- **可扩展性**: 系统能够水平扩展的能力
+### 2. 技术先进性
+- 最新技术的应用
+- 最佳实践的采用
+- 性能优化的实现
 
-### 2. 安全要求
+### 3. 实用性
+- 实际场景的适用性
+- 可操作性的保证
+- 效果的可验证性
 
-- **数据安全**: 数据加密、访问控制、审计日志
-- **应用安全**: 输入验证、输出编码、会话管理
-- **网络安全**: 防火墙、VPN、入侵检测
-- **合规要求**: 行业法规、标准遵循、认证要求
+## 相关链接
 
-### 3. 可用性要求
-
-- **高可用性**: 99.9%以上的可用性
-- **容错性**: 系统故障时的自动恢复能力
-- **备份恢复**: 数据备份、灾难恢复、业务连续性
-- **监控告警**: 系统监控、性能监控、异常告警
-
-## 最佳实践
-
-### 1. 开发实践
-
-- **代码质量**: 代码审查、静态分析、单元测试
-- **持续集成**: 自动化构建、自动化测试、自动化部署
-- **版本控制**: Git工作流、分支策略、发布管理
-- **文档管理**: API文档、架构文档、用户文档
-
-### 2. 运维实践
-
-- **基础设施即代码**: Terraform、Ansible、CloudFormation
-- **配置管理**: 环境配置、配置版本控制、配置验证
-- **日志管理**: 日志收集、日志分析、日志存储
-- **监控告警**: 指标监控、日志监控、链路追踪
-
-### 3. 安全实践
-
-- **安全开发**: 安全编码、安全测试、安全审查
-- **漏洞管理**: 漏洞扫描、漏洞修复、漏洞跟踪
-- **访问控制**: 身份认证、权限管理、审计日志
-- **数据保护**: 数据分类、数据加密、数据脱敏
+- [03-具体科学](../03-具体科学/README.md) - 软件工程理论
+- [05-架构领域](../05-架构领域/README.md) - 架构实践
+- [06-组件算法](../06-组件算法/README.md) - 具体实现
 
 ---
 
-*行业领域层将通用技术转化为行业解决方案，为各行业提供专业的技术指导和最佳实践。*
+*最后更新：2024年12月*
