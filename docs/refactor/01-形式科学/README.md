@@ -1,565 +1,761 @@
-# 01-形式科学 - 数学与逻辑基础
-
-## 概述
-
-形式科学层是软件工程与计算科学的数学和逻辑基础，包含集合论、逻辑学、代数、图论、概率论等数学工具，为计算理论和软件工程提供形式化支撑。
+# 01. 形式科学 - 数学、逻辑与形式化理论
 
 ## 目录结构
 
 ```text
 01-形式科学/
-├── README.md                    # 本文件 - 总体概述
-├── 01-集合论/                   # 集合论基础
-│   ├── 01-基本概念.md           # 集合基本概念
-│   ├── 02-集合运算.md           # 集合运算
-│   ├── 03-关系与函数.md         # 关系和函数
-│   └── 04-基数与序数.md         # 基数和序数理论
-├── 02-逻辑学/                   # 逻辑学基础
-│   ├── 01-命题逻辑.md           # 命题逻辑
-│   ├── 02-谓词逻辑.md           # 谓词逻辑
-│   ├── 03-模态逻辑.md           # 模态逻辑
-│   └── 04-证明理论.md           # 证明理论
-├── 03-代数结构/                 # 代数基础
-│   ├── 01-群论.md               # 群论基础
-│   ├── 02-环论.md               # 环论基础
-│   ├── 03-域论.md               # 域论基础
-│   └── 04-格论.md               # 格论基础
-├── 04-图论/                     # 图论基础
-│   ├── 01-基本概念.md           # 图的基本概念
-│   ├── 02-图的遍历.md           # 图的遍历算法
-│   ├── 03-最短路径.md           # 最短路径算法
-│   └── 04-网络流.md             # 网络流理论
-├── 05-概率论/                   # 概率论基础
-│   ├── 01-概率空间.md           # 概率空间
-│   ├── 02-随机变量.md           # 随机变量
-│   ├── 03-概率分布.md           # 概率分布
-│   └── 04-统计推断.md           # 统计推断
-├── 06-信息论/                   # 信息论基础
-│   ├── 01-信息度量.md           # 信息度量
-│   ├── 02-熵理论.md             # 熵理论
-│   ├── 03-编码理论.md           # 编码理论
-│   └── 04-信道容量.md           # 信道容量
-└── 07-形式化方法/               # 形式化方法
-    ├── 01-形式化规范.md         # 形式化规范
-    ├── 02-模型检测.md           # 模型检测
-    ├── 03-定理证明.md           # 定理证明
-    └── 04-程序验证.md           # 程序验证
+├── README.md                    # 本文件
+├── 01-数学基础/                 # 基础数学理论
+│   ├── 01-集合论.md            # 集合、关系、函数
+│   ├── 02-数论.md              # 数论基础
+│   ├── 03-代数结构.md          # 群、环、域
+│   └── 04-分析基础.md          # 微积分、极限、连续
+├── 02-逻辑系统/                 # 逻辑推理系统
+│   ├── 01-命题逻辑.md          # 命题逻辑基础
+│   ├── 02-谓词逻辑.md          # 一阶谓词逻辑
+│   ├── 03-模态逻辑.md          # 模态逻辑系统
+│   └── 04-类型论.md            # 类型理论和构造逻辑
+├── 03-形式化方法/               # 形式化建模方法
+│   ├── 01-自动机理论.md        # 有限自动机、图灵机
+│   ├── 02-形式语言.md          # 文法、语言理论
+│   ├── 03-计算理论.md          # 可计算性、复杂性
+│   └── 04-程序语义.md          # 操作语义、指称语义
+└── 04-证明系统/                 # 形式化证明
+    ├── 01-自然演绎.md          # 自然演绎系统
+    ├── 02-公理化系统.md        # 公理化方法
+    ├── 03-归纳证明.md          # 数学归纳法
+    └── 04-构造性证明.md        # 构造性数学
 ```
 
 ## 核心理念
 
 ### 1. 数学基础
 
-形式科学为计算提供严格的数学基础：
+形式科学建立在严格的数学基础之上，为软件工程提供精确的数学工具和理论支撑。
 
-- **集合论**: 数据结构的基础理论
-- **逻辑学**: 程序推理和验证的基础
-- **代数**: 抽象数据类型和算法的理论基础
-- **图论**: 网络和关系建模的基础
-- **概率论**: 随机算法和统计分析的基础
+**核心内容**:
 
-### 2. 形式化方法
+- **集合论**: 数学的基础语言
+- **数论**: 密码学和算法的基础
+- **代数结构**: 抽象代数的应用
+- **分析基础**: 连续数学的工具
 
-基于数学的形式化方法：
+### 2. 逻辑系统
 
-- **形式化规范**: 精确描述系统行为
-- **模型检测**: 自动验证系统性质
-- **定理证明**: 形式化证明程序正确性
-- **程序验证**: 确保程序满足规范
+逻辑是推理和证明的基础，为程序正确性提供形式化保证。
 
-### 3. 抽象层次
+**逻辑体系**:
 
-数学提供不同层次的抽象：
+- **命题逻辑**: 基本推理规则
+- **谓词逻辑**: 量化推理
+- **模态逻辑**: 可能性和必然性
+- **类型论**: 构造性逻辑
 
-- **具体计算**: 具体的数值计算
-- **抽象代数**: 抽象的结构和运算
-- **范畴论**: 最高层次的数学抽象
-- **类型论**: 程序语言的理论基础
+### 3. 形式化方法
+
+形式化方法为软件系统的建模、分析和验证提供数学基础。
+
+**方法体系**:
+
+- **自动机理论**: 计算模型
+- **形式语言**: 语言理论
+- **计算理论**: 可计算性理论
+- **程序语义**: 程序含义的数学描述
 
 ## 形式化表示
 
 ### 集合论基础
 
-$$\text{集合运算} = \begin{cases}
-A \cup B = \{x \mid x \in A \lor x \in B\} \\
-A \cap B = \{x \mid x \in A \land x \in B\} \\
-A \setminus B = \{x \mid x \in A \land x \notin B\}
-\end{cases}$$
+设 $U$ 为全集，$A, B \subseteq U$，则基本集合运算定义为：
 
-### 逻辑基础
+**并集**: $A \cup B = \{x \in U \mid x \in A \lor x \in B\}$
 
-$$\text{逻辑推理} = \begin{cases}
-\text{Modus Ponens}: \frac{P \rightarrow Q, P}{Q} \\
-\text{Modus Tollens}: \frac{P \rightarrow Q, \neg Q}{\neg P} \\
-\text{假言三段论}: \frac{P \rightarrow Q, Q \rightarrow R}{P \rightarrow R}
-\end{cases}$$
+**交集**: $A \cap B = \{x \in U \mid x \in A \land x \in B\}$
 
-### 代数结构
+**差集**: $A \setminus B = \{x \in U \mid x \in A \land x \notin B\}$
 
-$$\text{群的定义} = \begin{cases}
-\text{封闭性}: \forall a,b \in G, a \circ b \in G \\
-\text{结合律}: \forall a,b,c \in G, (a \circ b) \circ c = a \circ (b \circ c) \\
-\text{单位元}: \exists e \in G, \forall a \in G, e \circ a = a \circ e = a \\
-\text{逆元}: \forall a \in G, \exists a^{-1} \in G, a \circ a^{-1} = a^{-1} \circ a = e
-\end{cases}$$
+**补集**: $A^c = U \setminus A = \{x \in U \mid x \notin A\}$
+
+### 关系理论
+
+**二元关系**: $R \subseteq A \times B$
+
+**等价关系**: 关系 $R$ 是等价关系当且仅当：
+
+1. **自反性**: $\forall x \in A, (x, x) \in R$
+2. **对称性**: $\forall x, y \in A, (x, y) \in R \Rightarrow (y, x) \in R$
+3. **传递性**: $\forall x, y, z \in A, (x, y) \in R \land (y, z) \in R \Rightarrow (x, z) \in R$
+
+### 函数理论
+
+**函数定义**: $f: A \rightarrow B$ 是函数当且仅当：
+
+- $\forall x \in A, \exists! y \in B, f(x) = y$
+
+**函数性质**:
+
+- **单射**: $\forall x_1, x_2 \in A, f(x_1) = f(x_2) \Rightarrow x_1 = x_2$
+- **满射**: $\forall y \in B, \exists x \in A, f(x) = y$
+- **双射**: 既是单射又是满射
+
+### 逻辑系统
+
+**命题逻辑**:
+
+- **原子命题**: $p, q, r, \ldots$
+- **逻辑连接词**: $\neg, \land, \lor, \rightarrow, \leftrightarrow$
+- **真值表**: 定义逻辑运算
+
+**谓词逻辑**:
+
+- **个体变量**: $x, y, z, \ldots$
+- **谓词符号**: $P(x), Q(x, y), \ldots$
+- **量词**: $\forall, \exists$
+
+### 自动机理论
+
+**有限自动机**: $M = (Q, \Sigma, \delta, q_0, F)$
+
+- $Q$: 状态集合
+- $\Sigma$: 输入字母表
+- $\delta: Q \times \Sigma \rightarrow Q$: 转移函数
+- $q_0 \in Q$: 初始状态
+- $F \subseteq Q$: 接受状态集合
+
+**图灵机**: $TM = (Q, \Sigma, \Gamma, \delta, q_0, q_{accept}, q_{reject})$
+
+- $\Gamma$: 带字母表
+- $\delta: Q \times \Gamma \rightarrow Q \times \Gamma \times \{L, R\}$: 转移函数
 
 ## Python 实现示例
 
+### 集合论实现
+
 ```python
-from typing import Set, List, Dict, Any, Optional, Tuple, Union
-from dataclasses import dataclass
+from typing import Set, TypeVar, Generic, Iterator
 from abc import ABC, abstractmethod
-import math
-import random
-from collections import defaultdict, deque
+import itertools
 
-# 集合论实现
-class SetTheory:
-    """集合论基础实现"""
+T = TypeVar('T')
 
-    @staticmethod
-    def union(set_a: Set[Any], set_b: Set[Any]) -> Set[Any]:
-        """集合并集"""
-        return set_a | set_b
+class Set(Generic[T]):
+    """集合抽象基类"""
+    
+    def __init__(self, elements: Set[T] = None):
+        self._elements = elements or set()
+    
+    def __contains__(self, element: T) -> bool:
+        """元素属于关系"""
+        return element in self._elements
+    
+    def __iter__(self) -> Iterator[T]:
+        """迭代器"""
+        return iter(self._elements)
+    
+    def __len__(self) -> int:
+        """集合大小"""
+        return len(self._elements)
+    
+    def union(self, other: 'Set[T]') -> 'Set[T]':
+        """并集"""
+        return Set(self._elements | other._elements)
+    
+    def intersection(self, other: 'Set[T]') -> 'Set[T]':
+        """交集"""
+        return Set(self._elements & other._elements)
+    
+    def difference(self, other: 'Set[T]') -> 'Set[T]':
+        """差集"""
+        return Set(self._elements - other._elements)
+    
+    def complement(self, universe: 'Set[T]') -> 'Set[T]':
+        """补集"""
+        return universe.difference(self)
+    
+    def is_subset(self, other: 'Set[T]') -> bool:
+        """子集关系"""
+        return self._elements.issubset(other._elements)
+    
+    def is_superset(self, other: 'Set[T]') -> bool:
+        """超集关系"""
+        return self._elements.issuperset(other._elements)
+    
+    def __str__(self) -> str:
+        return f"{{{', '.join(map(str, self._elements))}}}"
 
-    @staticmethod
-    def intersection(set_a: Set[Any], set_b: Set[Any]) -> Set[Any]:
-        """集合交集"""
-        return set_a & set_b
-
-    @staticmethod
-    def difference(set_a: Set[Any], set_b: Set[Any]) -> Set[Any]:
-        """集合差集"""
-        return set_a - set_b
-
-    @staticmethod
-    def symmetric_difference(set_a: Set[Any], set_b: Set[Any]) -> Set[Any]:
-        """集合对称差"""
-        return set_a ^ set_b
-
-    @staticmethod
-    def cartesian_product(set_a: Set[Any], set_b: Set[Any]) -> Set[Tuple[Any, Any]]:
-        """笛卡尔积"""
-        return {(a, b) for a in set_a for b in set_b}
-
-    @staticmethod
-    def power_set(original_set: Set[Any]) -> Set[frozenset]:
-        """幂集"""
-        elements = list(original_set)
-        power_set = set()
-
-        # 使用二进制表示生成所有子集
-        for i in range(2**len(elements)):
-            subset = set()
-            for j in range(len(elements)):
-                if i & (1 << j):
-                    subset.add(elements[j])
-            power_set.add(frozenset(subset))
-
-        return power_set
-
-# 逻辑学实现
-class Logic:
-    """逻辑学基础实现"""
-
-    @staticmethod
-    def truth_table(proposition: str, variables: List[str]) -> Dict[Tuple[bool, ...], bool]:
-        """生成真值表"""
-        truth_table = {}
-        num_vars = len(variables)
-
-        for i in range(2**num_vars):
-            # 生成变量赋值
-            assignment = []
-            for j in range(num_vars):
-                assignment.append(bool(i & (1 << j)))
-
-            # 计算命题值（简化实现）
-            result = Logic._evaluate_proposition(proposition, variables, assignment)
-            truth_table[tuple(assignment)] = result
-
-        return truth_table
-
-    @staticmethod
-    def _evaluate_proposition(proposition: str, variables: List[str],
-                            assignment: List[bool]) -> bool:
-        """评估命题（简化实现）"""
-        # 这里是一个简化的实现，实际应用中需要完整的解析器
-        if proposition == "AND":
-            return all(assignment)
-        elif proposition == "OR":
-            return any(assignment)
-        elif proposition == "NOT":
-            return not assignment[0] if assignment else False
-        else:
-            return True  # 默认返回True
-
-    @staticmethod
-    def is_tautology(proposition: str, variables: List[str]) -> bool:
-        """判断是否为重言式"""
-        truth_table = Logic.truth_table(proposition, variables)
-        return all(truth_table.values())
-
-    @staticmethod
-    def is_contradiction(proposition: str, variables: List[str]) -> bool:
-        """判断是否为矛盾式"""
-        truth_table = Logic.truth_table(proposition, variables)
-        return not any(truth_table.values())
-
-    @staticmethod
-    def is_satisfiable(proposition: str, variables: List[str]) -> bool:
-        """判断是否为可满足式"""
-        truth_table = Logic.truth_table(proposition, variables)
-        return any(truth_table.values())
-
-# 代数结构实现
-@dataclass
-class Group:
-    """群的定义"""
-    elements: Set[Any]
-    operation: callable
-    identity: Any
-
-    def is_group(self) -> bool:
-        """验证是否为群"""
-        # 检查封闭性
-        for a in self.elements:
-            for b in self.elements:
-                if self.operation(a, b) not in self.elements:
+class Relation(Generic[T]):
+    """二元关系"""
+    
+    def __init__(self, pairs: Set[tuple[T, T]] = None):
+        self._pairs = pairs or set()
+    
+    def add_pair(self, a: T, b: T) -> None:
+        """添加有序对"""
+        self._pairs.add((a, b))
+    
+    def is_reflexive(self, domain: Set[T]) -> bool:
+        """自反性检查"""
+        return all((x, x) in self._pairs for x in domain)
+    
+    def is_symmetric(self) -> bool:
+        """对称性检查"""
+        return all((y, x) in self._pairs for (x, y) in self._pairs)
+    
+    def is_transitive(self) -> bool:
+        """传递性检查"""
+        for (x, y1) in self._pairs:
+            for (y2, z) in self._pairs:
+                if y1 == y2 and (x, z) not in self._pairs:
                     return False
-
-        # 检查结合律
-        for a in self.elements:
-            for b in self.elements:
-                for c in self.elements:
-                    left = self.operation(self.operation(a, b), c)
-                    right = self.operation(a, self.operation(b, c))
-                    if left != right:
-                        return False
-
-        # 检查单位元
-        for a in self.elements:
-            if (self.operation(self.identity, a) != a or
-                self.operation(a, self.identity) != a):
-                return False
-
-        # 检查逆元
-        for a in self.elements:
-            has_inverse = False
-            for b in self.elements:
-                if (self.operation(a, b) == self.identity and
-                    self.operation(b, a) == self.identity):
-                    has_inverse = True
-                    break
-            if not has_inverse:
-                return False
-
         return True
+    
+    def is_equivalence(self, domain: Set[T]) -> bool:
+        """等价关系检查"""
+        return (self.is_reflexive(domain) and 
+                self.is_symmetric() and 
+                self.is_transitive())
+    
+    def equivalence_classes(self, domain: Set[T]) -> Set[Set[T]]:
+        """等价类划分"""
+        if not self.is_equivalence(domain):
+            raise ValueError("关系必须是等价关系")
+        
+        classes = set()
+        used = set()
+        
+        for x in domain:
+            if x in used:
+                continue
+            
+            # 找到x的等价类
+            eq_class = {x}
+            for y in domain:
+                if (x, y) in self._pairs:
+                    eq_class.add(y)
+                    used.add(y)
+            
+            classes.add(Set(eq_class))
+        
+        return classes
 
-    def inverse(self, element: Any) -> Optional[Any]:
-        """求逆元"""
-        for other in self.elements:
-            if (self.operation(element, other) == self.identity and
-                self.operation(other, element) == self.identity):
-                return other
-        return None
-
-# 图论实现
-@dataclass
-class Graph:
-    """图的基本定义"""
-    vertices: Set[Any]
-    edges: Set[Tuple[Any, Any]]
-    directed: bool = False
-    weighted: bool = False
-    weights: Dict[Tuple[Any, Any], float] = None
-
-    def __post_init__(self):
-        if self.weights is None:
-            self.weights = {}
-
-    def add_vertex(self, vertex: Any):
-        """添加顶点"""
-        self.vertices.add(vertex)
-
-    def add_edge(self, vertex1: Any, vertex2: Any, weight: float = 1.0):
-        """添加边"""
-        edge = (vertex1, vertex2)
-        self.edges.add(edge)
-        if self.weighted:
-            self.weights[edge] = weight
-
-    def get_neighbors(self, vertex: Any) -> Set[Any]:
-        """获取邻居"""
-        neighbors = set()
-        for edge in self.edges:
-            if edge[0] == vertex:
-                neighbors.add(edge[1])
-            elif not self.directed and edge[1] == vertex:
-                neighbors.add(edge[0])
-        return neighbors
-
-    def bfs(self, start: Any) -> List[Any]:
-        """广度优先搜索"""
-        visited = set()
-        queue = deque([start])
-        traversal = []
-
-        while queue:
-            vertex = queue.popleft()
-            if vertex not in visited:
-                visited.add(vertex)
-                traversal.append(vertex)
-                neighbors = self.get_neighbors(vertex)
-                for neighbor in neighbors:
-                    if neighbor not in visited:
-                        queue.append(neighbor)
-
-        return traversal
-
-    def dfs(self, start: Any) -> List[Any]:
-        """深度优先搜索"""
-        visited = set()
-        traversal = []
-
-        def dfs_recursive(vertex: Any):
-            if vertex not in visited:
-                visited.add(vertex)
-                traversal.append(vertex)
-                neighbors = self.get_neighbors(vertex)
-                for neighbor in neighbors:
-                    dfs_recursive(neighbor)
-
-        dfs_recursive(start)
-        return traversal
-
-    def dijkstra(self, start: Any) -> Dict[Any, float]:
-        """Dijkstra最短路径算法"""
-        if not self.weighted:
-            raise ValueError("图必须是加权图")
-
-        distances = {vertex: float('infinity') for vertex in self.vertices}
-        distances[start] = 0
-        unvisited = set(self.vertices)
-
-        while unvisited:
-            # 找到未访问顶点中距离最小的
-            current = min(unvisited, key=lambda v: distances[v])
-            unvisited.remove(current)
-
-            # 更新邻居距离
-            for neighbor in self.get_neighbors(current):
-                edge = (current, neighbor)
-                if edge in self.weights:
-                    distance = distances[current] + self.weights[edge]
-                    if distance < distances[neighbor]:
-                        distances[neighbor] = distance
-
-        return distances
-
-# 概率论实现
-class Probability:
-    """概率论基础实现"""
-
-    @staticmethod
-    def sample_space(events: List[Any]) -> Set[Any]:
-        """样本空间"""
-        return set(events)
-
-    @staticmethod
-    def probability(event: Any, sample_space: Set[Any],
-                   probabilities: Dict[Any, float]) -> float:
-        """计算概率"""
-        if event in probabilities:
-            return probabilities[event]
-        elif isinstance(event, set):
-            return sum(probabilities.get(e, 0) for e in event)
-        else:
-            return 0.0
-
-    @staticmethod
-    def conditional_probability(event_a: Any, event_b: Any,
-                              sample_space: Set[Any],
-                              probabilities: Dict[Any, float]) -> float:
-        """条件概率 P(A|B) = P(A∩B) / P(B)"""
-        prob_b = Probability.probability(event_b, sample_space, probabilities)
-        if prob_b == 0:
-            return 0.0
-
-        # 计算交集概率
-        if isinstance(event_a, set) and isinstance(event_b, set):
-            intersection = event_a & event_b
-        else:
-            intersection = {event_a} & {event_b}
-
-        prob_intersection = Probability.probability(intersection, sample_space, probabilities)
-        return prob_intersection / prob_b
-
-    @staticmethod
-    def bayes_theorem(prior_a: float, likelihood_b_given_a: float,
-                     likelihood_b_given_not_a: float) -> float:
-        """贝叶斯定理 P(A|B) = P(B|A) * P(A) / P(B)"""
-        prob_b = (likelihood_b_given_a * prior_a +
-                 likelihood_b_given_not_a * (1 - prior_a))
-
-        if prob_b == 0:
-            return 0.0
-
-        return (likelihood_b_given_a * prior_a) / prob_b
-
-# 信息论实现
-class InformationTheory:
-    """信息论基础实现"""
-
-    @staticmethod
-    def entropy(probabilities: List[float]) -> float:
-        """香农熵 H(X) = -Σ p(x) * log2(p(x))"""
-        entropy = 0.0
-        for p in probabilities:
-            if p > 0:
-                entropy -= p * math.log2(p)
-        return entropy
-
-    @staticmethod
-    def joint_entropy(joint_probabilities: Dict[Tuple[Any, Any], float]) -> float:
-        """联合熵"""
-        probabilities = list(joint_probabilities.values())
-        return InformationTheory.entropy(probabilities)
-
-    @staticmethod
-    def conditional_entropy(conditional_probabilities: Dict[Tuple[Any, Any], float],
-                          marginal_probabilities: Dict[Any, float]) -> float:
-        """条件熵"""
-        conditional_entropy = 0.0
-
-        for (x, y), p_xy in conditional_probabilities.items():
-            p_y = marginal_probabilities.get(y, 0)
-            if p_y > 0 and p_xy > 0:
-                conditional_entropy -= p_xy * math.log2(p_xy / p_y)
-
-        return conditional_entropy
-
-    @staticmethod
-    def mutual_information(joint_probabilities: Dict[Tuple[Any, Any], float],
-                          marginal_x: Dict[Any, float],
-                          marginal_y: Dict[Any, float]) -> float:
-        """互信息"""
-        mutual_info = 0.0
-
-        for (x, y), p_xy in joint_probabilities.items():
-            p_x = marginal_x.get(x, 0)
-            p_y = marginal_y.get(y, 0)
-
-            if p_xy > 0 and p_x > 0 and p_y > 0:
-                mutual_info += p_xy * math.log2(p_xy / (p_x * p_y))
-
-        return mutual_info
-
-# 使用示例
-def demonstrate_formal_sciences():
-    """演示形式科学概念"""
-
-    # 集合论示例
-    print("=== 集合论示例 ===")
-    set_a = {1, 2, 3, 4}
-    set_b = {3, 4, 5, 6}
-
-    print(f"集合A: {set_a}")
-    print(f"集合B: {set_b}")
-    print(f"并集: {SetTheory.union(set_a, set_b)}")
-    print(f"交集: {SetTheory.intersection(set_a, set_b)}")
-    print(f"差集: {SetTheory.difference(set_a, set_b)}")
-    print(f"笛卡尔积: {SetTheory.cartesian_product(set_a, set_b)}")
-
-    # 逻辑学示例
-    print("\n=== 逻辑学示例 ===")
-    variables = ['P', 'Q']
-    print(f"命题P AND Q的可满足性: {Logic.is_satisfiable('AND', variables)}")
-    print(f"命题P OR Q的重言性: {Logic.is_tautology('OR', variables)}")
-
-    # 代数结构示例
-    print("\n=== 代数结构示例 ===")
-    # 模4加法群
-    elements = {0, 1, 2, 3}
-    def mod4_add(a, b):
-        return (a + b) % 4
-
-    group = Group(elements, mod4_add, 0)
-    print(f"模4加法群是否为群: {group.is_group()}")
-    print(f"元素2的逆元: {group.inverse(2)}")
-
-    # 图论示例
-    print("\n=== 图论示例 ===")
-    graph = Graph(vertices={1, 2, 3, 4}, edges=set(), directed=False, weighted=True)
-    graph.add_edge(1, 2, 1.0)
-    graph.add_edge(2, 3, 2.0)
-    graph.add_edge(3, 4, 1.0)
-    graph.add_edge(1, 4, 4.0)
-
-    print(f"BFS遍历: {graph.bfs(1)}")
-    print(f"DFS遍历: {graph.dfs(1)}")
-    print(f"从1到各顶点的最短距离: {graph.dijkstra(1)}")
-
-    # 概率论示例
-    print("\n=== 概率论示例 ===")
-    sample_space = {1, 2, 3, 4, 5, 6}
-    probabilities = {i: 1/6 for i in sample_space}
-
-    event_a = {1, 2, 3}  # 小于等于3
-    event_b = {2, 4, 6}  # 偶数
-
-    prob_a = Probability.probability(event_a, sample_space, probabilities)
-    prob_b = Probability.probability(event_b, sample_space, probabilities)
-    cond_prob = Probability.conditional_probability(event_a, event_b, sample_space, probabilities)
-
-    print(f"P(A): {prob_a:.3f}")
-    print(f"P(B): {prob_b:.3f}")
-    print(f"P(A|B): {cond_prob:.3f}")
-
-    # 信息论示例
-    print("\n=== 信息论示例 ===")
-    probs = [0.5, 0.25, 0.125, 0.125]
-    entropy = InformationTheory.entropy(probs)
-    print(f"熵: {entropy:.3f} bits")
-
-if __name__ == "__main__":
-    demonstrate_formal_sciences()
+class Function(Generic[T, U]):
+    """函数抽象"""
+    
+    def __init__(self, mapping: dict[T, U]):
+        self._mapping = mapping
+    
+    def __call__(self, x: T) -> U:
+        """函数调用"""
+        if x not in self._mapping:
+            raise ValueError(f"函数在 {x} 处未定义")
+        return self._mapping[x]
+    
+    def domain(self) -> Set[T]:
+        """定义域"""
+        return Set(set(self._mapping.keys()))
+    
+    def codomain(self) -> Set[U]:
+        """陪域"""
+        return Set(set(self._mapping.values()))
+    
+    def is_injective(self) -> bool:
+        """单射检查"""
+        values = list(self._mapping.values())
+        return len(values) == len(set(values))
+    
+    def is_surjective(self, codomain: Set[U]) -> bool:
+        """满射检查"""
+        return codomain.is_subset(self.codomain())
+    
+    def is_bijective(self, codomain: Set[U]) -> bool:
+        """双射检查"""
+        return self.is_injective() and self.is_surjective(codomain)
+    
+    def inverse(self) -> 'Function[U, T]':
+        """逆函数"""
+        if not self.is_bijective(self.codomain()):
+            raise ValueError("函数必须是双射才有逆函数")
+        
+        inverse_mapping = {v: k for k, v in self._mapping.items()}
+        return Function(inverse_mapping)
 ```
 
-## 理论联系
+### 逻辑系统实现
 
-### 与理念基础的联系
+```python
+from typing import Dict, List, Set, Any
+from enum import Enum
+from dataclasses import dataclass
+from abc import ABC, abstractmethod
 
-形式科学为理念基础提供数学支撑：
-- 认知负荷理论需要概率论和统计
-- 思维范式需要逻辑学支持
-- 价值体系需要决策理论
+class TruthValue(Enum):
+    """真值枚举"""
+    TRUE = True
+    FALSE = False
 
-### 与理论基础的联系
+@dataclass
+class Proposition:
+    """命题"""
+    name: str
+    value: TruthValue = TruthValue.FALSE
+    
+    def __str__(self) -> str:
+        return f"{self.name} = {self.value.value}"
 
-形式科学为理论基础提供形式化工具：
-- 计算理论需要图论和代数
-- 算法理论需要复杂度分析
-- 系统理论需要信息论
+class LogicalOperator(Enum):
+    """逻辑运算符"""
+    NOT = "¬"
+    AND = "∧"
+    OR = "∨"
+    IMPLIES = "→"
+    EQUIVALENT = "↔"
 
-## 持续发展
+class LogicalExpression:
+    """逻辑表达式"""
+    
+    def __init__(self, operator: LogicalOperator = None, 
+                 operands: List['LogicalExpression'] = None,
+                 proposition: Proposition = None):
+        self.operator = operator
+        self.operands = operands or []
+        self.proposition = proposition
+    
+    def evaluate(self, interpretation: Dict[str, bool]) -> bool:
+        """求值"""
+        if self.proposition:
+            return interpretation.get(self.proposition.name, False)
+        
+        if not self.operands:
+            return False
+        
+        if self.operator == LogicalOperator.NOT:
+            return not self.operands[0].evaluate(interpretation)
+        elif self.operator == LogicalOperator.AND:
+            return all(op.evaluate(interpretation) for op in self.operands)
+        elif self.operator == LogicalOperator.OR:
+            return any(op.evaluate(interpretation) for op in self.operands)
+        elif self.operator == LogicalOperator.IMPLIES:
+            return (not self.operands[0].evaluate(interpretation) or 
+                    self.operands[1].evaluate(interpretation))
+        elif self.operator == LogicalOperator.EQUIVALENT:
+            return (self.operands[0].evaluate(interpretation) == 
+                    self.operands[1].evaluate(interpretation))
+        
+        return False
+    
+    def get_variables(self) -> Set[str]:
+        """获取变量集合"""
+        if self.proposition:
+            return {self.proposition.name}
+        
+        variables = set()
+        for operand in self.operands:
+            variables.update(operand.get_variables())
+        return variables
+    
+    def __str__(self) -> str:
+        if self.proposition:
+            return self.proposition.name
+        
+        if self.operator == LogicalOperator.NOT:
+            return f"¬({self.operands[0]})"
+        elif self.operator == LogicalOperator.AND:
+            return f"({' ∧ '.join(str(op) for op in self.operands)})"
+        elif self.operator == LogicalOperator.OR:
+            return f"({' ∨ '.join(str(op) for op in self.operands)})"
+        elif self.operator == LogicalOperator.IMPLIES:
+            return f"({self.operands[0]} → {self.operands[1]})"
+        elif self.operator == LogicalOperator.EQUIVALENT:
+            return f"({self.operands[0]} ↔ {self.operands[1]})"
+        
+        return ""
 
-形式科学将根据以下方向持续发展：
+class TruthTable:
+    """真值表"""
+    
+    def __init__(self, expression: LogicalExpression):
+        self.expression = expression
+        self.variables = sorted(list(expression.get_variables()))
+    
+    def generate_table(self) -> List[Dict[str, Any]]:
+        """生成真值表"""
+        table = []
+        n_vars = len(self.variables)
+        
+        # 生成所有可能的真值组合
+        for i in range(2 ** n_vars):
+            interpretation = {}
+            for j, var in enumerate(self.variables):
+                interpretation[var] = bool((i >> j) & 1)
+            
+            result = self.expression.evaluate(interpretation)
+            
+            row = interpretation.copy()
+            row['result'] = result
+            table.append(row)
+        
+        return table
+    
+    def print_table(self) -> None:
+        """打印真值表"""
+        table = self.generate_table()
+        
+        # 打印表头
+        header = " | ".join(self.variables + ["Result"])
+        print(header)
+        print("-" * len(header))
+        
+        # 打印每一行
+        for row in table:
+            values = [str(int(row[var])) for var in self.variables]
+            values.append(str(int(row['result'])))
+            print(" | ".join(values))
+    
+    def is_tautology(self) -> bool:
+        """永真式检查"""
+        return all(row['result'] for row in self.generate_table())
+    
+    def is_contradiction(self) -> bool:
+        """永假式检查"""
+        return not any(row['result'] for row in self.generate_table())
+    
+    def is_satisfiable(self) -> bool:
+        """可满足性检查"""
+        return any(row['result'] for row in self.generate_table())
 
-1. **新数学分支**: 跟踪数学新分支的发展
-2. **计算数学**: 发展适合计算的数学方法
-3. **形式化工具**: 改进形式化验证工具
-4. **应用扩展**: 扩展到新的应用领域
+class PredicateLogic:
+    """谓词逻辑"""
+    
+    def __init__(self):
+        self.predicates: Dict[str, List[int]] = {}  # 谓词名 -> 参数数量
+        self.constants: Set[str] = set()
+        self.variables: Set[str] = set()
+    
+    def add_predicate(self, name: str, arity: int) -> None:
+        """添加谓词"""
+        self.predicates[name] = arity
+    
+    def add_constant(self, name: str) -> None:
+        """添加常元"""
+        self.constants.add(name)
+    
+    def add_variable(self, name: str) -> None:
+        """添加变元"""
+        self.variables.add(name)
+    
+    def is_valid_formula(self, formula: str) -> bool:
+        """检查公式有效性"""
+        # 简化的语法检查
+        try:
+            # 检查括号匹配
+            if formula.count('(') != formula.count(')'):
+                return False
+            
+            # 检查量词使用
+            if '∀' in formula or '∃' in formula:
+                # 量词后必须跟变量
+                pass
+            
+            return True
+        except:
+            return False
+```
 
-## 参考文献
+### 自动机理论实现
 
-1. Halmos, P. R. (1974). Naive set theory. Springer-Verlag.
-2. Enderton, H. B. (2001). A mathematical introduction to logic. Academic Press.
-3. Dummit, D. S., & Foote, R. M. (2004). Abstract algebra. John Wiley & Sons.
-4. Bondy, J. A., & Murty, U. S. R. (2008). Graph theory. Springer.
-5. Ross, S. M. (2014). A first course in probability. Pearson.
-6. Cover, T. M., & Thomas, J. A. (2006). Elements of information theory. John Wiley & Sons.
+```python
+from typing import Dict, Set, List, Optional, Tuple
+from dataclasses import dataclass
+from enum import Enum
+
+class Direction(Enum):
+    """移动方向"""
+    LEFT = "L"
+    RIGHT = "R"
+    STAY = "S"
+
+@dataclass
+class Transition:
+    """转移规则"""
+    current_state: str
+    current_symbol: str
+    next_state: str
+    write_symbol: str
+    direction: Direction
+
+class FiniteAutomaton:
+    """有限自动机"""
+    
+    def __init__(self, states: Set[str], alphabet: Set[str], 
+                 transitions: Dict[Tuple[str, str], str],
+                 initial_state: str, accepting_states: Set[str]):
+        self.states = states
+        self.alphabet = alphabet
+        self.transitions = transitions
+        self.initial_state = initial_state
+        self.accepting_states = accepting_states
+        self.current_state = initial_state
+    
+    def reset(self) -> None:
+        """重置到初始状态"""
+        self.current_state = self.initial_state
+    
+    def step(self, symbol: str) -> bool:
+        """执行一步转移"""
+        if symbol not in self.alphabet:
+            return False
+        
+        key = (self.current_state, symbol)
+        if key not in self.transitions:
+            return False
+        
+        self.current_state = self.transitions[key]
+        return True
+    
+    def accept(self, input_string: str) -> bool:
+        """接受输入字符串"""
+        self.reset()
+        
+        for symbol in input_string:
+            if not self.step(symbol):
+                return False
+        
+        return self.current_state in self.accepting_states
+    
+    def is_deterministic(self) -> bool:
+        """检查是否为确定有限自动机"""
+        for state in self.states:
+            for symbol in self.alphabet:
+                key = (state, symbol)
+                if key in self.transitions:
+                    # 检查是否有多个转移
+                    count = sum(1 for k in self.transitions.keys() if k == key)
+                    if count > 1:
+                        return False
+        return True
+
+class TuringMachine:
+    """图灵机"""
+    
+    def __init__(self, states: Set[str], input_alphabet: Set[str], 
+                 tape_alphabet: Set[str], transitions: List[Transition],
+                 initial_state: str, accept_state: str, reject_state: str):
+        self.states = states
+        self.input_alphabet = input_alphabet
+        self.tape_alphabet = tape_alphabet
+        self.transitions = transitions
+        self.initial_state = initial_state
+        self.accept_state = accept_state
+        self.reject_state = reject_state
+        
+        # 运行时状态
+        self.current_state = initial_state
+        self.tape: List[str] = []
+        self.head_position = 0
+    
+    def reset(self, input_string: str) -> None:
+        """重置图灵机"""
+        self.current_state = self.initial_state
+        self.tape = list(input_string)
+        self.head_position = 0
+    
+    def get_current_symbol(self) -> str:
+        """获取当前符号"""
+        if 0 <= self.head_position < len(self.tape):
+            return self.tape[self.head_position]
+        return '_'  # 空白符号
+    
+    def write_symbol(self, symbol: str) -> None:
+        """写入符号"""
+        if 0 <= self.head_position < len(self.tape):
+            self.tape[self.head_position] = symbol
+        else:
+            # 扩展磁带
+            if self.head_position < 0:
+                self.tape.insert(0, symbol)
+                self.head_position = 0
+            else:
+                self.tape.append(symbol)
+    
+    def move_head(self, direction: Direction) -> None:
+        """移动读写头"""
+        if direction == Direction.LEFT:
+            self.head_position -= 1
+        elif direction == Direction.RIGHT:
+            self.head_position += 1
+        # STAY 不移动
+    
+    def find_transition(self) -> Optional[Transition]:
+        """查找适用的转移规则"""
+        current_symbol = self.get_current_symbol()
+        
+        for transition in self.transitions:
+            if (transition.current_state == self.current_state and 
+                transition.current_symbol == current_symbol):
+                return transition
+        
+        return None
+    
+    def step(self) -> bool:
+        """执行一步计算"""
+        transition = self.find_transition()
+        
+        if transition is None:
+            return False
+        
+        # 执行转移
+        self.current_state = transition.next_state
+        self.write_symbol(transition.write_symbol)
+        self.move_head(transition.direction)
+        
+        return True
+    
+    def run(self, input_string: str, max_steps: int = 1000) -> str:
+        """运行图灵机"""
+        self.reset(input_string)
+        steps = 0
+        
+        while steps < max_steps:
+            if self.current_state == self.accept_state:
+                return "ACCEPT"
+            elif self.current_state == self.reject_state:
+                return "REJECT"
+            
+            if not self.step():
+                return "HALT"
+            
+            steps += 1
+        
+        return "TIMEOUT"
+    
+    def get_tape_content(self) -> str:
+        """获取磁带内容"""
+        return ''.join(self.tape)
+
+# 使用示例
+def create_dfa_example() -> FiniteAutomaton:
+    """创建DFA示例：接受包含偶数个1的二进制串"""
+    states = {'q0', 'q1'}
+    alphabet = {'0', '1'}
+    transitions = {
+        ('q0', '0'): 'q0',
+        ('q0', '1'): 'q1',
+        ('q1', '0'): 'q1',
+        ('q1', '1'): 'q0'
+    }
+    initial_state = 'q0'
+    accepting_states = {'q0'}
+    
+    return FiniteAutomaton(states, alphabet, transitions, initial_state, accepting_states)
+
+def create_tm_example() -> TuringMachine:
+    """创建图灵机示例：复制输入"""
+    states = {'q0', 'q1', 'q2', 'q3', 'q4', 'qaccept', 'qreject'}
+    input_alphabet = {'0', '1'}
+    tape_alphabet = {'0', '1', '_', 'X', 'Y'}
+    
+    transitions = [
+        # 初始状态：读取第一个符号
+        Transition('q0', '0', 'q1', 'X', Direction.RIGHT),
+        Transition('q0', '1', 'q2', 'Y', Direction.RIGHT),
+        Transition('q0', '_', 'qaccept', '_', Direction.STAY),
+        
+        # 处理0：移动到右端
+        Transition('q1', '0', 'q1', '0', Direction.RIGHT),
+        Transition('q1', '1', 'q1', '1', Direction.RIGHT),
+        Transition('q1', '_', 'q3', '_', Direction.LEFT),
+        
+        # 处理1：移动到右端
+        Transition('q2', '0', 'q2', '0', Direction.RIGHT),
+        Transition('q2', '1', 'q2', '1', Direction.RIGHT),
+        Transition('q2', '_', 'q4', '_', Direction.LEFT),
+        
+        # 写0并返回
+        Transition('q3', '0', 'q3', '0', Direction.LEFT),
+        Transition('q3', '1', 'q3', '1', Direction.LEFT),
+        Transition('q3', 'X', 'q0', 'X', Direction.RIGHT),
+        
+        # 写1并返回
+        Transition('q4', '0', 'q4', '0', Direction.LEFT),
+        Transition('q4', '1', 'q4', '1', Direction.LEFT),
+        Transition('q4', 'Y', 'q0', 'Y', Direction.RIGHT),
+    ]
+    
+    return TuringMachine(states, input_alphabet, tape_alphabet, transitions,
+                        'q0', 'qaccept', 'qreject')
+
+# 测试
+if __name__ == "__main__":
+    # 测试DFA
+    print("=== DFA测试 ===")
+    dfa = create_dfa_example()
+    test_strings = ['', '0', '1', '00', '01', '10', '11', '000', '001', '010', '011']
+    
+    for s in test_strings:
+        result = dfa.accept(s)
+        ones_count = s.count('1')
+        expected = ones_count % 2 == 0
+        print(f"'{s}' -> {result} (期望: {expected})")
+    
+    # 测试图灵机
+    print("\n=== 图灵机测试 ===")
+    tm = create_tm_example()
+    test_inputs = ['', '0', '1', '01', '10', '001']
+    
+    for inp in test_inputs:
+        result = tm.run(inp)
+        print(f"输入: '{inp}' -> {result}")
+        if result == "ACCEPT":
+            print(f"磁带内容: {tm.get_tape_content()}")
+```
+
+## 理论证明
+
+### 定理 1.1: 德摩根律
+
+**陈述**: 对于任意集合 $A, B$，有：
+
+1. $(A \cup B)^c = A^c \cap B^c$
+2. $(A \cap B)^c = A^c \cup B^c$
+
+**证明**:
+
+1. 对于任意 $x \in (A \cup B)^c$，有 $x \notin A \cup B$
+2. 因此 $x \notin A$ 且 $x \notin B$
+3. 所以 $x \in A^c$ 且 $x \in B^c$
+4. 因此 $x \in A^c \cap B^c$
+5. 反之亦然，故 $(A \cup B)^c = A^c \cap B^c$
+
+### 定理 1.2: 函数复合的结合律
+
+**陈述**: 对于函数 $f: A \rightarrow B$, $g: B \rightarrow C$, $h: C \rightarrow D$，有：
+$(h \circ g) \circ f = h \circ (g \circ f)$
+
+**证明**:
+对于任意 $x \in A$：
+
+1. $((h \circ g) \circ f)(x) = (h \circ g)(f(x)) = h(g(f(x)))$
+2. $(h \circ (g \circ f))(x) = h((g \circ f)(x)) = h(g(f(x)))$
+3. 因此 $(h \circ g) \circ f = h \circ (g \circ f)$
+
+### 引理 1.1: 等价关系的划分性质
+
+**陈述**: 等价关系将集合划分为不相交的等价类。
+
+**证明**:
+
+1. 自反性保证每个元素至少属于一个等价类
+2. 对称性和传递性保证等价类的不相交性
+3. 因此等价关系产生集合的划分
+
+## 总结
+
+形式科学层为软件工程提供了严格的数学和逻辑基础。通过集合论、逻辑系统、形式化方法和证明系统，我们建立了理解和分析软件系统的数学工具。这些理论基础将指导后续各层的具体应用和实现。
 
 ---
 
-*最后更新：2024年12月*
+**相关链接**:
+
+- [00-理念基础](../00-理念基础/README.md) - 哲学理念和基础概念
+- [02-理论基础](../02-理论基础/README.md) - 计算机科学理论
+- [03-具体科学](../03-具体科学/README.md) - 具体技术领域
