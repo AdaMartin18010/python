@@ -40,12 +40,14 @@
 ### 1. 数学基础
 
 #### 集合论
+
 - **集合**: 基本概念和运算
 - **关系**: 等价关系、偏序关系、全序关系
 - **函数**: 单射、满射、双射
 - **基数**: 可数集、不可数集
 
 #### 代数结构
+
 - **群**: 群的定义、子群、同态
 - **环**: 环的定义、理想、商环
 - **域**: 域的定义、扩域、有限域
@@ -54,6 +56,7 @@
 ### 2. 逻辑学
 
 #### 命题逻辑
+
 ```python
 class PropositionalLogic:
     """命题逻辑形式化定义"""
@@ -75,6 +78,7 @@ class PropositionalLogic:
 ```
 
 #### 谓词逻辑
+
 - **量词**: 全称量词 ∀、存在量词 ∃
 - **谓词**: 一元谓词、多元谓词
 - **推理规则**: 全称推广、存在推广
@@ -82,6 +86,7 @@ class PropositionalLogic:
 ### 3. 范畴论
 
 #### 基本概念
+
 ```python
 from typing import TypeVar, Callable, List
 from abc import ABC, abstractmethod
@@ -115,6 +120,7 @@ class Category(ABC):
 ```
 
 #### 重要概念
+
 - **函子**: 协变函子、逆变函子
 - **自然变换**: 函子间的态射
 - **极限**: 积、等化子、拉回
@@ -123,6 +129,7 @@ class Category(ABC):
 ### 4. 类型论
 
 #### 简单类型论
+
 ```python
 from typing import Union, Tuple, Callable
 from dataclasses import dataclass
@@ -160,6 +167,7 @@ class SimpleTypeSystem:
 ```
 
 #### 依赖类型论
+
 - **依赖函数类型**: Π(x:A).B(x)
 - **依赖积类型**: Σ(x:A).B(x)
 - **宇宙**: 类型的类型
@@ -168,6 +176,7 @@ class SimpleTypeSystem:
 ### 5. 计算理论
 
 #### 可计算性
+
 ```python
 class TuringMachine:
     """图灵机的基本实现"""
@@ -208,6 +217,7 @@ class TuringMachine:
 ```
 
 #### 计算复杂度
+
 - **时间复杂度**: O(f(n)) 表示法
 - **空间复杂度**: 内存使用分析
 - **P vs NP**: 计算复杂性理论的核心问题
@@ -216,6 +226,7 @@ class TuringMachine:
 ## 形式化方法
 
 ### 1. 公理化方法
+
 ```python
 class AxiomaticSystem:
     """公理系统的基本框架"""
@@ -237,6 +248,7 @@ class AxiomaticSystem:
 ```
 
 ### 2. 模型论方法
+
 ```python
 class Model:
     """模型论中的模型概念"""
@@ -254,16 +266,19 @@ class Model:
 ## 应用领域
 
 ### 1. 程序验证
+
 - **霍尔逻辑**: 程序正确性证明
 - **类型系统**: 静态类型检查
 - **模型检测**: 系统性质验证
 
 ### 2. 算法分析
+
 - **渐近分析**: 算法效率分析
 - **平摊分析**: 数据结构操作分析
 - **概率分析**: 随机算法分析
 
 ### 3. 系统设计
+
 - **形式化规约**: 系统需求形式化
 - **抽象代数**: 数据结构设计
 - **范畴论**: 软件架构设计

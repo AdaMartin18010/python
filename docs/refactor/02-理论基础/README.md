@@ -43,12 +43,14 @@
 ### 1. 计算理论
 
 #### 可计算性
+
 - **图灵机**: 通用计算模型
 - **停机问题**: 不可判定性
 - **递归函数**: 可计算函数
 - **λ演算**: 函数式计算模型
 
 #### 计算模型
+
 ```python
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict, Optional
