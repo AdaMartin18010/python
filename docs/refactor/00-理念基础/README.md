@@ -52,6 +52,7 @@
 $$S = (R, I, V)$$
 
 其中：
+
 - $R = \{r_1, r_2, ..., r_n\}$ 表示需求集合
 - $I: R \rightarrow C$ 表示实现函数，将需求映射到代码
 - $V: C \times R \rightarrow \{True, False\}$ 表示验证函数

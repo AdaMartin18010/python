@@ -18,6 +18,7 @@
 设 $P$ 为设计问题空间，$S$ 为解决方案空间，设计模式 $D$ 是一个映射：
 $$D: P \rightarrow S$$
 其中 $D$ 满足：
+
 - **可重用性**: $\forall p \in P, D(p)$ 可被多次应用
 - **标准化**: $D$ 遵循公认的最佳实践
 - **抽象性**: $D$ 独立于具体实现语言
@@ -106,6 +107,7 @@ graph TD
 $$\forall x, y \in Instance(Singleton), x = y$$
 
 **Python 实现**:
+
 ```python
 from typing import Optional
 from threading import Lock
@@ -184,6 +186,7 @@ if __name__ == "__main__":
 $$FactoryMethod: Creator \times ProductType \rightarrow Product$$
 
 **Python 实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic, Dict, Type
@@ -313,6 +316,7 @@ if __name__ == "__main__":
 $$Adapter: TargetInterface \leftarrow Adaptee$$
 
 **Python 实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import Protocol, runtime_checkable
@@ -397,6 +401,7 @@ if __name__ == "__main__":
 $$Observer: Subject \times Observer \rightarrow Notification$$
 
 **Python 实现**:
+
 ```python
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Callable
@@ -907,6 +912,7 @@ if __name__ == "__main__":
 4. **可扩展性**: 模式化的设计便于系统扩展
 
 通过深入理解这些模式，开发者可以：
+
 - 设计出更加优雅和可维护的代码
 - 提高代码的可读性和可理解性
 - 减少重复代码，提高开发效率
@@ -915,8 +921,9 @@ if __name__ == "__main__":
 ---
 
 *相关链接*:
+
 - [创建型模式详解](./01-创建型模式/README.md)
 - [结构型模式详解](./02-结构型模式/README.md)
 - [行为型模式详解](./03-行为型模式/README.md)
 - [并发模式详解](./04-并发模式/README.md)
-- [架构模式详解](./05-架构模式/README.md) 
+- [架构模式详解](./05-架构模式/README.md)

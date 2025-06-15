@@ -48,6 +48,7 @@
 
 **图灵机定义**：
 图灵机 $M = (Q, \Sigma, \Gamma, \delta, q_0, q_{accept}, q_{reject})$ 其中：
+
 - $Q$ 是状态集合
 - $\Sigma$ 是输入字母表
 - $\Gamma$ 是带字母表
@@ -66,6 +67,7 @@ $$\exists c > 0, n_0 > 0: \forall n \geq n_0, f(n) \leq c \cdot g(n)$$
 $$\Gamma \vdash e : \tau$$
 
 **类型推导规则**：
+
 - 变量：$\frac{x : \tau \in \Gamma}{\Gamma \vdash x : \tau}$
 - 应用：$\frac{\Gamma \vdash e_1 : \tau_1 \rightarrow \tau_2 \quad \Gamma \vdash e_2 : \tau_1}{\Gamma \vdash e_1 e_2 : \tau_2}$
 - 抽象：$\frac{\Gamma, x : \tau_1 \vdash e : \tau_2}{\Gamma \vdash \lambda x.e : \tau_1 \rightarrow \tau_2}$
@@ -670,4 +672,4 @@ if __name__ == "__main__":
 3. **语义精确**: 精确定义程序的含义
 4. **并发控制**: 管理并发系统的复杂性
 
-这些理论为软件系统的设计、实现和验证提供了坚实的理论基础。 
+这些理论为软件系统的设计、实现和验证提供了坚实的理论基础。

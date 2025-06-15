@@ -51,12 +51,14 @@
 设 $U$ 为全集，$A, B \subseteq U$，则：
 
 **基本运算**：
+
 - 并集：$A \cup B = \{x \mid x \in A \lor x \in B\}$
 - 交集：$A \cap B = \{x \mid x \in A \land x \in B\}$
 - 差集：$A \setminus B = \{x \mid x \in A \land x \notin B\}$
 - 补集：$\overline{A} = U \setminus A$
 
 **关系**：
+
 - 包含：$A \subseteq B \iff \forall x(x \in A \rightarrow x \in B)$
 - 相等：$A = B \iff A \subseteq B \land B \subseteq A$
 
@@ -72,11 +74,13 @@ $$\forall a \in A, \exists! b \in B: f(a) = b$$
 ### 逻辑系统
 
 **命题逻辑**：
+
 - 原子命题：$p, q, r, \ldots$
 - 逻辑连接词：$\neg, \land, \lor, \rightarrow, \leftrightarrow$
 - 真值表：定义连接词的语义
 
 **谓词逻辑**：
+
 - 个体变量：$x, y, z, \ldots$
 - 谓词符号：$P(x), Q(x, y), \ldots$
 - 量词：$\forall x, \exists x$
