@@ -3,11 +3,13 @@
 ## 目录
 
 1. [Python项目管理工具与最佳实践](./python_project_management.md)
-2. [Python 3.10/3.11/3.12 最新特性与PEP归纳](./python_new_features.md)
-3. [Python生态系统全景图](./python_ecosystem_landscape.md)
-4. [Python语言比较与选择指南](./lang_compare/)
-5. [Rust专项研究](./rust/)
-6. [软件工程最佳实践](./software/)
+2. [Python uv构建工具与生态系统深度解析](./python_uv_ecosystem.md)
+3. [Python生态系统成熟度深度分析](./python_ecosystem_maturity.md)
+4. [Python uv构建工具完整指南](./python_uv_summary.md)
+5. [Python 3.10/3.11/3.12 最新特性与PEP归纳](./python_new_features.md)
+6. [Python语言比较与选择指南](./lang_compare/)
+7. [Rust专项研究](./rust/)
+8. [软件工程最佳实践](./software/)
 
 ---
 
@@ -24,14 +26,28 @@
 - **内容**: 涵盖pip、poetry、rye、uv等主流工具，AI驱动自动化，绿色计算，国际化协作
 - **特色**: 形式化模型、行业专项、创新应用场景
 
-### 2. Python 3.10/3.11/3.12 最新特性与PEP归纳
+### 2. Python uv构建工具与生态系统深度解析
+
+- **版本**: v1.0.0
+- **章节**: 8章
+- **内容**: uv工具核心技术架构、生态系统定位、成熟开源库集成、工程实践应用
+- **特色**: 性能优化、运维部署、最佳实践、未来趋势
+
+### 3. Python生态系统成熟度深度分析
+
+- **版本**: v1.0.0
+- **章节**: 8章
+- **内容**: 生态系统规模、核心语言特性、包管理工具、成熟开源库、工程实践、运维部署
+- **特色**: 成熟度评估、性能对比、企业应用、未来发展趋势
+
+### 4. Python 3.10/3.11/3.12 最新特性与PEP归纳
 
 - **版本**: v4.0.0
 - **章节**: 33章
 - **内容**: Python 3.10-3.14新特性，PEP解读，AI驱动应用，绿色计算
 - **特色**: 前沿技术、行业应用、国际化协作
 
-### 3. Python生态系统全景图
+### 5. Python生态系统全景图
 
 - **版本**: v3.0.0
 - **内容**: 包管理、开发工具、框架生态、行业应用
@@ -39,7 +55,45 @@
 
 ## 新增专题
 
-### 4. Python 3.13/3.14新特性预览
+### 4. Python uv构建工具革命
+
+#### 4.1 uv工具核心优势
+
+uv是Astral公司开发的超高速Python包管理器，用Rust编写，比pip快10-100倍：
+
+```bash
+# 安装uv
+pip install uv
+
+# 基本使用
+uv pip install numpy pandas scikit-learn
+
+# 创建虚拟环境
+uv venv
+
+# 在虚拟环境中运行
+uv run python script.py
+
+# 性能对比
+time pip install numpy pandas scikit-learn  # 平均120秒
+time uv pip install numpy pandas scikit-learn  # 平均12秒 (10x提升)
+```
+
+#### 4.2 uv在工程实践中的应用
+
+- **大型项目依赖管理**: 极速安装复杂依赖栈
+- **CI/CD流水线优化**: 显著减少构建时间
+- **数据科学项目**: 快速安装科学计算库
+- **企业级应用部署**: 支持生产环境部署
+
+#### 4.3 uv技术架构
+
+- **Rust实现**: 高性能、内存安全
+- **并行处理**: 异步下载和依赖解析
+- **智能缓存**: 全局缓存机制
+- **完全兼容**: 100%兼容pip生态系统
+
+### 5. Python 3.13/3.14新特性预览
 
 #### 4.1 性能优化
 
