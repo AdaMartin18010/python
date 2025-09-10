@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "build>=1.1.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "minimal-build"
+version = "0.1.0"
+description = "Minimal packaging example"
+authors = [{name = "Example", email = "example@example.com"}]
+requires-python = ">=3.10"
+readme = "README.md"
+keywords = ["example"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
