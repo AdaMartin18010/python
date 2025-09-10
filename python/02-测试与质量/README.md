@@ -12,6 +12,7 @@
 - pytest 基础配置、参数化、夹具
 - 类型检查（mypy/pyright）
 - Lint（ruff/flake8/pylint）
+- 统一工具配置见仓库根 `pyproject.toml`
 
 ## 3. 质量检查清单（本地副本）
 
@@ -91,7 +92,13 @@ steps:
     displayName: Lint & Test
 ```
 
-## 5. 最小示例（可运行）
+## 5. 本地提交钩子（pre-commit）
+
+- 安装：`pip install pre-commit` 或 `uv pip install pre-commit`
+- 启用：`pre-commit install && pre-commit install --hook-type commit-msg`
+- 配置：仓库根已提供 `.pre-commit-config.yaml`，包含 `ruff/ruff-format/mypy/commitizen`
+
+## 6. 最小示例（可运行）
 
 - 位置：`./examples/minimal_project`
   - 配置：`pyproject.toml`

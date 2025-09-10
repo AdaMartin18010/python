@@ -47,6 +47,10 @@
   - [大纲](./05-Web开发/大纲.md)
   - 示例：FastAPI 最小应用
     - [app.py](./05-Web开发/examples/fastapi_min/app.py)
+  - 规范与约定
+    - [API 接口规范](./05-Web开发/API_接口规范.md)
+  - 部署与压测
+    - [部署与压测指引](./05-Web开发/部署与压测指引.md)
 
 - 数据科学
   - [总览：06-数据科学/README](./06-数据科学/README.md)

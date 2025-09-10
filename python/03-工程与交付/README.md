@@ -50,7 +50,6 @@ uv publish --repository internal
 - GitLab Package Registry（示例命令）：
 
 ```bash
-# CI 中设置 CI_JOB_TOKEN 或 PRIVATE_TOKEN
 uv publish --repository https://gitlab.example.com/api/v4/projects/<id>/packages/pypi
 ```
 
@@ -61,6 +60,19 @@ uv publish --repository https://artifactory.example.com/artifactory/api/pypi/pyt
 ```
 
 > 建议：凭据通过 CI Secret 注入环境变量，避免写入仓库。
+
+### SBOM 生成与签名
+
+```bash
+# 生成 SBOM（CycloneDX/Syft）
+syft packages file:dist/*.whl -o cyclonedx-json > sbom.json
+
+# 制品签名（Cosign），需事先配置密钥或 OIDC
+cosign sign-blob --output-signature dist.sig dist/*.whl
+
+# 验证
+cosign verify-blob --signature dist.sig dist/*.whl
+```
 
 ## 3. 运行与部署
 

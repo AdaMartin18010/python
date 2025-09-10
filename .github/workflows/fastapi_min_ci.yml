@@ -1,0 +1,43 @@
+name: fastapi_min_ci
+on:
+  push:
+    paths:
+      - 'python/05-Web开发/examples/fastapi_min/**'
+  pull_request:
+    paths:
+      - 'python/05-Web开发/examples/fastapi_min/**'
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install uv
+        run: pipx install uv || pip install uv
+      - name: Install deps
+        working-directory: python/05-Web开发/examples/fastapi_min
+        run: |
+          uv pip install -e .[dev]
+      - name: Lint & Test
+        working-directory: python/05-Web开发/examples/fastapi_min
+        run: |
+          ruff check .
+          pytest -q
+      - name: Build image
+        if: github.event_name == 'push'
+        working-directory: python/05-Web开发/examples/fastapi_min
+        run: docker build -t fastapi-min:ci .
+      - name: Login GHCR
+        if: github.event_name == 'push' && secrets.GHCR_TOKEN != ''
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push image
+        if: github.event_name == 'push' && secrets.GHCR_TOKEN != ''
+        working-directory: python/05-Web开发/examples/fastapi_min
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/fastapi-min:$(echo $GITHUB_SHA | head -c7)
+          docker tag fastapi-min:ci $IMAGE
+          docker push $IMAGE
+
