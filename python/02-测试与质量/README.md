@@ -14,6 +14,23 @@
 - Lint（ruff/flake8/pylint）
 - 统一工具配置见仓库根 `pyproject.toml`
 
+### 2.1 推荐最小组合（2025）
+
+- 测试：`pytest`
+- 代码风格与静态检查：`ruff`（含 `ruff format`）
+- 类型：`mypy`（或 `pyright`）
+- 提交钩子：`pre-commit`
+
+### 2.2 安装与运行（uv 优先）
+
+```powershell
+pipx install uv || pip install uv
+uv pip compile pyproject.toml -o uv.lock
+uv pip sync uv.lock
+pytest -q --maxfail=1 --disable-warnings
+ruff check . && mypy src || true
+```
+
 ## 3. 质量检查清单（本地副本）
 
 - [迁移/质量检查](./迁移/质量检查.md)
@@ -118,3 +135,4 @@ steps:
 - 返回目录：[@SUMMARY](../SUMMARY.md)
 - 相关主题：[01-语言与生态/README](../01-语言与生态/README.md)
 - 迁移任务：[迁移清单](../99-上下文与流程/04-迁移清单.md)
+- 顶部导航：[00-索引-目录](../00-索引-目录.md)
