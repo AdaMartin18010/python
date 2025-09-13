@@ -38,6 +38,15 @@
 
 - 返回目录：[@SUMMARY](../SUMMARY.md)
 - 顶部导航：[00-索引-目录](../00-索引-目录.md)
-- 相关主题：[01-语言与生态/README](../01-语言与生态/README.md)
-- 相关主题：[02-测试与质量/README](../02-测试与质量/README.md)
+- 相关主题：
+  - [01-语言与生态/README](../01-语言与生态/README.md)
+  - [02-测试与质量/README](../02-测试与质量/README.md)
+  - [03-工程与交付/README](../03-工程与交付/README.md)
+  - [04-并发与异步/README](../04-并发与异步/README.md)
 - 迁移任务：[迁移清单](../99-上下文与流程/04-迁移清单.md)
+- 相关规范：[重构规范](../99-上下文与流程/03-重构规范.md)
+
+## 来源与回链（docs → python）
+
+- 数据科学来源：`docs/python_ecosystem/09-数据科学/` → 本地：[迁移/数据分析与机器学习](./迁移/数据分析与机器学习.md)
+- 机器学习来源：`docs/model/Programming_Language/python_ml_best_practices.md` → 本地：[迁移/数据处理与可视化](./迁移/数据处理与可视化.md)
