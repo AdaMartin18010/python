@@ -1,21 +1,123 @@
+# Pre-commit hooks配置
+# 在提交前自动运行代码检查和格式化
+
+# 查看所有可用hooks: https://pre-commit.com/hooks.html
+# 运行所有hooks: pre-commit run --all-files
+# 安装hooks: pre-commit install
+
 repos:
+  # ============ Ruff (Python linting和formatting) ============
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.9
+    rev: v0.6.0
     hooks:
+      # Linting
       - id: ruff
-        args: ["--fix"]
+        args: [--fix, --exit-non-zero-on-fix]
+      
+      # Formatting
       - id: ruff-format
 
+  # ============ Mypy (类型检查) ============
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
+    rev: v1.11.0
     hooks:
       - id: mypy
-        additional_dependencies: []
+        additional_dependencies:
+          - types-requests
+          - types-pyyaml
+        args: [--ignore-missing-imports, --strict]
+        exclude: ^tests/
 
+  # ============ 基础检查 ============
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      # 文件检查
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: check-executables-have-shebangs
+      
+      # Python检查
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: name-tests-test
+        args: ['--pytest-test-first']
+      
+      # 格式检查
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+      
+      # 安全检查
+      - id: detect-private-key
+
+  # ============ 安全检查 ============
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.9
+    hooks:
+      - id: bandit
+        args: ['-c', 'pyproject.toml']
+        additional_dependencies: ['bandit[toml]']
+
+  # ============ 密钥检测 ============
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: package.lock.json
+
+  # ============ Markdown检查 ============
+  - repo: https://github.com/markdownlint/markdownlint
+    rev: v0.12.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+
+  # ============ YAML格式化 ============
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.14.0
+    hooks:
+      - id: pretty-format-yaml
+        args: [--autofix, --indent, '2']
+
+  # ============ 拼写检查 ============
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        args: [--ignore-words-list=crate]
+
+  # ============ 提交消息检查 ============
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.27.0
+    rev: v3.28.0
     hooks:
       - id: commitizen
         stages: [commit-msg]
 
+# 配置
+default_language_version:
+  python: python3.12
 
+# CI配置
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+    
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false

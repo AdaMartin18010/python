@@ -1,0 +1,170 @@
+# Prometheus 告警规则
+# 定义应用级别的告警
+
+groups:
+  - name: application_alerts
+    interval: 30s
+    rules:
+      # ========== 高错误率告警 ==========
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m])) by (job)
+            /
+            sum(rate(http_requests_total[5m])) by (job)
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          category: availability
+        annotations:
+          summary: "High error rate detected on {{ $labels.job }}"
+          description: "{{ $labels.job }} has {{ $value | humanizePercentage }} error rate (threshold: 5%)"
+          dashboard: "http://grafana:3000/d/app-overview"
+
+      # ========== 高延迟告警 ==========
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, job, endpoint)
+          ) > 1.0
+        for: 5m
+        labels:
+          severity: warning
+          category: performance
+        annotations:
+          summary: "High latency on {{ $labels.job }} {{ $labels.endpoint }}"
+          description: "P95 latency is {{ $value }}s (threshold: 1s)"
+          dashboard: "http://grafana:3000/d/app-overview"
+
+      # ========== 极高延迟告警 ==========
+      - alert: VeryHighLatency
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le, job, endpoint)
+          ) > 3.0
+        for: 2m
+        labels:
+          severity: critical
+          category: performance
+        annotations:
+          summary: "Very high latency on {{ $labels.job }} {{ $labels.endpoint }}"
+          description: "P95 latency is {{ $value }}s (threshold: 3s)"
+
+      # ========== 服务下线告警 ==========
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+          category: availability
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "{{ $labels.job }} has been down for more than 1 minute"
+          runbook: "https://wiki.example.com/runbooks/service-down"
+
+      # ========== 请求量骤降告警 ==========
+      - alert: RequestRateDrop
+        expr: |
+          (
+            sum(rate(http_requests_total[5m])) by (job)
+            /
+            sum(rate(http_requests_total[5m] offset 1h)) by (job)
+          ) < 0.3
+        for: 10m
+        labels:
+          severity: warning
+          category: traffic
+        annotations:
+          summary: "Request rate dropped on {{ $labels.job }}"
+          description: "Request rate is {{ $value | humanizePercentage }} of normal (threshold: 30%)"
+
+      # ========== 高并发告警 ==========
+      - alert: HighConcurrentRequests
+        expr: |
+          sum(http_requests_in_progress) by (job) > 100
+        for: 5m
+        labels:
+          severity: warning
+          category: capacity
+        annotations:
+          summary: "High concurrent requests on {{ $labels.job }}"
+          description: "{{ $labels.job }} has {{ $value }} concurrent requests (threshold: 100)"
+
+      # ========== 内存使用高告警 ==========
+      - alert: HighMemoryUsage
+        expr: |
+          (
+            process_resident_memory_bytes / 
+            (1024 * 1024 * 1024)
+          ) > 2.0
+        for: 5m
+        labels:
+          severity: warning
+          category: resources
+        annotations:
+          summary: "High memory usage on {{ $labels.job }}"
+          description: "{{ $labels.job }} is using {{ $value }}GB memory (threshold: 2GB)"
+
+      # ========== CPU使用高告警 ==========
+      - alert: HighCPUUsage
+        expr: |
+          rate(process_cpu_seconds_total[5m]) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          category: resources
+        annotations:
+          summary: "High CPU usage on {{ $labels.job }}"
+          description: "{{ $labels.job }} CPU usage is {{ $value | humanizePercentage }} (threshold: 80%)"
+
+  # ========== 系统级告警 ==========
+  - name: system_alerts
+    interval: 30s
+    rules:
+      # 磁盘空间告警
+      - alert: DiskSpaceHigh
+        expr: |
+          (
+            node_filesystem_avail_bytes{mountpoint="/"}
+            /
+            node_filesystem_size_bytes{mountpoint="/"}
+          ) < 0.2
+        for: 5m
+        labels:
+          severity: warning
+          category: capacity
+        annotations:
+          summary: "Disk space low on {{ $labels.instance }}"
+          description: "Only {{ $value | humanizePercentage }} disk space remaining"
+
+      # 节点内存告警
+      - alert: NodeMemoryHigh
+        expr: |
+          (
+            node_memory_MemAvailable_bytes
+            /
+            node_memory_MemTotal_bytes
+          ) < 0.2
+        for: 5m
+        labels:
+          severity: warning
+          category: resources
+        annotations:
+          summary: "Node memory low on {{ $labels.instance }}"
+          description: "Only {{ $value | humanizePercentage }} memory available"
+
+      # 节点CPU告警
+      - alert: NodeCPUHigh
+        expr: |
+          (
+            1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance)
+          ) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          category: resources
+        annotations:
+          summary: "Node CPU high on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 80%)"
+
