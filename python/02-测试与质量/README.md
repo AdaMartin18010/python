@@ -1,11 +1,83 @@
-# 02-测试与质量
+# 02-测试与质量（2025年10月标准）
 
-聚焦 pytest、类型检查、静态分析与CI 集成的最小可行体系。
+聚焦 pytest、类型检查、静态分析与CI 集成的现代化测试体系。
 
-## 1. 测试策略
+## 0. 2025年测试工具栈
+
+### 0.1 核心工具（2025推荐）
+
+| 工具 | 版本 | 用途 | 速度 | 推荐度 |
+|------|------|------|------|--------|
+| **pytest** | 8.3+ | 测试框架 | 快 | ⭐⭐⭐⭐⭐ |
+| **pytest-cov** | 5.0+ | 覆盖率 | 快 | ⭐⭐⭐⭐⭐ |
+| **pytest-asyncio** | 0.24+ | 异步测试 | 快 | ⭐⭐⭐⭐⭐ |
+| **pytest-mock** | 3.14+ | Mock工具 | 快 | ⭐⭐⭐⭐⭐ |
+| **hypothesis** | 6.112+ | 属性测试 | 中 | ⭐⭐⭐⭐ |
+| **faker** | 30.0+ | 测试数据生成 | 快 | ⭐⭐⭐⭐ |
+| **mypy** | 1.11+ | 类型检查 | 中 | ⭐⭐⭐⭐⭐ |
+| **ruff** | 0.6+ | 代码质量 | 极快 | ⭐⭐⭐⭐⭐ |
+
+### 0.2 快速配置（pyproject.toml）
+
+```toml
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-ra",                          # 显示所有结果
+    "--strict-markers",             # 严格标记
+    "--strict-config",              # 严格配置
+    "--cov=src",                    # 覆盖率源目录
+    "--cov-report=term-missing",    # 终端覆盖率报告
+    "--cov-report=html",            # HTML覆盖率报告
+    "--cov-branch",                 # 分支覆盖
+    "--asyncio-mode=auto",          # 自动异步模式
+]
+markers = [
+    "slow: 慢速测试",
+    "integration: 集成测试",
+    "unit: 单元测试",
+    "e2e: 端到端测试",
+]
+
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+```
+
+### 0.3 安装测试工具
+
+```bash
+# 使用 uv（推荐）
+uv add --dev pytest pytest-cov pytest-asyncio pytest-mock hypothesis faker
+
+# 或使用 pip
+pip install pytest pytest-cov pytest-asyncio pytest-mock hypothesis faker
+```
+
+## 1. 测试策略（2025最佳实践）
 
 - 单元/集成/端到端分层
 - 基线用例与回归集
+- 属性测试（Property-based Testing）
+- 快照测试（Snapshot Testing）
+- 变异测试（Mutation Testing）
 
 ### 1.1 测试金字塔
 

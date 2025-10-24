@@ -1,73 +1,168 @@
-# 03-工程与交付
+# 03-工程与交付（2025年10月标准）
 
-聚焦打包、分发、部署与运维接口的工程化流水线。
+聚焦打包、分发、部署与运维接口的现代化工程流水线。
 
-## 1. 构建与打包
+## 0. 2025年工程工具栈
 
-- PEP 517/518、build、uv/pip 构建
+### 0.1 核心工具（2025推荐）
+
+| 工具 | 版本 | 用途 | 速度 | 推荐度 |
+|------|------|------|------|--------|
+| **uv** | 0.4+ | 包管理&构建 | 极快 | ⭐⭐⭐⭐⭐ |
+| **hatchling** | 1.25+ | 构建后端 | 快 | ⭐⭐⭐⭐⭐ |
+| **twine** | 5.1+ | PyPI发布 | 中 | ⭐⭐⭐⭐⭐ |
+| **docker** | 27+ | 容器化 | 中 | ⭐⭐⭐⭐⭐ |
+| **kubernetes** | 1.30+ | 容器编排 | 中 | ⭐⭐⭐⭐⭐ |
+| **GitHub Actions** | - | CI/CD | 快 | ⭐⭐⭐⭐⭐ |
+
+### 0.2 构建工具对比（2025）
+
+| 特性 | uv | poetry | setuptools | hatch |
+|------|-----|--------|-----------|-------|
+| 速度 | ⚡⚡⚡ | ⚡⚡ | ⚡ | ⚡⚡ |
+| 依赖解析 | 极快 | 快 | 慢 | 快 |
+| 虚拟环境 | ✅ | ✅ | ❌ | ✅ |
+| 锁文件 | ✅ | ✅ | ❌ | ✅ |
+| PEP 517支持 | ✅ | ✅ | ✅ | ✅ |
+| 推荐指数 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+
+### 0.3 快速开始
+
+```bash
+# 安装 uv（推荐）
+pip install uv
+
+# 创建新项目
+uv init my-project
+cd my-project
+
+# 构建项目
+uv build
+
+# 发布到 PyPI
+uv publish
+```
+
+## 1. 构建与打包（2025最佳实践）
+
+- PEP 517/518、PEP 621 现代化打包
+- uv/hatchling 构建工具链
 - 版本与变更日志（SemVer / Conventional Commits）
+- 多平台构建（wheels）
+- 源码分发（sdist）
 - 最小示例：`./examples/minimal_build`
   - 配置：`pyproject.toml`
   - 包：`src/minbuild/__init__.py`
-  - 构建命令（本地）：`uv build` 或 `python -m build`
+  - 构建命令：`uv build` (推荐) 或 `python -m build`
 
-### 1.1 现代项目结构
+### 1.1 现代项目结构（2025标准）
 
-```python
-# 标准项目结构
+```bash
+# 2025年推荐项目结构
 my-project/
-├── pyproject.toml          # 项目配置
-├── requirements.txt        # 生产依赖
-├── requirements-dev.txt    # 开发依赖
-├── .venv/                 # 虚拟环境
-├── src/                   # 源代码
-│   └── myproject/
-│       ├── __init__.py
-│       ├── core.py
-│       └── utils.py
-├── tests/                 # 测试代码
-│   ├── __init__.py
-│   ├── test_core.py
-│   └── test_utils.py
-├── docs/                  # 文档
-├── .github/               # GitHub Actions
+├── pyproject.toml          # 统一配置文件（PEP 621）
+├── uv.lock                 # uv依赖锁文件（可选）
+├── README.md               # 项目说明
+├── LICENSE                 # 许可证
+├── .gitignore              # Git忽略文件
+├── .pre-commit-config.yaml # pre-commit配置
+├── Dockerfile              # Docker镜像
+├── docker-compose.yml      # Docker Compose
+├── .github/                # GitHub配置
 │   └── workflows/
-├── .pre-commit-config.yaml # 预提交钩子
-└── README.md
+│       ├── ci.yml          # CI流水线
+│       └── release.yml     # 发布流水线
+├── src/                    # 源代码（PEP 420）
+│   └── myproject/
+│       ├── __init__.py     # 包初始化
+│       ├── __main__.py     # CLI入口
+│       ├── core.py         # 核心功能
+│       ├── api.py          # API路由
+│       └── config.py       # 配置管理
+├── tests/                  # 测试代码
+│   ├── conftest.py         # pytest配置
+│   ├── test_core.py        # 单元测试
+│   ├── test_api.py         # API测试
+│   └── test_integration.py # 集成测试
+├── docs/                   # 文档
+│   ├── index.md
+│   ├── api.md
+│   └── deployment.md
+├── scripts/                # 辅助脚本
+│   ├── setup.sh
+│   └── deploy.sh
+└── examples/               # 示例代码
+    └── basic_usage.py
 
-# pyproject.toml 配置示例
+# pyproject.toml 配置示例（2025标准）
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.25.0"]
 build-backend = "hatchling.build"
 
 [project]
 name = "my-project"
-version = "0.1.0"
-description = "A modern Python project"
+version = "1.0.0"
+description = "A modern Python project following 2025 best practices"
 readme = "README.md"
-requires-python = ">=3.11"
+license = {text = "MIT"}
+requires-python = ">=3.12"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["python", "modern", "2025"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+]
+
 dependencies = [
-    "fastapi>=0.100.0",
-    "pydantic>=2.0.0",
-    "uvicorn[standard]>=0.23.0",
+    "fastapi>=0.115.0",
+    "pydantic>=2.9.0",
+    "uvicorn[standard]>=0.30.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.21.0",
-    "ruff>=0.1.0",
-    "mypy>=1.5.0",
-    "pre-commit>=3.0.0",
+    "pytest>=8.3.0",
+    "pytest-cov>=5.0.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.6.0",
+    "mypy>=1.11.0",
+    "pre-commit>=3.8.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/username/my-project"
+Documentation = "https://my-project.readthedocs.io"
+Repository = "https://github.com/username/my-project"
+Issues = "https://github.com/username/my-project/issues"
+Changelog = "https://github.com/username/my-project/blob/main/CHANGELOG.md"
+
+[project.scripts]
+my-project = "myproject.__main__:main"
+
+[tool.hatchling.build.targets.wheel]
+packages = ["src/myproject"]
+
 [tool.ruff]
-line-length = 88
-target-version = "py311"
+line-length = 100
+target-version = "py312"
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 strict = true
+
+[tool.uv]
+managed = true
+dev-dependencies = [
+    "pytest>=8.3.0",
+    "ruff>=0.6.0",
+    "mypy>=1.11.0",
+]
 ```
 
 ### 1.2 版本管理策略
@@ -117,13 +212,80 @@ class VersionManager:
         return new_version
 ```
 
-### 基于 uv 的最小流水
+### 1.3 基于 uv 的现代化构建流水线（2025推荐）
 
 ```bash
-uv pip compile pyproject.toml -o uv.lock
-uv pip sync uv.lock
+#!/bin/bash
+# build.sh - 现代化构建脚本
+
+set -e  # 遇到错误立即退出
+
+echo "🚀 开始构建流程..."
+
+# 1. 代码质量检查
+echo "📝 运行代码质量检查..."
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy .
+
+# 2. 运行测试
+echo "🧪 运行测试..."
+uv run pytest --cov --cov-report=term-missing
+
+# 3. 构建包
+echo "📦 构建包..."
 uv build
-uv publish --repository pypi
+
+# 4. 检查包
+echo "✅ 检查包..."
+uv run twine check dist/*
+
+# 5. 列出构建产物
+echo "📋 构建产物:"
+ls -lh dist/
+
+echo "✅ 构建完成!"
+```
+
+### 1.4 完整发布流程（2025标准）
+
+```bash
+# 发布到 PyPI
+#!/bin/bash
+# release.sh - 发布脚本
+
+VERSION=$1
+if [ -z "$VERSION" ]; then
+    echo "Usage: ./release.sh <version>"
+    exit 1
+fi
+
+echo "🚀 开始发布 v$VERSION..."
+
+# 1. 更新版本号
+echo "📝 更新版本号..."
+# 使用 sed 或 Python 脚本更新 pyproject.toml 中的版本
+
+# 2. 生成变更日志
+echo "📋 生成变更日志..."
+git cliff --tag v$VERSION > CHANGELOG.md
+
+# 3. 提交版本更新
+git add pyproject.toml CHANGELOG.md
+git commit -m "chore: release v$VERSION"
+git tag -a "v$VERSION" -m "Release v$VERSION"
+
+# 4. 运行完整构建
+./build.sh
+
+# 5. 发布到 PyPI
+echo "📤 发布到 PyPI..."
+uv publish
+
+# 6. 推送到远程
+git push origin main --tags
+
+echo "✅ 发布完成! 🎉"
 ```
 
 ## 2. 发布与分发
