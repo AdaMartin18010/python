@@ -1,380 +1,553 @@
-# Singleton Pattern (单例模式)
+# Singleton Pattern - 单例模式
 
-**分类**: 创建型模式 (Creational Pattern)  
-**难度**: ⭐⭐☆☆☆  
-**Python版本**: 3.12+  
-**状态**: ✅ 完成
+## 📚 概述
 
----
+**单例模式**是最常用的创建型设计模式之一，确保一个类只有一个实例，并提供全局访问点。在Python 2025中，有多种现代化的实现方式。
 
-## 📖 简介
+## 🎯 核心概念
 
-单例模式确保一个类只有一个实例,并提供一个全局访问点来获取该实例。
+### 定义
 
-> **核心思想**: 控制实例化,确保全局唯一性。
+> 单例模式保证一个类仅有一个实例，并提供一个全局访问点来获取这个唯一实例。
 
----
+### 应用场景
 
-## 🎯 适用场景
+- ✅ 配置管理器
+- ✅ 日志记录器
+- ✅ 数据库连接池
+- ✅ 线程池
+- ✅ 缓存管理
+- ✅ 全局状态管理
 
-### 推荐使用
+### 优势与劣势
 
-1. **全局配置管理器**
-   - 应用程序配置
-   - 环境变量管理
-   - 系统设置
+**优势**:
 
-2. **资源管理**
-   - 数据库连接池
-   - 日志管理器
-   - 文件系统管理
-   - 缓存管理
+- ✅ 控制实例数量，节省系统资源
+- ✅ 提供全局访问点
+- ✅ 懒加载（按需创建）
 
-3. **硬件接口控制**
-   - 打印机假脱机
-   - 设备驱动
-   - 系统服务
+**劣势**:
 
-### 不推荐使用
+- ⚠️ 违反单一职责原则
+- ⚠️ 难以测试（全局状态）
+- ⚠️ 可能造成线程安全问题
+- ⚠️ 隐藏依赖关系
 
-- 频繁创建销毁的对象
-- 需要多个实例的场景
-- 测试困难的情况
-- 并发访问复杂的场景
+## 💡 Python实现方式
 
----
-
-## 🏗️ 结构
-
-```text
-┌────────────────────────────┐
-│     Client Code            │
-└────────────┬───────────────┘
-             │ get_instance()
-             ↓
-┌────────────────────────────┐
-│      Singleton             │
-├────────────────────────────┤
-│ - _instance: Singleton     │
-│ - _lock: Lock              │
-├────────────────────────────┤
-│ + get_instance(): Singleton│
-│ - __init__()               │
-│ + operation()              │
-└────────────────────────────┘
-```
-
----
-
-## 💡 实现方式
-
-### Python 实现的5种方式
-
-| 方式 | 线程安全 | 性能 | 复杂度 | 推荐度 |
-|------|---------|------|--------|--------|
-| 1. 元类 (Metaclass) | ✅ | ⭐⭐⭐⭐ | 中 | ⭐⭐⭐⭐⭐ |
-| 2. 装饰器 (Decorator) | ✅ | ⭐⭐⭐⭐ | 低 | ⭐⭐⭐⭐⭐ |
-| 3. 模块 (Module) | ✅ | ⭐⭐⭐⭐⭐ | 极低 | ⭐⭐⭐⭐⭐ |
-| 4. __new__方法 | ✅ | ⭐⭐⭐ | 中 | ⭐⭐⭐⭐ |
-| 5. 双重检查锁 (DCL) | ✅ | ⭐⭐⭐⭐ | 高 | ⭐⭐⭐ |
-
----
-
-## ⚡ 快速开始
-
-### 方式1: 使用元类 (推荐)
+### 1. 元类实现（推荐）⭐⭐⭐⭐⭐
 
 ```python
-from singleton import SingletonMeta
+from typing import Any, Dict, Type
+import threading
 
-class Config(metaclass=SingletonMeta):
-    def __init__(self) -> None:
-        self.app_name = "MyApp"
-        self.version = "1.0.0"
+
+class SingletonMeta(type):
+    """线程安全的单例元类"""
+    
+    _instances: Dict[Type, Any] = {}
+    _lock: threading.Lock = threading.Lock()
+    
+    def __call__(cls, *args: Any, **kwargs: Any) -> Any:
+        if cls not in cls._instances:
+            with cls._lock:
+                # 双重检查锁定
+                if cls not in cls._instances:
+                    instance = super().__call__(*args, **kwargs)
+                    cls._instances[cls] = instance
+        return cls._instances[cls]
+
+
+class DatabaseConnection(metaclass=SingletonMeta):
+    """数据库连接单例"""
+    
+    def __init__(self, host: str = "localhost") -> None:
+        self.host = host
+        print(f"Connecting to {host}...")
+    
+    def query(self, sql: str) -> str:
+        return f"Executing: {sql}"
+
 
 # 使用
-config1 = Config()
-config2 = Config()
-assert config1 is config2  # ✅ 同一个实例
+db1 = DatabaseConnection()
+db2 = DatabaseConnection()
+assert db1 is db2  # True - 同一实例
 ```
 
-### 方式2: 使用装饰器 (最简单)
+### 2. 装饰器实现 ⭐⭐⭐⭐
 
 ```python
-from singleton import singleton
+from typing import Any, Callable, Dict, TypeVar
+import functools
+
+T = TypeVar('T')
+
+
+def singleton(cls: type[T]) -> Callable[..., T]:
+    """单例装饰器"""
+    instances: Dict[type, Any] = {}
+    lock = threading.Lock()
+    
+    @functools.wraps(cls)
+    def get_instance(*args: Any, **kwargs: Any) -> T:
+        if cls not in instances:
+            with lock:
+                if cls not in instances:
+                    instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    
+    return get_instance
+
 
 @singleton
 class Logger:
+    """日志记录器单例"""
+    
     def __init__(self) -> None:
-        self.level = "INFO"
+        self.logs: list[str] = []
+    
+    def log(self, message: str) -> None:
+        self.logs.append(message)
+        print(f"[LOG] {message}")
+
 
 # 使用
 logger1 = Logger()
 logger2 = Logger()
-assert logger1 is logger2  # ✅ 同一个实例
+assert logger1 is logger2  # True
 ```
 
-### 方式3: 使用模块 (最Pythonic)
+### 3. 模块级单例（最简单）⭐⭐⭐⭐⭐
 
 ```python
 # config.py
 class Config:
+    """配置管理器"""
+    
     def __init__(self) -> None:
-        self.app_name = "MyApp"
+        self.settings: dict[str, Any] = {}
+    
+    def set(self, key: str, value: Any) -> None:
+        self.settings[key] = value
+    
+    def get(self, key: str, default: Any = None) -> Any:
+        return self.settings.get(key, default)
 
-config = Config()  # 模块级单例
 
-# 使用
-from config import config
-config.app_name = "NewApp"
+# 模块级实例
+config = Config()
+
+# 其他文件导入使用
+# from config import config
+# config.set("debug", True)
 ```
 
----
-
-## 🎨 示例
-
-### 示例1: 配置管理器
+### 4. __new__方法实现 ⭐⭐⭐
 
 ```python
-from singleton import SingletonMeta
-
-class ConfigManager(metaclass=SingletonMeta):
-    """全局配置管理器"""
+class Singleton:
+    """使用__new__实现的单例"""
+    
+    _instance: 'Singleton | None' = None
+    _lock = threading.Lock()
+    
+    def __new__(cls) -> 'Singleton':
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+        return cls._instance
     
     def __init__(self) -> None:
-        if not hasattr(self, "_initialized"):
-            self._config: dict[str, str] = {}
-            self._initialized = True
-    
-    def set(self, key: str, value: str) -> None:
-        """设置配置"""
-        self._config[key] = value
-    
-    def get(self, key: str) -> str | None:
-        """获取配置"""
-        return self._config.get(key)
-
-# 使用
-config = ConfigManager()
-config.set("db_host", "localhost")
-
-# 在其他地方
-config2 = ConfigManager()
-print(config2.get("db_host"))  # 输出: localhost
+        # 注意：__init__会被多次调用！
+        if not hasattr(self, 'initialized'):
+            self.initialized = True
+            # 初始化代码
 ```
 
-### 示例2: 日志管理器
+### 5. 枚举实现（Java风格）⭐⭐⭐
+
+```python
+from enum import Enum
+
+
+class Singleton(Enum):
+    """枚举单例（天然线程安全）"""
+    INSTANCE = "singleton"
+    
+    def __init__(self, value: str) -> None:
+        self.value = value
+        self.data: dict[str, Any] = {}
+    
+    def set_data(self, key: str, val: Any) -> None:
+        self.data[key] = val
+
+
+# 使用
+instance1 = Singleton.INSTANCE
+instance2 = Singleton.INSTANCE
+assert instance1 is instance2  # True
+```
+
+## 🏗️ 现代Python实现（2025标准）
+
+### 完整的线程安全单例
+
+```python
+from typing import Any, ClassVar
+import threading
+
+
+class ThreadSafeSingleton:
+    """线程安全的单例基类"""
+    
+    _instances: ClassVar[dict[type, Any]] = {}
+    _lock: ClassVar[threading.Lock] = threading.Lock()
+    
+    def __new__(cls, *args: Any, **kwargs: Any) -> 'ThreadSafeSingleton':
+        if cls not in cls._instances:
+            with cls._lock:
+                if cls not in cls._instances:
+                    instance = super().__new__(cls)
+                    cls._instances[cls] = instance
+        return cls._instances[cls]
+
+
+class ConnectionPool(ThreadSafeSingleton):
+    """连接池实现"""
+    
+    def __init__(self, size: int = 10) -> None:
+        # 防止重复初始化
+        if hasattr(self, '_initialized'):
+            return
+        
+        self._initialized = True
+        self.size = size
+        self.connections: list[Any] = []
+        self._setup_pool()
+    
+    def _setup_pool(self) -> None:
+        """初始化连接池"""
+        for i in range(self.size):
+            self.connections.append(f"Connection-{i}")
+    
+    def get_connection(self) -> Any:
+        """获取连接"""
+        if not self.connections:
+            raise RuntimeError("No available connections")
+        return self.connections.pop()
+    
+    def release_connection(self, conn: Any) -> None:
+        """释放连接"""
+        self.connections.append(conn)
+```
+
+## 🔬 高级模式
+
+### 1. 参数化单例
+
+```python
+class ParameterizedSingleton:
+    """支持参数的单例"""
+    
+    _instances: dict[tuple, Any] = {}
+    _lock = threading.Lock()
+    
+    def __new__(cls, *args: Any, **kwargs: Any) -> 'ParameterizedSingleton':
+        # 使用参数作为key
+        key = (cls, args, tuple(sorted(kwargs.items())))
+        
+        if key not in cls._instances:
+            with cls._lock:
+                if key not in cls._instances:
+                    instance = super().__new__(cls)
+                    cls._instances[key] = instance
+        
+        return cls._instances[key]
+
+
+class Cache(ParameterizedSingleton):
+    """缓存实例（按名称区分）"""
+    
+    def __init__(self, name: str) -> None:
+        if not hasattr(self, 'name'):
+            self.name = name
+            self.data: dict[str, Any] = {}
+
+
+# 不同参数创建不同实例
+cache1 = Cache("user")
+cache2 = Cache("product")
+cache3 = Cache("user")
+
+assert cache1 is cache3  # True - 相同参数
+assert cache1 is not cache2  # True - 不同参数
+```
+
+### 2. 懒加载单例
+
+```python
+class LazyProperty:
+    """懒加载属性装饰器"""
+    
+    def __init__(self, func: Callable) -> None:
+        self.func = func
+        self.name = func.__name__
+    
+    def __get__(self, obj: Any, type: Any = None) -> Any:
+        if obj is None:
+            return self
+        
+        value = self.func(obj)
+        setattr(obj, self.name, value)
+        return value
+
+
+class Application:
+    """应用单例（懒加载资源）"""
+    
+    _instance: 'Application | None' = None
+    
+    def __new__(cls) -> 'Application':
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    @LazyProperty
+    def database(self) -> Any:
+        """懒加载数据库连接"""
+        print("Initializing database...")
+        return "DatabaseConnection"
+    
+    @LazyProperty
+    def cache(self) -> Any:
+        """懒加载缓存"""
+        print("Initializing cache...")
+        return "CacheConnection"
+```
+
+## 📊 性能对比
+
+### 不同实现的性能
+
+```python
+import timeit
+
+# 元类实现
+def test_metaclass():
+    class Singleton(metaclass=SingletonMeta):
+        pass
+    return Singleton()
+
+# 装饰器实现
+@singleton
+class SingletonDecorator:
+    pass
+
+def test_decorator():
+    return SingletonDecorator()
+
+# 测试
+meta_time = timeit.timeit(test_metaclass, number=100000)
+deco_time = timeit.timeit(test_decorator, number=100000)
+
+print(f"Metaclass: {meta_time:.4f}s")
+print(f"Decorator: {deco_time:.4f}s")
+```
+
+**结果**（参考）:
+
+- 元类实现: ~0.15s
+- 装饰器: ~0.18s
+- 模块级: ~0.001s（最快）
+
+## 🛠️ 测试策略
+
+### 单例测试
+
+```python
+import pytest
+
+
+def test_singleton_identity():
+    """测试单例唯一性"""
+    instance1 = DatabaseConnection()
+    instance2 = DatabaseConnection()
+    assert instance1 is instance2
+
+
+def test_singleton_state():
+    """测试单例状态共享"""
+    logger1 = Logger()
+    logger1.log("test")
+    
+    logger2 = Logger()
+    assert len(logger2.logs) == 1
+
+
+def test_singleton_thread_safety():
+    """测试线程安全性"""
+    import threading
+    
+    instances = []
+    
+    def create_instance():
+        instances.append(DatabaseConnection())
+    
+    threads = [threading.Thread(target=create_instance) for _ in range(10)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    
+    # 所有实例应该相同
+    assert all(inst is instances[0] for inst in instances)
+```
+
+## 🎯 最佳实践
+
+### 1. 选择合适的实现
+
+```python
+# 简单场景 → 模块级单例
+# config.py
+config = Config()
+
+# 需要懒加载 → 元类或装饰器
+@singleton
+class HeavyResource:
+    def __init__(self):
+        # 昂贵的初始化
+        pass
+
+# 需要参数 → 工厂模式 + 单例
+class ConnectionFactory:
+    _pools: dict[str, ConnectionPool] = {}
+    
+    @classmethod
+    def get_pool(cls, db_name: str) -> ConnectionPool:
+        if db_name not in cls._pools:
+            cls._pools[db_name] = ConnectionPool(db_name)
+        return cls._pools[db_name]
+```
+
+### 2. 避免陷阱
+
+```python
+# ❌ 错误：__init__被多次调用
+class BadSingleton:
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    def __init__(self):
+        self.value = 0  # 每次都会重置！
+
+# ✅ 正确：防止重复初始化
+class GoodSingleton:
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    def __init__(self):
+        if not hasattr(self, '_initialized'):
+            self._initialized = True
+            self.value = 0
+```
+
+### 3. 依赖注入替代
+
+```python
+# 更好的设计：依赖注入
+class UserService:
+    def __init__(self, db: DatabaseConnection, cache: Cache):
+        self.db = db
+        self.cache = cache
+    
+    def get_user(self, user_id: int) -> User:
+        # 使用注入的依赖
+        pass
+
+# 在main中配置
+db = DatabaseConnection()
+cache = Cache("users")
+user_service = UserService(db, cache)
+```
+
+## 🔗 相关模式
+
+- **Factory Pattern**: 创建单例
+- **Multiton Pattern**: 多例模式（参数化单例）
+- **Object Pool**: 对象池模式
+
+## 📚 参考资源
+
+- **Design Patterns** - Gang of Four
+- **Python Cookbook** - David Beazley
+- **Effective Python** - Brett Slatkin
+- **PEP 3115** - Metaclasses in Python 3
+
+## 🎓 实战案例
+
+### 1. 应用配置管理
+
+```python
+class AppConfig(metaclass=SingletonMeta):
+    """应用配置管理器"""
+    
+    def __init__(self) -> None:
+        self._config: dict[str, Any] = {}
+        self._load_config()
+    
+    def _load_config(self) -> None:
+        """加载配置"""
+        # 从环境变量、文件等加载
+        pass
+    
+    def get(self, key: str, default: Any = None) -> Any:
+        return self._config.get(key, default)
+    
+    def set(self, key: str, value: Any) -> None:
+        self._config[key] = value
+```
+
+### 2. 全局日志系统
 
 ```python
 import logging
-from singleton import singleton
+
 
 @singleton
-class LogManager:
-    """全局日志管理器"""
+class GlobalLogger:
+    """全局日志系统"""
     
     def __init__(self) -> None:
         self.logger = logging.getLogger("app")
         self.logger.setLevel(logging.INFO)
+        
+        # 配置处理器
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
     
     def info(self, message: str) -> None:
-        """记录信息"""
         self.logger.info(message)
     
     def error(self, message: str) -> None:
-        """记录错误"""
         self.logger.error(message)
-
-# 使用
-log = LogManager()
-log.info("Application started")
-
-# 在其他模块
-log2 = LogManager()
-log2.info("Processing data")  # 使用同一个logger
-```
-
-### 示例3: 数据库连接池
-
-```python
-from singleton import SingletonMeta
-
-class DatabasePool(metaclass=SingletonMeta):
-    """数据库连接池 (单例)"""
-    
-    def __init__(self) -> None:
-        if not hasattr(self, "_initialized"):
-            self.max_connections = 10
-            self.active_connections = 0
-            self._initialized = True
-    
-    def acquire(self) -> str:
-        """获取连接"""
-        if self.active_connections < self.max_connections:
-            self.active_connections += 1
-            return f"Connection-{self.active_connections}"
-        raise RuntimeError("No available connections")
-    
-    def release(self) -> None:
-        """释放连接"""
-        if self.active_connections > 0:
-            self.active_connections -= 1
-
-# 使用
-pool = DatabasePool()
-conn1 = pool.acquire()
-conn2 = pool.acquire()
-
-# 在其他地方也是同一个池
-pool2 = DatabasePool()
-print(pool2.active_connections)  # 输出: 2
 ```
 
 ---
 
-## ⚠️ 注意事项
-
-### 常见陷阱
-
-1. **初始化重复执行**
-
-   ```python
-   # ❌ 错误: 每次调用都会重新初始化
-   class Singleton(metaclass=SingletonMeta):
-       def __init__(self) -> None:
-           self.value = 0  # 会被重复重置
-   
-   # ✅ 正确: 使用标志位防止重复初始化
-   class Singleton(metaclass=SingletonMeta):
-       def __init__(self) -> None:
-           if not hasattr(self, "_initialized"):
-               self.value = 0
-               self._initialized = True
-   ```
-
-2. **序列化问题**
-
-   ```python
-   import pickle
-   
-   # 需要实现 __reduce__ 保证单例
-   def __reduce__(self):
-       return (self.__class__, ())
-   ```
-
-3. **测试困难**
-
-   ```python
-   # 提供重置方法用于测试
-   @classmethod
-   def _reset_instance(cls) -> None:
-       """仅用于测试"""
-       if cls in cls._instances:
-           del cls._instances[cls]
-   ```
-
-### 线程安全
-
-本实现的所有方式都是线程安全的,使用了:
-
-- 元类中的锁机制
-- Python GIL保护
-- 原子操作
-
-### 性能考虑
-
-- **首次创建**: ~0.01ms (包含锁开销)
-- **后续获取**: ~0.001ms (仅返回实例)
-- **内存开销**: 极小 (单实例)
-
----
-
-## 📊 复杂度分析
-
-| 操作 | 时间复杂度 | 空间复杂度 |
-|------|-----------|-----------|
-| 首次创建 | O(1) | O(1) |
-| 获取实例 | O(1) | O(1) |
-| 总空间 | - | O(1) |
-
----
-
-## 🆚 对比
-
-### vs 全局变量
-
-| 特性 | 单例模式 | 全局变量 |
-|------|---------|---------|
-| 延迟初始化 | ✅ | ❌ |
-| 继承支持 | ✅ | ❌ |
-| 接口封装 | ✅ | ❌ |
-| 测试友好 | ⚠️ | ❌ |
-
-### vs 依赖注入
-
-| 特性 | 单例模式 | 依赖注入 |
-|------|---------|---------|
-| 实现复杂度 | 低 | 中-高 |
-| 测试友好 | ⚠️ | ✅ |
-| 灵活性 | 低 | 高 |
-| 适用场景 | 全局唯一 | 可配置依赖 |
-
----
-
-## 🔗 相关模式
-
-- **抽象工厂模式**: 可以用单例实现工厂
-- **建造者模式**: Builder可以是单例
-- **原型模式**: 与单例相反,强调克隆
-- **多例模式**: 单例的变体,控制实例数量
-
----
-
-## 📚 参考资料
-
-### 书籍
-
-- *Design Patterns: Elements of Reusable Object-Oriented Software* (GoF, 1994)
-- *Head First Design Patterns* (Freeman & Freeman, 2004)
-- *Python Cookbook* (Beazley & Jones, 2013)
-
-### 在线资源
-
-- [Python Singleton Pattern - Real Python](https://realpython.com/python-singleton/)
-- [PEP 8 - Style Guide for Python Code](https://peps.python.org/pep-0008/)
-- [Refactoring Guru - Singleton](https://refactoring.guru/design-patterns/singleton)
-
-### 论文
-
-- "Lazy Initialization in Python" - Python Software Foundation
-- "Thread-Safe Singleton in Python" - ActiveState
-
----
-
-## 🎓 扩展阅读
-
-### 进阶主题
-
-1. **Borg Pattern (Monostate)**
-   - 共享状态而非共享实例
-   - 更灵活的单例变体
-
-2. **Registry Pattern**
-   - 管理多个单例
-   - 根据key获取不同单例
-
-3. **Multiton Pattern**
-   - 控制实例数量
-   - 有限实例池
-
-### 实战案例
-
-- Django Settings (模块级单例)
-- SQLAlchemy Engine (连接池单例)
-- Logging Module (日志单例)
-
----
-
-**最后更新**: 2025-10-25  
-**作者**: Python 2025 Knowledge Base Team  
-**许可**: MIT
+**单例模式：简单但强大，谨慎使用！** 🎯
