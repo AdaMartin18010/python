@@ -1,0 +1,75 @@
+# Python 2025 Project Rules
+# 项目代码规范和最佳实践
+
+## Python Version
+使用 Python 3.12.11 (LTS) 作为生产标准
+新项目可使用 Python 3.13.7
+
+## Package Management
+使用 uv 0.8+ 作为包管理器
+- `uv add` 添加依赖
+- `uv sync` 同步依赖
+- `uv run` 运行脚本
+
+## Code Quality
+- 使用 ruff 进行代码检查和格式化
+- 使用 mypy 进行类型检查 (strict mode)
+- 使用 pytest 进行测试
+- 测试覆盖率目标: 90%+
+
+## Type Hints
+所有函数必须有完整的类型注解
+```python
+def func(x: int, y: str) -> bool:
+    return True
+```
+
+使用现代类型语法:
+- `str | None` 而不是 `Optional[str]`
+- `list[str]` 而不是 `List[str]`
+- `dict[str, int]` 而不是 `Dict[str, int]`
+
+## Modern Features (Python 3.12+)
+使用新泛型语法:
+```python
+class Stack[T]:
+    ...
+```
+
+使用 @override 装饰器:
+```python
+class Dog(Animal):
+    @override
+    def make_sound(self) -> str:
+        return "Woof!"
+```
+
+## Code Style
+- 行长度: 100
+- 缩进: 4空格
+- 引号: 双引号
+- 导入排序: stdlib, third-party, local
+
+## Testing
+- 测试文件: `test_*.py` 或 `*_test.py`
+- 使用 pytest fixtures
+- 使用参数化测试
+- Mocking使用 pytest-mock
+
+## Security
+- 使用 secrets 生成随机数
+- SQL 使用参数化查询
+- 使用 Pydantic 验证输入
+- 密钥使用环境变量
+
+## Performance
+- 大数据处理使用 Polars
+- 异步IO使用 asyncio
+- 使用生成器处理大量数据
+- 选择正确的数据结构
+
+## Documentation
+- 所有公开API必须有docstring
+- 使用类型注解代替类型文档
+- README必须包含安装和使用说明
+
