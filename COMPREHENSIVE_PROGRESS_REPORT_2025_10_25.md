@@ -159,11 +159,11 @@ python-2025-knowledge-base/
 
 #### 计划领域
 
-6. **微服务** (gRPC, REST, GraphQL)
-7. **消息队列** (Kafka, RabbitMQ, Redis)
-8. **监控** (Prometheus, Grafana, ELK)
-9. **测试** (Pytest, Mock, Coverage)
-10. **安全** (认证, 授权, 加密)
+1. **微服务** (gRPC, REST, GraphQL)
+2. **消息队列** (Kafka, RabbitMQ, Redis)
+3. **监控** (Prometheus, Grafana, ELK)
+4. **测试** (Pytest, Mock, Coverage)
+5. **安全** (认证, 授权, 加密)
 
 **预计时间**: 2-3天
 
