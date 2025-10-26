@@ -329,7 +329,7 @@ ignore_missing_imports = true
 
 ---
 
-## 📊 类型系统最佳实践
+## 6. 类型系统最佳实践
 
 ### 1. 优先使用内置泛型
 
@@ -395,7 +395,7 @@ def process[T](data: T) -> T:
 
 ---
 
-## 🎯 实际应用案例
+## 7. 实际应用案例
 
 ### 案例 1: 类型安全的配置类
 
@@ -478,7 +478,7 @@ result: int = slow_function(2)  # 类型正确
 
 ---
 
-## 📚 延伸阅读
+## 8. 延伸阅读
 
 - [PEP 484 - Type Hints](https://peps.python.org/pep-0484/)
 - [PEP 526 - Syntax for Variable Annotations](https://peps.python.org/pep-0526/)
