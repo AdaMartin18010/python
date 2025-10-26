@@ -1,5 +1,0 @@
-APP_ENV=dev
-APP_APP_NAME=fastapi-min
-APP_DEBUG=true
-
-

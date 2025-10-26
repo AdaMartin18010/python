@@ -1,6 +1,0 @@
-route:
-  receiver: 'null'
-receivers:
-  - name: 'null'
-
-
