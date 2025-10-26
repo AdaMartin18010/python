@@ -1,22 +1,37 @@
 # Python 语言核心特性
 
-**深入理解 Python 的核心机制**-
+**深入理解 Python 的核心机制**
 
 ---
 
 ## 📚 目录
 
-1. [数据模型与对象系统](01-data-model.md) - Python 对象模型
-2. [类型系统](02-type-system.md) - 类型系统详解
-3. [内存模型](03-memory-model.md) - 内存管理机制
-4. [执行模型](04-execution-model.md) - 代码执行过程
-5. [作用域与命名空间](05-scope-namespace.md) - 作用域规则
+- [1. 核心概念速查](#1-核心概念速查)
+  - [1.1 一切皆对象](#11-一切皆对象)
+  - [1.2 对象的身份、类型和值](#12-对象的身份类型和值)
+- [2. 数据模型](#2-数据模型)
+  - [2.1 特殊方法（Magic Methods）](#21-特殊方法magic-methods)
+- [3. 内存模型](#3-内存模型)
+- [4. 执行模型](#4-执行模型)
+- [5. 作用域与命名空间](#5-作用域与命名空间)
+- [6. 类与元类](#6-类与元类)
+- [7. 描述符协议](#7-描述符协议)
+- [8. 协议（Protocols）](#8-协议protocols)
+- [9. 实战案例](#9-实战案例)
+- [10. 延伸阅读](#10-延伸阅读)
+
+**相关子文档**:
+- [数据模型与对象系统](01-data-model.md) - Python 对象模型
+- [类型系统](02-type-system.md) - 类型系统详解
+- [内存模型](03-memory-model.md) - 内存管理机制
+- [执行模型](04-execution-model.md) - 代码执行过程
+- [作用域与命名空间](05-scope-namespace.md) - 作用域规则
 
 ---
 
-## 🎯 核心概念速查
+## 1. 核心概念速查
 
-### 1. 一切皆对象
+### 1.1 一切皆对象
 
 Python 中**一切都是对象**，包括数字、字符串、函数、类：
 
@@ -41,7 +56,7 @@ class Person:
 print(type(Person))  # <class 'type'>
 ```
 
-### 2. 对象的身份、类型和值
+### 1.2 对象的身份、类型和值
 
 每个对象都有三个特性：
 
@@ -69,9 +84,9 @@ print(a is c)  # True (是同一个对象)
 
 ---
 
-## 🔤 数据模型
+## 2. 数据模型
 
-### 特殊方法（Magic Methods）
+### 2.1 特殊方法（Magic Methods）
 
 Python 通过特殊方法实现运算符重载和协议：
 
@@ -194,7 +209,7 @@ class MyClass:
 
 ---
 
-## 💾 内存模型
+## 3. 内存模型
 
 ### 引用计数
 
@@ -256,7 +271,7 @@ print(s1 is s2)  # True (同一个对象)
 
 ---
 
-## 🔄 执行模型
+## 4. 执行模型
 
 ### 字节码
 
@@ -320,7 +335,7 @@ print(ast.dump(tree, indent=2))
 
 ---
 
-## 📐 作用域与命名空间
+## 5. 作用域与命名空间
 
 ### LEGB 规则
 
@@ -409,7 +424,7 @@ print(f"global x: {x}")  # 4
 
 ---
 
-## 🎭 类与元类
+## 6. 类与元类
 
 ### 类的创建
 
@@ -455,7 +470,7 @@ print(MyClass.created_at)  # 2025-10-24
 
 ---
 
-## 🔍 描述符协议
+## 7. 描述符协议
 
 描述符是实现 `__get__`、`__set__`、`__delete__` 的对象：
 
@@ -533,7 +548,7 @@ except AttributeError as e:
 
 ---
 
-## 🎯 协议（Protocols）
+## 8. 协议（Protocols）
 
 Python 通过协议定义接口：
 
@@ -584,7 +599,7 @@ with FileManager("test.txt", "w") as f:
 
 ---
 
-## 📚 实战案例
+## 9. 实战案例
 
 ### 案例 1: 单例模式
 
@@ -650,7 +665,7 @@ except ValueError as e:
 
 ---
 
-## 📖 延伸阅读
+## 10. 延伸阅读
 
 - [Python 数据模型](https://docs.python.org/3/reference/datamodel.html)
 - [Python 执行模型](https://docs.python.org/3/reference/executionmodel.html)

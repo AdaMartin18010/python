@@ -1,22 +1,36 @@
 # Python 类型系统深度解析
 
-**Python 3.12/3.13 类型系统完全指南**-
+**Python 3.12/3.13 类型系统完全指南**
 
 ---
 
 ## 📚 目录
 
-1. [类型注解基础](01-type-hints-basics.md) - Python 类型注解入门
-2. [泛型与协议](02-generics-protocols.md) - 高级类型特性
-3. [类型推导](03-type-inference.md) - 类型推导机制
-4. [mypy 静态检查](04-mypy.md) - mypy 使用指南
-5. [pyright 类型检查](05-pyright.md) - pyright 使用指南
-6. [运行时类型检查](06-runtime-checking.md) - 运行时验证
-7. [PEP 695 类型参数](07-pep695-type-parameters.md) - Python 3.12 新特性
+- [1. 类型系统概述](#1-类型系统概述)
+  - [1.1 核心概念](#11-核心概念)
+- [2. Python 3.12 类型系统新特性](#2-python-312-类型系统新特性)
+  - [2.1 PEP 695: 类型参数语法](#21-pep-695-类型参数语法)
+  - [2.2 PEP 698: @override 装饰器](#22-pep-698-override-装饰器)
+- [3. 基础类型注解](#3-基础类型注解)
+- [4. 高级类型特性](#4-高级类型特性)
+- [5. 泛型编程](#5-泛型编程)
+- [6. 协议与结构化子类型](#6-协议与结构化子类型)
+- [7. 类型检查工具](#7-类型检查工具)
+- [8. 实战案例](#8-实战案例)
+- [9. 延伸阅读](#9-延伸阅读)
+
+**相关子文档**:
+- [类型注解基础](01-type-hints-basics.md) - Python 类型注解入门
+- [泛型与协议](02-generics-protocols.md) - 高级类型特性
+- [类型推导](03-type-inference.md) - 类型推导机制
+- [mypy 静态检查](04-mypy.md) - mypy 使用指南
+- [pyright 类型检查](05-pyright.md) - pyright 使用指南
+- [运行时类型检查](06-runtime-checking.md) - 运行时验证
+- [PEP 695 类型参数](07-pep695-type-parameters.md) - Python 3.12 新特性
 
 ---
 
-## 🎯 类型系统概述
+## 1. 类型系统概述
 
 Python 的类型系统是**渐进式**的：
 
@@ -24,7 +38,7 @@ Python 的类型系统是**渐进式**的：
 - **静态类型注解**：可选的类型提示
 - **结构化子类型**：基于协议的类型匹配
 
-### 核心概念
+### 1.1 核心概念
 
 ```python
 from typing import TypeVar, Generic, Protocol, TypeAlias
@@ -60,9 +74,9 @@ type Matrix = list[list[float]]
 
 ---
 
-## 🚀 Python 3.12 类型系统新特性
+## 2. Python 3.12 类型系统新特性
 
-### PEP 695: 类型参数语法
+### 2.1 PEP 695: 类型参数语法
 
 ```python
 # 旧语法 (Python < 3.12)
@@ -94,7 +108,7 @@ type IntStack = Stack[int]
 type Point[T] = tuple[T, T]
 ```
 
-### PEP 698: @override 装饰器
+### 2.2 PEP 698: @override 装饰器
 
 ```python
 from typing import override
@@ -115,7 +129,7 @@ class Derived(Base):
 
 ---
 
-## 📖 类型注解层次
+## 3. 类型注解层次
 
 ### Level 1: 基础类型
 
@@ -212,7 +226,7 @@ sorted_people = sort_items(people)
 
 ---
 
-## 🔍 高级类型特性
+## 4. 高级类型特性
 
 ### 1. 类型守卫
 
