@@ -294,7 +294,7 @@ def greet(name: str, age: int) -> str:
 
 ---
 
-## 🛠️ 类型检查工具
+## 5. 类型检查工具
 
 ### mypy 配置
 
