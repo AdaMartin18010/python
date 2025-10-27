@@ -644,7 +644,13 @@ result = slow_function(2)
 
 ---
 
-## 📚 延伸阅读
+## 5. 异步编程模式
+
+（详见 [异步编程模式](06-async-patterns.md)）
+
+---
+
+## 8. 延伸阅读
 
 - [PEP 20 - The Zen of Python](https://peps.python.org/pep-0020/)
 - [PEP 8 - Style Guide](https://peps.python.org/pep-0008/)

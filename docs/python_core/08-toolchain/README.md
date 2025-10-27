@@ -6,13 +6,23 @@
 
 ## 📚 目录
 
-1. [uv 工具链](01-uv-toolchain.md) - 极速包管理
-2. [ruff 代码检查](02-ruff.md) - 超快 Linter
-3. [mypy 类型检查](03-mypy.md) - 静态类型检查
-4. [pytest 测试框架](04-pytest.md) - 测试工具
-5. [black 代码格式化](05-black.md) - 代码格式化
-6. [pre-commit 钩子](06-pre-commit.md) - Git 钩子
-7. [IDE 集成](07-ide-integration.md) - IDE 配置
+- [1. uv - 极速包管理器](#1-uv---极速包管理器)
+- [2. ruff - 超快 Linter + Formatter](#2-ruff---超快-linter--formatter)
+- [3. mypy - 类型检查](#3-mypy---类型检查)
+- [4. pytest - 测试框架](#4-pytest---测试框架)
+- [5. pre-commit - Git 钩子](#5-pre-commit---git-钩子)
+- [6. IDE 集成](#6-ide-集成)
+- [7. 完整工作流](#7-完整工作流)
+- [8. 延伸阅读](#8-延伸阅读)
+
+> **详细文档**:
+> 1. [uv 工具链](01-uv-toolchain.md) - 极速包管理
+> 2. [ruff 代码检查](02-ruff.md) - 超快 Linter
+> 3. [mypy 类型检查](03-mypy.md) - 静态类型检查
+> 4. [pytest 测试框架](04-pytest.md) - 测试工具
+> 5. [black 代码格式化](05-black.md) - 代码格式化
+> 6. [pre-commit 钩子](06-pre-commit.md) - Git 钩子
+> 7. [IDE 集成](07-ide-integration.md) - IDE 配置
 
 ---
 
@@ -32,7 +42,7 @@ graph TD
 
 ---
 
-## ⚡ 1. uv - 极速包管理器
+## 1. uv - 极速包管理器
 
 **10-100x 速度提升！**
 
@@ -90,7 +100,7 @@ dev-dependencies = [
 
 ---
 
-## 🔍 2. ruff - 超快 Linter + Formatter
+## 2. ruff - 超快 Linter + Formatter
 
 **10-100x 比 Black/Flake8/isort 更快！**
 
@@ -269,7 +279,13 @@ result: int = first(numbers)  # 推断为 int
 
 ---
 
-## 🧪 4. pytest - 测试框架
+## 3. mypy - 类型检查
+
+（详见 [mypy 类型检查](03-mypy.md)）
+
+---
+
+## 4. pytest - 测试框架
 
 ### 安装4
 
@@ -361,7 +377,7 @@ async def test_async_function():
 
 ---
 
-## 🎨 5. black - 代码格式化
+## 5. pre-commit - Git 钩子
 
 ### 安装5
 
@@ -502,7 +518,13 @@ Settings > Tools > External Tools
 
 ---
 
-## 🎯 完整工作流
+## 6. IDE 集成
+
+（详见 [IDE 集成](07-ide-integration.md)）
+
+---
+
+## 7. 完整工作流
 
 ### 1. 项目初始化
 
@@ -603,7 +625,7 @@ jobs:
 
 ---
 
-## 🎓 最佳实践
+## 8. 延伸阅读
 
 ### 1. 严格模式
 
