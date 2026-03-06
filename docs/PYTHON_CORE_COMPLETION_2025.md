@@ -1,7 +1,7 @@
 # Python 语言核心文档完成报告
 
-**日期**: 2025年10月24日  
-**基于**: Python 3.12/3.13 | uv 包管理器  
+**日期**: 2025年10月24日
+**基于**: Python 3.12/3.13 | uv 包管理器
 **状态**: ✅ **核心文档已完成**
 
 ---
@@ -241,29 +241,31 @@ class Person:
 ### 初学者路径
 
 1. **开始**：
+
    - [Python 语言核心](docs/python_core/README.md)
    - [PEP 8 代码风格](docs/python_core/05-coding-standards/01-pep8.md)
-
 2. **基础惯用法**：
+
    - [Pythonic 惯用法](docs/python_core/06-pythonic-idioms/README.md)
    - 序列操作、字典操作、列表推导式
-
 3. **包管理**：
+
    - [uv 包管理器](docs/python_core/04-package-management/01-uv-package-manager.md)
    - 创建项目、添加依赖、运行项目
 
 ### 进阶开发者路径
 
 1. **类型系统**：
+
    - [类型系统深度解析](docs/python_core/03-type-system/README.md)
    - 泛型、协议、类型推导
-
 2. **高级惯用法**：
+
    - 生成器和装饰器
    - 上下文管理器
    - 数据类和模式匹配
-
 3. **工具链**：
+
    - ruff 代码检查
    - mypy 类型检查
    - pytest 测试框架
@@ -271,16 +273,17 @@ class Person:
 ### 专家级路径
 
 1. **Python 3.12+ 新特性**：
+
    - PEP 695 类型参数
    - PEP 698 override 装饰器
    - 模式匹配高级用法
-
 2. **性能优化**：
+
    - 性能分析和优化
    - 生成器和惰性求值
    - C 扩展和 Cython
-
 3. **架构设计**：
+
    - 设计模式实现
    - 并发和异步编程
    - 大规模项目组织
@@ -362,13 +365,13 @@ def process_records(records: Iterator[Record]) -> dict[str, int]:
     """处理记录并返回活跃用户的平均分数。"""
     # 过滤活跃用户
     active_records = (r for r in records if r.active)
-    
+
     # 按名字分组
     from collections import defaultdict
     scores_by_name = defaultdict(list)
     for record in active_records:
         scores_by_name[record.name].append(record.score)
-    
+
     # 计算平均分
     return {
         name: sum(scores) // len(scores)
@@ -383,21 +386,22 @@ def process_records(records: Iterator[Record]) -> dict[str, int]:
 ### 深入学习建议
 
 1. **类型系统精通**
+
    - 完整阅读 [PEP 484](https://peps.python.org/pep-0484/) 到 [PEP 698](https://peps.python.org/pep-0698/)
    - 实践使用 mypy 和 pyright
    - 为现有项目添加类型注解
-
 2. **包管理精通**
+
    - 深入了解 uv 的依赖解析算法
    - 构建 monorepo 项目
    - 发布自己的包到 PyPI
-
 3. **代码质量提升**
+
    - 配置完整的 pre-commit hooks
    - 集成 CI/CD 流水线
    - 学习代码审查最佳实践
-
 4. **性能优化**
+
    - 使用 profiling 工具
    - 学习 Python 内存模型
    - 掌握异步编程
@@ -474,21 +478,21 @@ def process_records(records: Iterator[Record]) -> dict[str, int]:
 
 我们已经完成了一套**完整、现代、实用**的 Python 语言核心文档：
 
-✅ **3,150+ 行**详细文档  
-✅ **290+ 个**可运行代码示例  
-✅ **5个核心章节**全面覆盖  
-✅ **Python 3.12/3.13** 最新特性  
-✅ **uv** 现代包管理工具  
-✅ **类型系统** 完整指南  
-✅ **Pythonic** 惯用法精髓  
+✅ **3,150+ 行**详细文档
+✅ **290+ 个**可运行代码示例
+✅ **5个核心章节**全面覆盖
+✅ **Python 3.12/3.13** 最新特性
+✅ **uv** 现代包管理工具
+✅ **类型系统** 完整指南
+✅ **Pythonic** 惯用法精髓
 
 这是一套**真正可以指导实践**的 Python 核心参考文档！
 
 ---
 
-**文档状态**: ✅ **核心完成，持续优化中**  
-**最后更新**: 2025年10月24日  
-**基于版本**: Python 3.12/3.13  
+**文档状态**: ✅ **核心完成，持续优化中**
+**最后更新**: 2025年10月24日
+**基于版本**: Python 3.12/3.13
 **包管理**: uv 0.5.0+
 
 **让我们一起编写更优雅的 Python 代码！** 🐍✨
