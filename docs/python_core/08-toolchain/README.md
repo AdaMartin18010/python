@@ -16,6 +16,7 @@
 - [8. 延伸阅读](#8-延伸阅读)
 
 > **详细文档**:
+>
 > 1. [uv 工具链](01-uv-toolchain.md) - 极速包管理
 > 2. [ruff 代码检查](02-ruff.md) - 超快 Linter
 > 3. [mypy 类型检查](03-mypy.md) - 静态类型检查
@@ -349,17 +350,17 @@ class TestCalculator:
     @pytest.fixture
     def calc(self):
         return Calculator()
-    
+
     def test_add(self, calc):
         assert calc.add(2, 3) == 5
-    
+
     def test_divide(self, calc):
         assert calc.divide(10, 2) == 5
-    
+
     def test_divide_by_zero(self, calc):
         with pytest.raises(ZeroDivisionError):
             calc.divide(10, 0)
-    
+
     @pytest.mark.parametrize("a,b,expected", [
         (1, 2, 3),
         (5, 5, 10),
@@ -438,14 +439,14 @@ repos:
       - id: ruff
         args: [--fix]
       - id: ruff-format
-  
+
   # Mypy
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.11.0
     hooks:
       - id: mypy
         additional_dependencies: [types-all]
-  
+
   # 基础检查
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
@@ -482,21 +483,21 @@ pre-commit autoupdate
 {
   // Python 解释器
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
-  
+
   // Ruff
   "ruff.enable": true,
   "ruff.organizeImports": true,
-  
+
   // Mypy
   "python.linting.mypyEnabled": true,
   "python.linting.mypyArgs": ["--strict"],
-  
+
   // 格式化
   "editor.formatOnSave": true,
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  
+
   // 测试
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false
@@ -574,25 +575,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup uv
         uses: astral-sh/setup-uv@v3
-      
+
       - name: Install dependencies
         run: uv sync --all-extras
-      
+
       - name: Ruff check
         run: uv run ruff check .
-      
+
       - name: Ruff format
         run: uv run ruff format --check .
-      
+
       - name: Mypy
         run: uv run mypy src/
-      
+
       - name: Pytest
         run: uv run pytest --cov=src --cov-report=xml
-      
+
       - name: Upload coverage
         uses: codecov/codecov-action@v4
 ```

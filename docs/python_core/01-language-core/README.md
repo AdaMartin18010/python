@@ -6,21 +6,41 @@
 
 ## 📚 目录
 
-- [1. 核心概念速查](#1-核心概念速查)
-  - [1.1 一切皆对象](#11-一切皆对象)
-  - [1.2 对象的身份、类型和值](#12-对象的身份类型和值)
-- [2. 数据模型](#2-数据模型)
-  - [2.1 特殊方法（Magic Methods）](#21-特殊方法magic-methods)
-- [3. 内存模型](#3-内存模型)
-- [4. 执行模型](#4-执行模型)
-- [5. 作用域与命名空间](#5-作用域与命名空间)
-- [6. 类与元类](#6-类与元类)
-- [7. 描述符协议](#7-描述符协议)
-- [8. 协议（Protocols）](#8-协议protocols)
-- [9. 实战案例](#9-实战案例)
-- [10. 延伸阅读](#10-延伸阅读)
+- [Python 语言核心特性](#python-语言核心特性)
+  - [📚 目录](#-目录)
+  - [1. 核心概念速查](#1-核心概念速查)
+    - [1.1 一切皆对象](#11-一切皆对象)
+    - [1.2 对象的身份、类型和值](#12-对象的身份类型和值)
+  - [2. 数据模型](#2-数据模型)
+    - [2.1 特殊方法（Magic Methods）](#21-特殊方法magic-methods)
+    - [常用特殊方法](#常用特殊方法)
+  - [3. 内存模型](#3-内存模型)
+    - [引用计数](#引用计数)
+    - [垃圾回收](#垃圾回收)
+    - [对象池](#对象池)
+  - [4. 执行模型](#4-执行模型)
+    - [字节码](#字节码)
+    - [执行流程](#执行流程)
+    - [AST 示例](#ast-示例)
+  - [5. 作用域与命名空间](#5-作用域与命名空间)
+    - [LEGB 规则](#legb-规则)
+    - [命名空间](#命名空间)
+    - [nonlocal 与 global](#nonlocal-与-global)
+  - [6. 类与元类](#6-类与元类)
+    - [类的创建](#类的创建)
+    - [自定义元类](#自定义元类)
+  - [7. 描述符协议](#7-描述符协议)
+    - [内置描述符](#内置描述符)
+  - [8. 协议（Protocols）](#8-协议protocols)
+    - [迭代器协议](#迭代器协议)
+    - [上下文管理器协议](#上下文管理器协议)
+  - [9. 实战案例](#9-实战案例)
+    - [案例 1: 单例模式](#案例-1-单例模式)
+    - [案例 2: 属性验证](#案例-2-属性验证)
+  - [10. 延伸阅读](#10-延伸阅读)
 
 **相关子文档**:
+
 - [数据模型与对象系统](01-data-model.md) - Python 对象模型
 - [类型系统](02-type-system.md) - 类型系统详解
 - [内存模型](03-memory-model.md) - 内存管理机制
@@ -95,37 +115,37 @@ class Vector:
     def __init__(self, x: float, y: float):
         self.x = x
         self.y = y
-    
+
     def __repr__(self) -> str:
         """字符串表示"""
         return f"Vector({self.x}, {self.y})"
-    
+
     def __str__(self) -> str:
         """用户友好的字符串"""
         return f"<{self.x}, {self.y}>"
-    
+
     def __add__(self, other: "Vector") -> "Vector":
         """向量加法"""
         return Vector(self.x + other.x, self.y + other.y)
-    
+
     def __mul__(self, scalar: float) -> "Vector":
         """标量乘法"""
         return Vector(self.x * scalar, self.y * scalar)
-    
+
     def __abs__(self) -> float:
         """向量长度"""
         return (self.x ** 2 + self.y ** 2) ** 0.5
-    
+
     def __bool__(self) -> bool:
         """真值测试"""
         return abs(self) != 0
-    
+
     def __eq__(self, other: object) -> bool:
         """相等比较"""
         if not isinstance(other, Vector):
             return NotImplemented
         return self.x == other.x and self.y == other.y
-    
+
     def __getitem__(self, index: int) -> float:
         """索引访问"""
         if index == 0:
@@ -134,7 +154,7 @@ class Vector:
             return self.y
         else:
             raise IndexError("Index out of range")
-    
+
     def __len__(self) -> int:
         """长度"""
         return 2
@@ -161,12 +181,12 @@ class MyClass:
     # 构造与析构
     def __init__(self): pass
     def __del__(self): pass
-    
+
     # 字符串表示
     def __repr__(self): pass
     def __str__(self): pass
     def __format__(self, format_spec): pass
-    
+
     # 数值运算
     def __add__(self, other): pass
     def __sub__(self, other): pass
@@ -175,7 +195,7 @@ class MyClass:
     def __floordiv__(self, other): pass
     def __mod__(self, other): pass
     def __pow__(self, other): pass
-    
+
     # 比较运算
     def __eq__(self, other): pass
     def __ne__(self, other): pass
@@ -183,7 +203,7 @@ class MyClass:
     def __le__(self, other): pass
     def __gt__(self, other): pass
     def __ge__(self, other): pass
-    
+
     # 容器协议
     def __len__(self): pass
     def __getitem__(self, key): pass
@@ -192,14 +212,14 @@ class MyClass:
     def __contains__(self, item): pass
     def __iter__(self): pass
     def __next__(self): pass
-    
+
     # 上下文管理
     def __enter__(self): pass
     def __exit__(self, exc_type, exc_val, exc_tb): pass
-    
+
     # 可调用对象
     def __call__(self, *args, **kwargs): pass
-    
+
     # 属性访问
     def __getattr__(self, name): pass
     def __setattr__(self, name, value): pass
@@ -351,11 +371,11 @@ x = "global"  # G
 
 def outer():
     x = "enclosing"  # E
-    
+
     def inner():
         x = "local"  # L
         print(x)  # local
-    
+
     inner()
     print(x)  # enclosing
 
@@ -375,11 +395,11 @@ global_var = "global"
 def function():
     # 局部命名空间
     local_var = "local"
-    
+
     # 访问全局变量
     global global_var
     global_var = "modified"
-    
+
     # 查看局部命名空间
     print(locals())  # {'local_var': 'local'}
 
@@ -394,27 +414,27 @@ x = 0  # 全局
 
 def outer():
     x = 1  # 闭包
-    
+
     def inner1():
         x = 2  # 局部
         print(f"inner1 local: {x}")  # 2
-    
+
     def inner2():
         nonlocal x  # 修改闭包变量
         x = 3
         print(f"inner2 nonlocal: {x}")  # 3
-    
+
     def inner3():
         global x  # 修改全局变量
         x = 4
         print(f"inner3 global: {x}")  # 4
-    
+
     inner1()
     print(f"outer after inner1: {x}")  # 1
-    
+
     inner2()
     print(f"outer after inner2: {x}")  # 3
-    
+
     inner3()
     print(f"outer after inner3: {x}")  # 3
 
@@ -452,7 +472,7 @@ class Meta(type):
         # 自动添加属性
         dct['created_at'] = "2025-10-24"
         return super().__new__(mcs, name, bases, dct)
-    
+
     def __init__(cls, name, bases, dct):
         # 在类初始化时执行
         print(f"Initializing class: {name}")
@@ -478,12 +498,12 @@ print(MyClass.created_at)  # 2025-10-24
 class Descriptor:
     def __set_name__(self, owner, name):
         self.name = name
-    
+
     def __get__(self, obj, objtype=None):
         if obj is None:
             return self
         return obj.__dict__.get(self.name)
-    
+
     def __set__(self, obj, value):
         if not isinstance(value, str):
             raise TypeError(f"{self.name} must be str")
@@ -491,7 +511,7 @@ class Descriptor:
 
 class Person:
     name = Descriptor()  # 描述符
-    
+
     def __init__(self, name: str):
         self.name = name
 
@@ -515,18 +535,18 @@ except TypeError as e:
 class Circle:
     def __init__(self, radius: float):
         self._radius = radius
-    
+
     @property
     def radius(self) -> float:
         """半径"""
         return self._radius
-    
+
     @radius.setter
     def radius(self, value: float) -> None:
         if value < 0:
             raise ValueError("Radius must be positive")
         self._radius = value
-    
+
     @property
     def area(self) -> float:
         """面积（只读）"""
@@ -558,10 +578,10 @@ Python 通过协议定义接口：
 class Countdown:
     def __init__(self, start: int):
         self.current = start
-    
+
     def __iter__(self):
         return self
-    
+
     def __next__(self):
         if self.current <= 0:
             raise StopIteration
@@ -581,11 +601,11 @@ class FileManager:
         self.filename = filename
         self.mode = mode
         self.file = None
-    
+
     def __enter__(self):
         self.file = open(self.filename, self.mode)
         return self.file
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         if self.file:
             self.file.close()
@@ -606,7 +626,7 @@ with FileManager("test.txt", "w") as f:
 ```python
 class Singleton(type):
     _instances = {}
-    
+
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
             cls._instances[cls] = super().__call__(*args, **kwargs)
@@ -628,15 +648,15 @@ print(db1 is db2)  # True
 class ValidatedAttribute:
     def __init__(self, validator):
         self.validator = validator
-    
+
     def __set_name__(self, owner, name):
         self.name = f"_{name}"
-    
+
     def __get__(self, obj, objtype=None):
         if obj is None:
             return self
         return getattr(obj, self.name, None)
-    
+
     def __set__(self, obj, value):
         self.validator(value)
         setattr(obj, self.name, value)
@@ -648,7 +668,7 @@ class User:
     age = ValidatedAttribute(
         lambda x: 0 <= x <= 150 or (_ for _ in ()).throw(ValueError("Invalid age"))
     )
-    
+
     def __init__(self, name: str, age: int):
         self.name = name
         self.age = age

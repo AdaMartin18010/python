@@ -26,12 +26,12 @@
 # 1. 基础类
 class Person:
     """人类"""
-    
+
     def __init__(self, name, age):
         """构造方法"""
         self.name = name
         self.age = age
-    
+
     def greet(self):
         """实例方法"""
         return f"Hello, I'm {self.name}"
@@ -44,7 +44,7 @@ print(person.greet())  # Hello, I'm Alice
 class Counter:
     """计数器类"""
     count = 0  # 类变量 (所有实例共享)
-    
+
     def __init__(self):
         Counter.count += 1
         self.id = Counter.count  # 实例变量 (每个实例独立)
@@ -57,12 +57,12 @@ print(c1.id, c2.id)   # 1 2
 # 3. 类方法和静态方法
 class Math:
     """数学工具类"""
-    
+
     @classmethod
     def from_string(cls, s):
         """类方法: 接收类作为第一个参数"""
         return cls(int(s))
-    
+
     @staticmethod
     def is_even(n):
         """静态方法: 不接收self或cls"""
@@ -78,20 +78,20 @@ Python的访问控制约定
 
 class BankAccount:
     """银行账户"""
-    
+
     def __init__(self, balance):
         self.public = "公开属性"
         self._protected = "受保护属性"  # 约定: 内部使用
         self.__private = balance        # 名称改写: _BankAccount__private
-    
+
     def get_balance(self):
         """访问私有属性"""
         return self.__private
-    
+
     def _internal_method(self):
         """受保护方法"""
         pass
-    
+
     def __private_method(self):
         """私有方法"""
         pass
@@ -122,16 +122,16 @@ print(account._BankAccount__private)  # 名称改写后可访问
 
 class Example:
     class_var = "类变量"
-    
+
     def instance_method(self):
         """实例方法: 操作实例数据"""
         return f"Instance method called by {self}"
-    
+
     @classmethod
     def class_method(cls):
         """类方法: 操作类数据或创建实例"""
         return f"Class method called by {cls}"
-    
+
     @staticmethod
     def static_method():
         """静态方法: 不访问实例或类数据"""
@@ -150,20 +150,20 @@ class Date:
         self.year = year
         self.month = month
         self.day = day
-    
+
     @classmethod
     def from_string(cls, date_string):
         """工厂方法: 从字符串创建"""
         year, month, day = map(int, date_string.split('-'))
         return cls(year, month, day)
-    
+
     @classmethod
     def today(cls):
         """工厂方法: 创建今天的日期"""
         from datetime import date
         today = date.today()
         return cls(today.year, today.month, today.day)
-    
+
     @staticmethod
     def is_date_valid(date_string):
         """静态方法: 验证日期格式"""
@@ -189,33 +189,33 @@ print(Date.is_date_valid("2025-10-28"))  # True
 
 class Temperature:
     """温度类"""
-    
+
     def __init__(self, celsius):
         self._celsius = celsius
-    
+
     @property
     def celsius(self):
         """获取摄氏度"""
         return self._celsius
-    
+
     @celsius.setter
     def celsius(self, value):
         """设置摄氏度"""
         if value < -273.15:
             raise ValueError("Temperature below absolute zero")
         self._celsius = value
-    
+
     @celsius.deleter
     def celsius(self):
         """删除温度"""
         print("Deleting temperature")
         del self._celsius
-    
+
     @property
     def fahrenheit(self):
         """计算华氏度"""
         return self._celsius * 9/5 + 32
-    
+
     @fahrenheit.setter
     def fahrenheit(self, value):
         """从华氏度设置"""
@@ -253,14 +253,14 @@ Python单继承
 # 基类
 class Animal:
     """动物基类"""
-    
+
     def __init__(self, name):
         self.name = name
-    
+
     def speak(self):
         """动物叫声"""
         return "Some sound"
-    
+
     def move(self):
         """动物移动"""
         return f"{self.name} is moving"
@@ -268,15 +268,15 @@ class Animal:
 # 派生类
 class Dog(Animal):
     """狗类"""
-    
+
     def __init__(self, name, breed):
         super().__init__(name)  # 调用父类构造方法
         self.breed = breed
-    
+
     def speak(self):
         """重写父类方法"""
         return "Woof!"
-    
+
     def fetch(self):
         """狗特有的方法"""
         return f"{self.name} is fetching"
@@ -419,48 +419,48 @@ user.validate()
 
 class Point:
     """2D点类"""
-    
+
     def __init__(self, x, y):
         """构造方法"""
         self.x = x
         self.y = y
-    
+
     def __repr__(self):
         """官方字符串表示(调试用)"""
         return f"Point({self.x}, {self.y})"
-    
+
     def __str__(self):
         """用户友好的字符串表示"""
         return f"({self.x}, {self.y})"
-    
+
     def __eq__(self, other):
         """相等比较"""
         return self.x == other.x and self.y == other.y
-    
+
     def __lt__(self, other):
         """小于比较"""
         return (self.x, self.y) < (other.x, other.y)
-    
+
     def __add__(self, other):
         """加法"""
         return Point(self.x + other.x, self.y + other.y)
-    
+
     def __mul__(self, scalar):
         """标量乘法"""
         return Point(self.x * scalar, self.y * scalar)
-    
+
     def __abs__(self):
         """绝对值(距离)"""
         return (self.x ** 2 + self.y ** 2) ** 0.5
-    
+
     def __bool__(self):
         """布尔转换"""
         return self.x != 0 or self.y != 0
-    
+
     def __len__(self):
         """长度"""
         return 2
-    
+
     def __getitem__(self, index):
         """索引访问"""
         if index == 0:
@@ -495,38 +495,38 @@ print(p1[0])        # 1 (__getitem__)
 
 class CustomList:
     """自定义列表"""
-    
+
     def __init__(self):
         self._items = []
-    
+
     def __len__(self):
         """长度"""
         return len(self._items)
-    
+
     def __getitem__(self, index):
         """获取元素"""
         return self._items[index]
-    
+
     def __setitem__(self, index, value):
         """设置元素"""
         self._items[index] = value
-    
+
     def __delitem__(self, index):
         """删除元素"""
         del self._items[index]
-    
+
     def __contains__(self, item):
         """成员测试"""
         return item in self._items
-    
+
     def __iter__(self):
         """迭代"""
         return iter(self._items)
-    
+
     def __reversed__(self):
         """反向迭代"""
         return reversed(self._items)
-    
+
     def append(self, item):
         """添加元素"""
         self._items.append(item)
@@ -562,17 +562,17 @@ from abc import ABC, abstractmethod
 
 class Shape(ABC):
     """形状抽象基类"""
-    
+
     @abstractmethod
     def area(self):
         """计算面积(必须实现)"""
         pass
-    
+
     @abstractmethod
     def perimeter(self):
         """计算周长(必须实现)"""
         pass
-    
+
     def describe(self):
         """描述(可选实现)"""
         return f"Area: {self.area()}, Perimeter: {self.perimeter()}"
@@ -581,10 +581,10 @@ class Circle(Shape):
     """圆形"""
     def __init__(self, radius):
         self.radius = radius
-    
+
     def area(self):
         return 3.14159 * self.radius ** 2
-    
+
     def perimeter(self):
         return 2 * 3.14159 * self.radius
 
@@ -593,10 +593,10 @@ class Rectangle(Shape):
     def __init__(self, width, height):
         self.width = width
         self.height = height
-    
+
     def area(self):
         return self.width * self.height
-    
+
     def perimeter(self):
         return 2 * (self.width + self.height)
 
@@ -624,7 +624,7 @@ class Point:
     """2D点数据类"""
     x: float
     y: float
-    
+
     def distance(self):
         return (self.x ** 2 + self.y ** 2) ** 0.5
 
@@ -646,7 +646,7 @@ class Product:
     price: float = field(compare=True)
     quantity: int = field(default=0, compare=False)
     tags: List[str] = field(default_factory=list)
-    
+
     def total_price(self):
         return self.price * self.quantity
 
@@ -662,7 +662,7 @@ class Product:
 ### 类定义
 
 - ✅ **class关键字**: 定义类
-- ✅ **__init__**: 构造方法
+- ✅ ****init****: 构造方法
 - ✅ **self**: 实例引用
 - ✅ **类变量vs实例变量**: 作用域
 
@@ -682,11 +682,11 @@ class Product:
 
 ### 特殊方法
 
-- ✅ **__init__**: 构造
-- ✅ **__str__/__repr__**: 字符串表示
-- ✅ **__eq__/__lt__**: 比较
-- ✅ **__add__/__mul__**: 运算
-- ✅ **__len__/__getitem__**: 容器
+- ✅ ****init****: 构造
+- ✅ ****str**/**repr****: 字符串表示
+- ✅ ****eq**/**lt****: 比较
+- ✅ ****add**/**mul****: 运算
+- ✅ ****len**/**getitem****: 容器
 
 ### 最佳实践
 
@@ -701,9 +701,9 @@ class Product:
 **掌握类与继承，构建优雅架构！** 🏗️✨
 
 **相关文档**:
+
 - [05-functions-closures.md](05-functions-closures.md) - 函数与闭包
 - [07-decorators-metaprogramming.md](07-decorators-metaprogramming.md) - 装饰器与元编程
 - [../01-language-core/01-data-model.md](../01-language-core/01-data-model.md) - 数据模型
 
 **最后更新**: 2025年10月28日
-

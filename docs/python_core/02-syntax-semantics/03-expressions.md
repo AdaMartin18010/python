@@ -153,10 +153,10 @@ class Version:
     def __init__(self, major, minor):
         self.major = major
         self.minor = minor
-    
+
     def __lt__(self, other):
         return (self.major, self.minor) < (other.major, other.minor)
-    
+
     def __eq__(self, other):
         return (self.major, self.minor) == (other.major, other.minor)
 
@@ -308,15 +308,15 @@ func(1, 2, 3, 4, e=5, f=6)  # OK
 
 def trace_call():
     """追踪调用过程"""
-    
+
     def f(x):
         print(f"f({x})")
         return x
-    
+
     def func(a, b, c):
         print(f"func called: a={a}, b={b}, c={c}")
         return a + b + c
-    
+
     # 调用
     result = func(f(1), f(2), c=f(3))
     """
@@ -620,9 +620,9 @@ arr[1:, :2]  # [[4, 5], [7, 8]]
 **掌握表达式语义，写出高效代码！** 💫✨
 
 **相关文档**:
+
 - [02-grammar.md](02-grammar.md) - 语法结构
 - [04-statements.md](04-statements.md) - 语句语义
 - [05-functions-closures.md](05-functions-closures.md) - 函数与闭包
 
 **最后更新**: 2025年10月28日
-

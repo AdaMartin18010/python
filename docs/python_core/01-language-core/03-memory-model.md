@@ -6,11 +6,28 @@
 
 ## 📋 目录
 
-- [内存管理概述](#内存管理概述)
-- [对象内存结构](#对象内存结构)
-- [引用计数](#引用计数)
-- [垃圾回收](#垃圾回收)
-- [内存优化](#内存优化)
+- [Python 内存模型](#python-内存模型)
+  - [📋 目录](#-目录)
+  - [内存管理概述](#内存管理概述)
+    - [Python内存管理架构](#python内存管理架构)
+    - [对象的内存布局](#对象的内存布局)
+  - [对象内存结构](#对象内存结构)
+    - [不可变对象的内存](#不可变对象的内存)
+    - [可变对象的内存](#可变对象的内存)
+  - [引用计数](#引用计数)
+    - [引用计数机制](#引用计数机制)
+    - [循环引用问题](#循环引用问题)
+  - [垃圾回收](#垃圾回收)
+    - [分代垃圾回收](#分代垃圾回收)
+    - [\_\_del\_\_方法的陷阱](#__del__方法的陷阱)
+  - [内存优化](#内存优化)
+    - [\_\_slots\_\_优化](#__slots__优化)
+    - [内存池和对象缓存](#内存池和对象缓存)
+    - [内存监控](#内存监控)
+  - [📚 核心要点](#-核心要点)
+    - [内存管理](#内存管理)
+    - [优化技巧](#优化技巧)
+    - [最佳实践](#最佳实践)
 
 ---
 
@@ -267,11 +284,11 @@ class Node:
     def __init__(self, value):
         self.value = value
         self._next = None
-    
+
     @property
     def next(self):
         return self._next() if self._next else None
-    
+
     @next.setter
     def next(self, node):
         self._next = weakref.ref(node) if node else None
@@ -340,7 +357,7 @@ class Resource:
     def __init__(self, name):
         self.name = name
         print(f"Creating {name}")
-    
+
     def __del__(self):
         """析构函数"""
         print(f"Destroying {name}")
@@ -354,7 +371,7 @@ class Node:
     def __init__(self, value):
         self.value = value
         self.next = None
-    
+
     def __del__(self):
         print(f"Deleting node {self.value}")
 
@@ -401,7 +418,7 @@ print(sys.getsizeof(p1.__dict__))  # ~232 bytes
 # 使用__slots__
 class Point:
     __slots__ = ('x', 'y')
-    
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -446,16 +463,16 @@ lst = [None] * 1000000  # 预分配100万元素
 
 class ObjectPool:
     """对象池"""
-    
+
     def __init__(self, object_class, size=10):
         self._pool = [object_class() for _ in range(size)]
-    
+
     def acquire(self):
         """获取对象"""
         if self._pool:
             return self._pool.pop()
         return None
-    
+
     def release(self, obj):
         """归还对象"""
         self._pool.append(obj)
@@ -519,21 +536,21 @@ def total_size(obj, seen=None):
     size = sys.getsizeof(obj)
     if seen is None:
         seen = set()
-    
+
     obj_id = id(obj)
     if obj_id in seen:
         return 0
-    
+
     seen.add(obj_id)
-    
+
     if isinstance(obj, dict):
-        size += sum(total_size(k, seen) + total_size(v, seen) 
+        size += sum(total_size(k, seen) + total_size(v, seen)
                    for k, v in obj.items())
     elif hasattr(obj, '__dict__'):
         size += total_size(obj.__dict__, seen)
     elif hasattr(obj, '__iter__') and not isinstance(obj, (str, bytes)):
         size += sum(total_size(i, seen) for i in obj)
-    
+
     return size
 ```
 
@@ -550,7 +567,7 @@ def total_size(obj, seen=None):
 
 ### 优化技巧
 
-- ✅ **__slots__**: 大量实例时节省内存
+- ✅ ****slots****: 大量实例时节省内存
 - ✅ **对象池**: 重用昂贵对象
 - ✅ **生成器**: 惰性计算节省内存
 - ✅ **弱引用**: 避免循环引用
@@ -568,8 +585,8 @@ def total_size(obj, seen=None):
 **理解内存模型，写出高效代码！** 💾✨
 
 **相关文档**:
+
 - [01-data-model.md](01-data-model.md) - 数据模型
 - [04-execution-model.md](04-execution-model.md) - 执行模型
 
 **最后更新**: 2025年10月28日
-

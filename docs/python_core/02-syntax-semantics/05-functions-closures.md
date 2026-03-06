@@ -37,14 +37,14 @@ def add(x: int, y: int) -> int:
 def complex_function(arg1, arg2):
     """
     复杂函数示例
-    
+
     Args:
         arg1: 第一个参数
         arg2: 第二个参数
-    
+
     Returns:
         处理结果
-    
+
     Raises:
         ValueError: 参数无效时
     """
@@ -307,12 +307,12 @@ def log(message, timestamp=None):  # ✅ 正确
 def make_counter():
     """创建计数器闭包"""
     count = 0
-    
+
     def counter():
         nonlocal count
         count += 1
         return count
-    
+
     return counter
 
 c1 = make_counter()
@@ -330,16 +330,16 @@ print(c1.__closure__[0].cell_contents)  # 2
 def make_accumulator():
     """创建累加器"""
     total = 0
-    
+
     def add(x):
         nonlocal total
         total += x
         return total
-    
+
     def reset():
         nonlocal total
         total = 0
-    
+
     return add, reset
 
 add, reset = make_accumulator()
@@ -373,23 +373,23 @@ print(triple(5))  # 15
 def make_account(initial_balance):
     """创建银行账户"""
     balance = initial_balance
-    
+
     def deposit(amount):
         nonlocal balance
         if amount > 0:
             balance += amount
         return balance
-    
+
     def withdraw(amount):
         nonlocal balance
         if 0 < amount <= balance:
             balance -= amount
             return balance
         return "Insufficient funds"
-    
+
     def get_balance():
         return balance
-    
+
     # 返回操作接口
     return {
         'deposit': deposit,
@@ -424,14 +424,14 @@ def make_lazy_value(func):
     """惰性求值"""
     cached = None
     computed = False
-    
+
     def get_value():
         nonlocal cached, computed
         if not computed:
             cached = func()
             computed = True
         return cached
-    
+
     return get_value
 
 expensive = make_lazy_value(lambda: sum(range(1000000)))
@@ -563,7 +563,7 @@ class CountCalls:
     def __init__(self, func):
         self.func = func
         self.count = 0
-    
+
     def __call__(self, *args, **kwargs):
         self.count += 1
         print(f"Call {self.count} to {self.func.__name__}")
@@ -743,12 +743,12 @@ class Pipeline:
     """函数管道"""
     def __init__(self, value):
         self.value = value
-    
+
     def pipe(self, func):
         """应用函数"""
         self.value = func(self.value)
         return self
-    
+
     def get(self):
         """获取结果"""
         return self.value
@@ -808,9 +808,9 @@ print(result)  # 51
 **掌握函数与闭包，写出优雅代码！** 🎯✨
 
 **相关文档**:
+
 - [04-statements.md](04-statements.md) - 语句语义
 - [06-classes-inheritance.md](06-classes-inheritance.md) - 类与继承
 - [07-decorators-metaprogramming.md](07-decorators-metaprogramming.md) - 装饰器与元编程
 
 **最后更新**: 2025年10月28日
-

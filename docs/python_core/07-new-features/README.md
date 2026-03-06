@@ -1,37 +1,43 @@
 # Python 3.12/3.13 新特性完全指南
 
-**2025 最新 Python 版本特性详解**-
+> 2025 最新 Python 版本特性详解
 
 ---
 
 ## 📚 目录
 
-- [1. Python 3.12 核心特性](#1-python-312-核心特性)
-  - [1.1 PEP 695: 类型参数语法](#11-pep-695-类型参数语法)
-  - [1.2 PEP 698: @override 装饰器](#12-pep-698-override-装饰器)
-  - [1.3 PEP 701: f-string 增强](#13-pep-701-f-string-增强)
-  - [1.4 性能改进](#14-性能改进)
-- [2. Python 3.13 新特性](#2-python-313-新特性)
-- [3. Free-Threaded 模式](#3-free-threaded-模式)
-- [4. JIT 编译器](#4-jit-编译器)
-- [5. 性能改进总结](#5-性能改进总结)
-- [6. 迁移指南](#6-迁移指南)
-- [7. 延伸阅读](#7-延伸阅读)
-
-> **详细文档**:
-> 1. [Python 3.12 新特性](01-python-3.12.md) - 生产就绪版本
-> 2. [Python 3.13 新特性](02-python-3.13.md) - 实验性功能
-> 3. [Free-Threaded 模式](03-free-threaded.md) - GIL 移除
-> 4. [JIT 编译器](04-jit-compiler.md) - 实验性 JIT
-> 5. [性能改进总结](05-performance-improvements.md) - 性能对比
+- [Python 3.12/3.13 新特性完全指南](#python-312313-新特性完全指南)
+  - [📚 目录](#-目录)
+  - [1. Python 3.12 核心特性](#1-python-312-核心特性)
+    - [PEP 695: 类型参数语法](#pep-695-类型参数语法)
+    - [PEP 698: @override 装饰器](#pep-698-override-装饰器)
+    - [PEP 701: f-string 增强](#pep-701-f-string-增强)
+  - [2. Python 3.13 革命性特性](#2-python-313-革命性特性)
+    - [PEP 703: Free-Threaded 模式](#pep-703-free-threaded-模式)
+    - [PEP 744: JIT 编译器](#pep-744-jit-编译器)
+    - [PEP 667: locals() 语义](#pep-667-locals-语义)
+  - [3. Python 3.13 类型系统](#3-python-313-类型系统)
+    - [PEP 696: 类型参数默认值](#pep-696-类型参数默认值)
+    - [PEP 702: @deprecated](#pep-702-deprecated)
+    - [PEP 705: ReadOnly](#pep-705-readonly)
+    - [PEP 742: TypeIs](#pep-742-typeis)
+  - [4. 性能改进](#4-性能改进)
+    - [启动时间](#启动时间)
+    - [内存使用](#内存使用)
+    - [执行速度](#执行速度)
+  - [5. 迁移指南](#5-迁移指南)
+    - [升级到 Python 3.12](#升级到-python-312)
+    - [尝试 Python 3.13](#尝试-python-313)
+    - [版本选择建议](#版本选择建议)
+  - [📖 详细文档索引](#-详细文档索引)
+    - [Python 3.12 特性](#python-312-特性)
+    - [Python 3.13 特性](#python-313-特性)
 
 ---
 
 ## 1. Python 3.12 核心特性
 
-### 1.1 PEP 695: 类型参数语法
-
-Python 3.12 引入了简洁的泛型语法：
+### PEP 695: 类型参数语法
 
 ```python
 # 旧语法 (Python < 3.12)
@@ -47,93 +53,52 @@ class Stack(Generic[T]):
 class Stack[T]:
     def __init__(self) -> None:
         self.items: list[T] = []
-    
-    def push(self, item: T) -> None:
-        self.items.append(item)
-    
-    def pop(self) -> T:
-        return self.items.pop()
 
 # 泛型函数
 def first[T](items: list[T]) -> T:
     return items[0]
-
-# 类型别名
-type Point[T] = tuple[T, T]
-type Matrix[T] = list[list[T]]
 ```
 
-### 1.2 PEP 698: @override 装饰器
-
-确保方法正确覆盖父类方法：
+### PEP 698: @override 装饰器
 
 ```python
 from typing import override
 
 class Base:
-    def process(self) -> None:
-        pass
+    def process(self) -> None: pass
 
 class Derived(Base):
-    @override  # ✅ 编译时检查
-    def process(self) -> None:
-        print("Processing")
-    
-    @override  # ❌ 错误：父类没有此方法
-    def proces(self) -> None:  # 拼写错误
+    @override
+    def process(self) -> None:  # 正确覆盖
+        pass
+
+    @override
+    def typo(self) -> None:  # 错误！父类没有此方法
         pass
 ```
 
-### 1.3 PEP 701: f-string 增强
-
-f-string 可以使用引号和换行：
+### PEP 701: f-string 增强
 
 ```python
-# Python 3.12+ 支持
-songs = [
-    "Take me back to Eden",
-    "Alkaline",
-]
-
-# 可以在 f-string 中使用相同的引号
-result = f"играет {", ".join(songs)}"
+# Python 3.12+ 支持在 f-string 中使用相同引号
+songs = ["Take me back to Eden", "Alkaline"]
+result = f"Playing: {', '.join(songs)}"
 
 # 支持多行
 message = f"""
 User: {user.name}
-Email: {user.email}
 Status: {user.status}
 """
 
 # 支持嵌套
-data = {
-    "name": "Alice",
-    "age": 30
-}
-print(f"{f"{data['name']} is {data['age']} years old"}")
-```
-
-### 1.4 性能改进
-
-```python
-# 理解式性能提升 2x
-squares = [x**2 for x in range(10000)]
-
-# 错误消息改进
-def calculate(x: int) -> int:
-    return x / 0  # 更清晰的错误提示
-
-try:
-    calculate(10)
-except ZeroDivisionError as e:
-    print(e)  # 详细的错误位置和建议
+print(f"{f'{data['name']} is {data['age']} years old'}")
 ```
 
 ---
 
-## 2. Python 3.13 新特性
+## 2. Python 3.13 革命性特性
 
-### 1. Free-Threaded 模式（无 GIL）
+### PEP 703: Free-Threaded 模式
 
 **重大突破**：移除全局解释器锁（GIL）！
 
@@ -145,13 +110,12 @@ import threading
 import time
 
 def cpu_intensive_task(n: int) -> int:
-    """CPU 密集型任务"""
     total = 0
     for i in range(n):
         total += i ** 2
     return total
 
-# Python 3.13t: 真正的并行执行！
+# 真正的并行执行！
 threads = []
 for i in range(4):
     t = threading.Thread(target=cpu_intensive_task, args=(10000000,))
@@ -164,21 +128,12 @@ for t in threads:
 # 性能提升: 接近 4x (4 核 CPU)
 ```
 
-**性能对比**：
+**详细文档**:
 
-```text
-任务: 4 个 CPU 密集型线程
+- [Free-Threaded 完全指南](../10-concurrency/01-free-threaded-guide.md) ⭐
+- [Python 3.13 新特性概述](03-free-threaded.md)
 
-Python 3.12 (with GIL):
-  时间: 12.5 秒
-  CPU 使用: 100% (单核)
-
-Python 3.13t (no GIL):
-  时间: 3.2 秒  (3.9x faster!)
-  CPU 使用: 400% (4 核)
-```
-
-### 2. 实验性 JIT 编译器
+### PEP 744: JIT 编译器
 
 ```bash
 # 启用 JIT 编译器
@@ -188,73 +143,97 @@ PYTHON_JIT=1 python3.13 script.py
 ```
 
 ```python
-def fibonacci(n: int) -> int:
-    """斐波那契数列 - JIT 优化"""
-    if n <= 1:
-        return n
-    return fibonacci(n - 1) + fibonacci(n - 2)
+import sys
 
-# Python 3.13 + JIT: 显著加速
-import time
-
-start = time.time()
-result = fibonacci(35)
-end = time.time()
-
-print(f"Time: {end - start:.2f}s")
-# Python 3.12: ~2.5s
-# Python 3.13 + JIT: ~2.0s (25% faster)
+# 检查 JIT 是否启用
+def is_jit_enabled() -> bool:
+    return hasattr(sys, 'flags') and getattr(sys.flags, 'jit', False)
 ```
 
-### 3. 改进的错误消息
+**详细文档**:
+
+- [JIT 编译器深度解析](04-jit-compiler-deep-dive.md) ⭐
+
+### PEP 667: locals() 语义
 
 ```python
-# Python 3.13 提供更好的错误提示
-
-# 示例 1: 属性错误
-class User:
-    def __init__(self):
-        self.name = "Alice"
-
-user = User()
-print(user.nama)  # 拼写错误
-
-# Python 3.12:
-# AttributeError: 'User' object has no attribute 'nama'
-
-# Python 3.13:
-# AttributeError: 'User' object has no attribute 'nama'
-# Did you mean: 'name'?  ← 建议！
-
-# 示例 2: 导入错误
-import requsts  # 拼写错误
-
-# Python 3.13:
-# ModuleNotFoundError: No module named 'requsts'
-# Did you mean: 'requests'?  ← 建议！
+# Python 3.13+：locals() 行为确定
+def example():
+    x = 1
+    local_vars = locals()
+    local_vars['x'] = 2  # 不影响实际变量 x
+    print(x)  # 1
+    print(local_vars['x'])  # 2
 ```
 
----
+**详细文档**:
 
-## 3. Free-Threaded 模式
-
-Python 3.13 引入的实验性无 GIL 模式（详见上文 2.1）
+- [locals() 语义定义](../01-language-core/06-pep667-locals-semantics.md) ⭐
 
 ---
 
-## 4. JIT 编译器
+## 3. Python 3.13 类型系统
 
-Python 3.13 的实验性 JIT 编译器（详见上文 2.2）
+### PEP 696: 类型参数默认值
+
+```python
+from typing import TypeVar
+
+T = TypeVar("T", default=str)
+
+class Container[T = str]:
+    def __init__(self) -> None:
+        self.items: list[T] = []
+
+container = Container()  # Container[str]
+```
+
+**详细文档**: [PEP 696 类型参数默认值](../03-type-system/08-pep696-type-defaults.md)
+
+### PEP 702: @deprecated
+
+```python
+import warnings
+
+@warnings.deprecated("Use new_function() instead.")
+def old_function():
+    pass
+
+old_function()  # DeprecationWarning
+```
+
+**详细文档**: [PEP 702 @deprecated](../03-type-system/09-pep702-deprecated.md)
+
+### PEP 705: ReadOnly
+
+```python
+from typing import TypedDict, ReadOnly
+
+class Config(TypedDict):
+    debug: bool
+    version: ReadOnly[str]  # 只读
+```
+
+**详细文档**: [PEP 705 ReadOnly](../03-type-system/10-pep705-readonly.md)
+
+### PEP 742: TypeIs
+
+```python
+from typing import TypeIs
+
+def is_string(value: object) -> TypeIs[str]:
+    return isinstance(value, str)
+```
+
+**详细文档**: [PEP 742 TypeIs](../03-type-system/11-pep742-typeis.md)
 
 ---
 
-## 5. 性能改进总结
+## 4. 性能改进
 
 ### 启动时间
 
-```bash
-# 测试: python -c "pass"
-
+```
 Python 3.11: 24ms
 Python 3.12: 18ms (-25%)  ✨
 Python 3.13: 15ms (-38%)  ✨
@@ -262,9 +241,7 @@ Python 3.13: 15ms (-38%)  ✨
 
 ### 内存使用
 
-```bash
-# 测试: 创建 100 万个对象
-
+```
 Python 3.11: 128 MB
 Python 3.12: 105 MB (-18%)  ✨
 Python 3.13: 95 MB  (-26%)  ✨
@@ -272,9 +249,7 @@ Python 3.13: 95 MB  (-26%)  ✨
 
 ### 执行速度
 
-```python
-# 基准测试: PyPerformance Suite
-
+```
 Python 3.11: 1.00x (baseline)
 Python 3.12: 1.11x faster  (+11%)  ✨
 Python 3.13: 1.18x faster  (+18%)  ✨
@@ -284,97 +259,7 @@ Python 3.13 + JIT: 1.25x faster  (+25%)  🚀
 
 ---
 
-## 📊 实际应用场景
-
-### 场景 1: Web 服务器
-
-```python
-from fastapi import FastAPI
-from typing import Annotated
-
-app = FastAPI()
-
-# Python 3.12+: 使用新的类型语法
-type UserId = int
-type UserData = dict[str, str | int]
-
-@app.get("/users/{user_id}")
-async def get_user(user_id: UserId) -> UserData:
-    return {"id": user_id, "name": "Alice"}
-
-# Python 3.13t: 真正的并发处理
-# 性能提升: 2-3x (高并发场景)
-```
-
-### 场景 2: 数据处理
-
-```python
-import polars as pl
-import threading
-
-# Python 3.13t: 并行数据处理
-def process_chunk(df: pl.DataFrame, start: int, end: int):
-    """处理数据块"""
-    chunk = df.slice(start, end - start)
-    return chunk.with_columns([
-        (pl.col("value") * 2).alias("doubled")
-    ])
-
-df = pl.read_csv("large_data.csv")
-chunk_size = len(df) // 4
-
-# 4 个线程并行处理（Python 3.13t）
-threads = []
-results = []
-
-for i in range(4):
-    start = i * chunk_size
-    end = (i + 1) * chunk_size
-    t = threading.Thread(
-        target=lambda: results.append(process_chunk(df, start, end))
-    )
-    threads.append(t)
-    t.start()
-
-for t in threads:
-    t.join()
-
-# 合并结果
-final_df = pl.concat(results)
-
-# 性能: Python 3.13t 比 3.12 快 3.5x
-```
-
-### 场景 3: 机器学习
-
-```python
-import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-
-# Python 3.13t: 并行训练多个模型
-models = []
-
-def train_model(X, y, n_estimators):
-    model = RandomForestClassifier(n_estimators=n_estimators)
-    model.fit(X, y)
-    return model
-
-import concurrent.futures
-
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    # Python 3.13t: 真正的并行训练
-    futures = [
-        executor.submit(train_model, X, y, n)
-        for n in [50, 100, 150, 200]
-    ]
-    models = [f.result() for f in futures]
-
-# 性能: Python 3.13t 比 3.12 快 3.8x
-```
-
----
-
-## 🛠️ 迁移指南
+## 5. 迁移指南
 
 ### 升级到 Python 3.12
 
@@ -386,15 +271,8 @@ uv python install 3.12
 [project]
 requires-python = ">=3.12"
 
-# 3. 更新类型注解
-# 使用新的 type 语句替代 TypeAlias
-type UserId = int  # 代替 UserId: TypeAlias = int
-
-# 4. 使用 @override 装饰器
-from typing import override
-
-# 5. 测试和验证
-uv run pytest
+# 3. 使用新语法
+type UserId = int  # Python 3.12+
 ```
 
 ### 尝试 Python 3.13
@@ -408,77 +286,42 @@ uv python install 3.13t
 
 # 3. 测试性能
 PYTHON_JIT=1 python3.13 benchmark.py
-
-# 4. 评估稳定性
-# 注意: 3.13 仍在开发中，不建议生产使用
 ```
 
----
+### 版本选择建议
 
-## 6. 迁移指南
-
-### Python 3.12
-
-✅ **推荐用于生产**
-
-- 稳定且经过充分测试
-- 性能提升显著
-- 向后兼容性好
-
-### Python 3.13
-
-⚠️ **实验性功能**
-
-- Free-Threaded 模式仍在优化
-- 部分 C 扩展可能不兼容
-- 建议等待稳定版本
+| 场景 | 推荐版本 |
+|------|----------|
+| 生产环境 | Python 3.12 ✅ |
+| 性能敏感 | Python 3.13 + JIT |
+| 多核并行 | Python 3.13t |
+| 前沿特性 | Python 3.13 |
 
 ---
 
-## 📚 延伸阅读
+## 📖 详细文档索引
 
-### Python 3.12 PEPs
+### Python 3.12 特性
 
-- [PEP 695 - Type Parameter Syntax](https://peps.python.org/pep-0695/)
-- [PEP 698 - Override Decorator](https://peps.python.org/pep-0698/)
-- [PEP 701 - f-string Syntax](https://peps.python.org/pep-0701/)
-- [PEP 709 - Comprehension Inlining](https://peps.python.org/pep-0709/)
+- [类型参数语法](02-python-3.12.md)
+- [@override 装饰器](02-python-3.12.md#override)
+- [f-string 增强](02-python-3.12.md#f-string)
 
-### Python 3.13 PEPs
+### Python 3.13 特性
 
-- [PEP 703 - Making the GIL Optional](https://peps.python.org/pep-0703/)
-- [PEP 744 - JIT Compiler](https://peps.python.org/pep-0744/)
-
-### 官方资源
-
-- [Python 3.12 Release Notes](https://docs.python.org/3.12/whatsnew/3.12.html)
-- [Python 3.13 Release Notes](https://docs.python.org/3.13/whatsnew/3.13.html)
-- [Python Performance Benchmark](https://speed.python.org/)
-
----
-
-## 7. 延伸阅读
-
-### 选择 Python 3.12 如果
-
-- ✅ 需要稳定的生产环境
-- ✅ 想要更好的类型系统
-- ✅ 需要性能提升（11%）
-- ✅ 想要更好的错误消息
-
-### 选择 Python 3.13t 如果
-
-- 🚀 需要真正的多线程并行
-- 🚀 CPU 密集型应用
-- 🚀 可以接受实验性功能
-- 🚀 需要极致性能（2-4x）
-
-### 继续使用 Python 3.11 如果
-
-- 📦 依赖尚未支持 3.12+
-- 📦 需要最大兼容性
-- 📦 追求稳定性优先
+- [Free-Threaded 模式](03-free-threaded.md) / [完整指南](../10-concurrency/01-free-threaded-guide.md)
+- [JIT 编译器](04-jit-compiler-deep-dive.md)
+- [locals() 语义](../01-language-core/06-pep667-locals-semantics.md)
+- [类型参数默认值](../03-type-system/08-pep696-type-defaults.md)
+- [@deprecated](../03-type-system/09-pep702-deprecated.md)
+- [ReadOnly](../03-type-system/10-pep705-readonly.md)
+- [TypeIs](../03-type-system/11-pep742-typeis.md)
+- [标准库更新](../08-standard-library-updates/README.md)
 
 ---
 
 **拥抱 Python 的未来，享受更快的性能！** 🚀✨
+
+**最后更新**: 2025-03-07
+**覆盖版本**: Python 3.12, 3.13
+**完成度**: ⭐⭐⭐⭐⭐

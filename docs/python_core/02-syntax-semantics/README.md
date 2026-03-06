@@ -17,6 +17,7 @@
 - [9. 延伸阅读](#9-延伸阅读)
 
 **相关子文档**:
+
 - [词法分析](01-lexical.md) - Token 和词法规则
 - [语法结构](02-grammar.md) - 语法规则和 BNF
 - [表达式语义](03-expressions.md) - 表达式求值
@@ -130,10 +131,10 @@ stmt: simple_stmt | compound_stmt
 
 simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
 
-small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt | 
+small_stmt: (expr_stmt | del_stmt | pass_stmt | flow_stmt |
              import_stmt | global_stmt | nonlocal_stmt | assert_stmt)
 
-compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | 
+compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt |
                with_stmt | funcdef | classdef | match_stmt
 
 if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ['else' ':' suite]
@@ -504,7 +505,7 @@ print(c1())  # 2
 def timer(func):
     import time
     from functools import wraps
-    
+
     @wraps(func)
     def wrapper(*args, **kwargs):
         start = time.time()
@@ -531,23 +532,23 @@ def slow_function():
 class Person:
     # 类变量
     species = "Homo sapiens"
-    
+
     def __init__(self, name: str, age: int):
         # 实例变量
         self.name = name
         self.age = age
-    
+
     def introduce(self) -> str:
         """实例方法"""
         return f"I'm {self.name}, {self.age} years old"
-    
+
     @classmethod
     def from_birth_year(cls, name: str, birth_year: int):
         """类方法"""
         from datetime import datetime
         age = datetime.now().year - birth_year
         return cls(name, age)
-    
+
     @staticmethod
     def is_adult(age: int) -> bool:
         """静态方法"""
@@ -566,7 +567,7 @@ print(Person.is_adult(20))  # True
 class Animal:
     def __init__(self, name: str):
         self.name = name
-    
+
     def speak(self) -> str:
         return "Some sound"
 
@@ -603,21 +604,21 @@ class Employee(Person):
 class Circle:
     def __init__(self, radius: float):
         self._radius = radius
-    
+
     @property
     def radius(self) -> float:
         """只读属性"""
         return self._radius
-    
+
     @property
     def area(self) -> float:
         """计算属性"""
         return 3.14159 * self._radius ** 2
-    
+
     @property
     def diameter(self) -> float:
         return self._radius * 2
-    
+
     @diameter.setter
     def diameter(self, value: float):
         self._radius = value / 2
@@ -626,10 +627,10 @@ class Circle:
 class BankAccount:
     def __init__(self, balance: float):
         self.__balance = balance  # 名称修饰
-    
+
     def get_balance(self) -> float:
         return self.__balance
-    
+
     def deposit(self, amount: float):
         self.__balance += amount
 ```
@@ -676,7 +677,7 @@ class Memoize:
     def __init__(self, func):
         self.func = func
         self.cache = {}
-    
+
     def __call__(self, *args):
         if args not in self.cache:
             self.cache[args] = self.func(*args)
@@ -713,7 +714,7 @@ from dataclasses import dataclass
 class Point:
     x: float
     y: float
-    
+
     def distance(self) -> float:
         return (self.x ** 2 + self.y ** 2) ** 0.5
 ```
@@ -732,7 +733,7 @@ print(obj.x)  # 1
 # __new__ 和 __init__
 class Singleton(type):
     _instances = {}
-    
+
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
             cls._instances[cls] = super().__call__(*args, **kwargs)
@@ -745,7 +746,7 @@ class MyClass(metaclass=Singleton):
 class DynamicAttrs:
     def __getattr__(self, name):
         return f"Dynamic: {name}"
-    
+
     def __setattr__(self, name, value):
         print(f"Setting {name} = {value}")
         super().__setattr__(name, value)
@@ -769,23 +770,23 @@ class State(Enum):
 class StateMachine:
     def __init__(self):
         self._state = State.IDLE
-    
+
     @property
     def state(self) -> State:
         return self._state
-    
+
     def start(self):
         if self._state == State.IDLE:
             self._state = State.RUNNING
             print("Started")
         else:
             raise ValueError(f"Cannot start from {self._state}")
-    
+
     def pause(self):
         if self._state == State.RUNNING:
             self._state = State.PAUSED
             print("Paused")
-    
+
     def stop(self):
         if self._state in (State.RUNNING, State.PAUSED):
             self._state = State.STOPPED
@@ -819,16 +820,16 @@ with timer("Operation"):
 class Validated:
     def __set_name__(self, owner, name):
         self.name = f"_{name}"
-    
+
     def __get__(self, obj, objtype=None):
         if obj is None:
             return self
         return getattr(obj, self.name)
-    
+
     def __set__(self, obj, value):
         self.validate(value)
         setattr(obj, self.name, value)
-    
+
     def validate(self, value):
         pass
 
@@ -842,7 +843,7 @@ class PositiveNumber(Validated):
 class Product:
     price = PositiveNumber()
     quantity = PositiveNumber()
-    
+
     def __init__(self, price: float, quantity: int):
         self.price = price
         self.quantity = quantity

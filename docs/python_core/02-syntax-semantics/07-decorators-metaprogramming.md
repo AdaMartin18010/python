@@ -92,7 +92,7 @@ def optional_arg_decorator(func=None, *, option=None):
             print(f"Option: {option}")
             return f(*args, **kwargs)
         return wrapper
-    
+
     if func is None:
         # 带参数调用: @decorator(option="value")
         return decorator
@@ -276,7 +276,7 @@ print(db1 is db2)  # True (同一实例)
 def validate_attributes(cls):
     """验证属性装饰器"""
     original_init = cls.__init__
-    
+
     @wraps(original_init)
     def new_init(self, *args, **kwargs):
         original_init(self, *args, **kwargs)
@@ -284,7 +284,7 @@ def validate_attributes(cls):
         for attr, value in self.__dict__.items():
             if value is None:
                 raise ValueError(f"{attr} cannot be None")
-    
+
     cls.__init__ = new_init
     return cls
 
@@ -307,7 +307,7 @@ class CountCalls:
     def __init__(self, func):
         self.func = func
         self.count = 0
-    
+
     def __call__(self, *args, **kwargs):
         self.count += 1
         print(f"Call {self.count} to {self.func.__name__}")
@@ -325,7 +325,7 @@ class Retry:
     """重试装饰器类"""
     def __init__(self, max_attempts=3):
         self.max_attempts = max_attempts
-    
+
     def __call__(self, func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -392,19 +392,19 @@ print(obj.value)  # 42
 
 class Meta(type):
     """自定义元类"""
-    
+
     def __new__(mcs, name, bases, namespace):
         """创建类"""
         print(f"Creating class {name}")
         # 修改类
         namespace['class_id'] = id(mcs)
         return super().__new__(mcs, name, bases, namespace)
-    
+
     def __init__(cls, name, bases, namespace):
         """初始化类"""
         print(f"Initializing class {name}")
         super().__init__(name, bases, namespace)
-    
+
     def __call__(cls, *args, **kwargs):
         """创建实例"""
         print(f"Creating instance of {cls.__name__}")
@@ -433,7 +433,7 @@ obj = MyClass()
 class SingletonMeta(type):
     """单例元类"""
     _instances = {}
-    
+
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
             cls._instances[cls] = super().__call__(*args, **kwargs)
@@ -451,7 +451,7 @@ print(db1 is db2)  # True
 class PluginRegistry(type):
     """插件注册元类"""
     plugins = {}
-    
+
     def __new__(mcs, name, bases, namespace):
         cls = super().__new__(mcs, name, bases, namespace)
         if name != 'Plugin':  # 不注册基类
@@ -483,7 +483,7 @@ class ModelMeta(type):
             if isinstance(value, Field):
                 fields[key] = value
                 value.name = key
-        
+
         namespace['_fields'] = fields
         return super().__new__(mcs, name, bases, namespace)
 
@@ -521,17 +521,17 @@ class Descriptor:
     """描述符基类"""
     def __init__(self, name):
         self.name = name
-    
+
     def __get__(self, instance, owner):
         """获取属性"""
         if instance is None:
             return self
         return instance.__dict__.get(self.name)
-    
+
     def __set__(self, instance, value):
         """设置属性"""
         instance.__dict__[self.name] = value
-    
+
     def __delete__(self, instance):
         """删除属性"""
         del instance.__dict__[self.name]
@@ -560,12 +560,12 @@ class TypedProperty:
     def __init__(self, name, expected_type):
         self.name = name
         self.expected_type = expected_type
-    
+
     def __get__(self, instance, owner):
         if instance is None:
             return self
         return instance.__dict__.get(self.name)
-    
+
     def __set__(self, instance, value):
         if not isinstance(value, self.expected_type):
             raise TypeError(
@@ -576,7 +576,7 @@ class TypedProperty:
 class Person:
     name = TypedProperty("name", str)
     age = TypedProperty("age", int)
-    
+
     def __init__(self, name, age):
         self.name = name
         self.age = age
@@ -590,11 +590,11 @@ class LazyProperty:
     def __init__(self, func):
         self.func = func
         self.name = func.__name__
-    
+
     def __get__(self, instance, owner):
         if instance is None:
             return self
-        
+
         # 计算值
         value = self.func(instance)
         # 替换描述符为计算值
@@ -618,16 +618,16 @@ class Validated:
     def __init__(self, validator):
         self.validator = validator
         self.name = None
-    
+
     def __set_name__(self, owner, name):
         """Python 3.6+ 自动获取属性名"""
         self.name = name
-    
+
     def __get__(self, instance, owner):
         if instance is None:
             return self
         return instance.__dict__.get(self.name)
-    
+
     def __set__(self, instance, value):
         if not self.validator(value):
             raise ValueError(f"Invalid value for {self.name}")
@@ -706,7 +706,7 @@ code_template = Template("""
 class $classname:
     def __init__(self, $params):
         $assignments
-    
+
     def __repr__(self):
         return f"$classname($repr_format)"
 """)
@@ -716,14 +716,14 @@ def generate_class(name, fields):
     params = ', '.join(fields)
     assignments = '\n        '.join(f"self.{f} = {f}" for f in fields)
     repr_format = ', '.join(f"{f}={{self.{f}!r}}" for f in fields)
-    
+
     code = code_template.substitute(
         classname=name,
         params=params,
         assignments=assignments,
         repr_format=repr_format
     )
-    
+
     namespace = {}
     exec(code, namespace)
     return namespace[name]
@@ -747,16 +747,16 @@ print(repr(p))  # Point(x=1, y=2)
 ### 元类
 
 - ✅ **type**: 默认元类
-- ✅ **__new__**: 创建类
-- ✅ **__init__**: 初始化类
-- ✅ **__call__**: 创建实例
+- ✅ ****new****: 创建类
+- ✅ ****init****: 初始化类
+- ✅ ****call****: 创建实例
 - ✅ **应用**: 单例、注册、ORM
 
 ### 描述符
 
-- ✅ **__get__**: 获取属性
-- ✅ **__set__**: 设置属性
-- ✅ **__delete__**: 删除属性
+- ✅ ****get****: 获取属性
+- ✅ ****set****: 设置属性
+- ✅ ****delete****: 删除属性
 - ✅ **应用**: 验证、懒加载、属性管理
 
 ### 最佳实践
@@ -772,9 +772,9 @@ print(repr(p))  # Point(x=1, y=2)
 **掌握元编程，构建强大框架！** 🔮✨
 
 **相关文档**:
+
 - [05-functions-closures.md](05-functions-closures.md) - 函数与闭包
 - [06-classes-inheritance.md](06-classes-inheritance.md) - 类与继承
 - [../01-language-core/01-data-model.md](../01-language-core/01-data-model.md) - 数据模型
 
 **最后更新**: 2025年10月28日
-

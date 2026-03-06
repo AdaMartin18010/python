@@ -294,11 +294,11 @@ def process(data: Final[list[int]]) -> int:
 # 实际应用
 class Application:
     """应用程序类"""
-    
+
     # 常量配置
     APP_NAME: Final[str] = "MyApp"
     VERSION: Final[tuple[int, int, int]] = (1, 0, 0)
-    
+
     def __init__(self, debug: bool = False):
         # 实例常量
         self.debug: Final[bool] = debug
@@ -617,8 +617,8 @@ type JSON = dict[str, JSON] | list[JSON] | str | int | float | bool | None
 **掌握类型注解，提升代码质量！** 📝✨
 
 **相关文档**:
+
 - [02-generics-protocols.md](02-generics-protocols.md) - 泛型与协议
 - [04-mypy.md](04-mypy.md) - mypy类型检查
 
 **最后更新**: 2025年10月28日
-

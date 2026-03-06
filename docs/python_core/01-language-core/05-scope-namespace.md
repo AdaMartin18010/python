@@ -45,7 +45,7 @@ func()  # {'a': 1, 'b': 2}
 # 4. 对象命名空间
 class MyClass:
     class_var = 100
-    
+
     def __init__(self):
         self.instance_var = 200
 
@@ -107,14 +107,14 @@ x = "global"  # G - 全局
 
 def outer():
     x = "enclosing"  # E - 外层
-    
+
     def inner():
         x = "local"  # L - 局部
         print(f"Local: {x}")
-        
+
         # 访问不同作用域的x
         # 无法直接访问enclosing的x
-    
+
     inner()
     print(f"Enclosing: {x}")
 
@@ -149,11 +149,11 @@ print(count)  # 1
 # 2. nonlocal - 访问外层函数变量
 def outer():
     count = 0
-    
+
     def inner():
         nonlocal count  # 声明使用外层count
         count += 1
-    
+
     inner()
     print(count)  # 1
 
@@ -213,11 +213,11 @@ x = "global x"
 
 def outer():
     x = "outer x"
-    
+
     def inner():
         # 查找顺序: L → E → G → B
         print(x)  # 找到outer的x (E)
-    
+
     inner()
 
 outer()  # 输出: outer x
@@ -229,17 +229,17 @@ outer()  # 输出: outer x
 def example():
     # 1. Local: 查找局部变量
     local_var = "local"
-    
+
     # 2. Enclosing: 查找外层函数
     def inner():
         print(local_var)  # 从enclosing找到
-    
+
     # 3. Global: 查找全局
     print(x)  # 从global找到
-    
+
     # 4. Built-in: 查找内置
     print(len([1, 2, 3]))  # 从built-in找到
-    
+
     inner()
 
 example()
@@ -283,7 +283,7 @@ print(lst)  # [1, 2, 3]
 # 陷阱3: 类变量 vs 实例变量
 class MyClass:
     x = []  # 类变量 (所有实例共享!)
-    
+
     def __init__(self):
         self.y = []  # 实例变量 (每个实例独立)
 
@@ -311,12 +311,12 @@ print(b.y)  # [] - 独立
 def make_counter():
     """创建计数器"""
     count = 0
-    
+
     def counter():
         nonlocal count
         count += 1
         return count
-    
+
     return counter
 
 # 创建两个独立的计数器
@@ -356,12 +356,12 @@ print(triple(5))  # 15
 def make_account(initial_balance):
     """创建账户"""
     balance = initial_balance
-    
+
     def deposit(amount):
         nonlocal balance
         balance += amount
         return balance
-    
+
     def withdraw(amount):
         nonlocal balance
         if balance >= amount:
@@ -369,10 +369,10 @@ def make_account(initial_balance):
             return balance
         else:
             return "Insufficient funds"
-    
+
     def get_balance():
         return balance
-    
+
     return deposit, withdraw, get_balance
 
 # 使用
@@ -549,8 +549,8 @@ print(dir(current_module))  # 模块的所有名称
 **掌握作用域,写出清晰的代码！** 🎯✨
 
 **相关文档**:
+
 - [01-data-model.md](01-data-model.md) - 数据模型
 - [04-execution-model.md](04-execution-model.md) - 执行模型
 
 **最后更新**: 2025年10月28日
-

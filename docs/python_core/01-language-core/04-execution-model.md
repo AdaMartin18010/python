@@ -187,22 +187,22 @@ BINARY_ADD                 # 栈: [(a + b*c)]
 def simulate_expression():
     """模拟栈式计算"""
     stack = []
-    
+
     # a = 10, b = 3, c = 4
     stack.append(10)  # LOAD_FAST a
     stack.append(3)   # LOAD_FAST b
     stack.append(4)   # LOAD_FAST c
-    
+
     # BINARY_MULTIPLY
     c = stack.pop()
     b = stack.pop()
     stack.append(b * c)
-    
+
     # BINARY_ADD
     bc = stack.pop()
     a = stack.pop()
     stack.append(a + bc)
-    
+
     return stack[0]  # RETURN_VALUE
 
 print(simulate_expression())  # 22
@@ -353,7 +353,7 @@ level1()
 # 异常传播路径:
 """
 level3 (raise)
-  ↓ 
+  ↓
 level2 (未捕获,继续传播)
   ↓
 level1 (捕获)
@@ -451,7 +451,7 @@ import sys
 if hasattr(sys, 'is_gil_enabled'):
     if not sys.is_gil_enabled():
         print("Free-threaded mode enabled!")
-        
+
         # 在此模式下,多线程可真正并行
         # 性能显著提升!
 
@@ -496,9 +496,9 @@ python -X gil=0 script.py
 **深入理解执行模型，掌控程序运行！** ⚙️✨
 
 **相关文档**:
+
 - [01-data-model.md](01-data-model.md) - 数据模型
 - [03-memory-model.md](03-memory-model.md) - 内存模型
 - [05-scope-namespace.md](05-scope-namespace.md) - 作用域
 
 **最后更新**: 2025年10月28日
-

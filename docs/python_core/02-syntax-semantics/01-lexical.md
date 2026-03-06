@@ -225,11 +225,11 @@ import keyword
 # 所有关键字
 print(keyword.kwlist)
 """
-['False', 'None', 'True', 'and', 'as', 'assert', 
- 'async', 'await', 'break', 'class', 'continue', 
- 'def', 'del', 'elif', 'else', 'except', 'finally', 
- 'for', 'from', 'global', 'if', 'import', 'in', 
- 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 
+['False', 'None', 'True', 'and', 'as', 'assert',
+ 'async', 'await', 'break', 'class', 'continue',
+ 'def', 'del', 'elif', 'else', 'except', 'finally',
+ 'for', 'from', 'global', 'if', 'import', 'in',
+ 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass',
  'raise', 'return', 'try', 'while', 'with', 'yield']
 """
 
@@ -684,7 +684,7 @@ OP         ')'   at line 4
 - ✅ **规则**: 字母/下划线开头，可含数字
 - ✅ **Unicode**: 支持Unicode字符
 - ✅ **关键字**: 不能作为标识符
-- ✅ **约定**: _private, __dunder__
+- ✅ **约定**: _private, **dunder**
 
 ### 字面量
 
@@ -705,8 +705,8 @@ OP         ')'   at line 4
 **理解词法分析，掌握Python语法基础！** 🔤✨
 
 **相关文档**:
+
 - [02-grammar.md](02-grammar.md) - 语法结构
 - [03-expressions.md](03-expressions.md) - 表达式语义
 
 **最后更新**: 2025年10月28日
-

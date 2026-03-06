@@ -283,10 +283,10 @@ for node in ast.walk(tree):
 # 方法2: ast.NodeVisitor (自定义遍历)
 class FunctionAnalyzer(ast.NodeVisitor):
     """分析函数定义"""
-    
+
     def __init__(self):
         self.functions = []
-    
+
     def visit_FunctionDef(self, node):
         """访问函数定义节点"""
         self.functions.append({
@@ -314,12 +314,12 @@ import ast
 
 class ConstantFolder(ast.NodeTransformer):
     """常量折叠优化"""
-    
+
     def visit_BinOp(self, node):
         """访问二元运算"""
         # 先递归处理子节点
         node = self.generic_visit(node)
-        
+
         # 如果两个操作数都是常量
         if isinstance(node.left, ast.Constant) and isinstance(node.right, ast.Constant):
             # 计算结果
@@ -327,7 +327,7 @@ class ConstantFolder(ast.NodeTransformer):
                 return ast.Constant(node.left.value + node.right.value)
             elif isinstance(node.op, ast.Mult):
                 return ast.Constant(node.left.value * node.right.value)
-        
+
         return node
 
 # 原始代码
@@ -468,7 +468,7 @@ def func(arg, *args, kwarg=None, **kwargs):
 class MyClass(Base):
     """Docstring"""
     class_var = 10
-    
+
     def __init__(self):
         pass
 
@@ -688,9 +688,9 @@ func(c=f(3), a=f(1), b=f(2))  # 按出现顺序: f(3), f(1), f(2)
 **掌握Python语法，写出清晰的代码！** 📐✨
 
 **相关文档**:
+
 - [01-lexical.md](01-lexical.md) - 词法分析
 - [03-expressions.md](03-expressions.md) - 表达式语义
 - [04-statements.md](04-statements.md) - 语句语义
 
 **最后更新**: 2025年10月28日
-

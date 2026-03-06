@@ -68,22 +68,22 @@ T = TypeVar('T')
 
 class Stack(Generic[T]):
     """泛型栈"""
-    
+
     def __init__(self) -> None:
         self._items: list[T] = []
-    
+
     def push(self, item: T) -> None:
         """压栈"""
         self._items.append(item)
-    
+
     def pop(self) -> T:
         """出栈"""
         return self._items.pop()
-    
+
     def peek(self) -> T | None:
         """查看栈顶"""
         return self._items[-1] if self._items else None
-    
+
     def is_empty(self) -> bool:
         """是否为空"""
         return len(self._items) == 0
@@ -104,14 +104,14 @@ V = TypeVar('V')
 
 class Pair(Generic[K, V]):
     """泛型键值对"""
-    
+
     def __init__(self, key: K, value: V):
         self.key = key
         self.value = value
-    
+
     def get_key(self) -> K:
         return self.key
-    
+
     def get_value(self) -> V:
         return self.value
 
@@ -132,7 +132,7 @@ from typing import Protocol
 
 class Drawable(Protocol):
     """可绘制协议"""
-    
+
     def draw(self) -> str:
         """绘制方法"""
         ...
@@ -265,10 +265,10 @@ class Stack[T]:
     """泛型栈"""
     def __init__(self) -> None:
         self._items: list[T] = []
-    
+
     def push(self, item: T) -> None:
         self._items.append(item)
-    
+
     def pop(self) -> T:
         return self._items.pop()
 
@@ -367,11 +367,11 @@ class ReadOnlyCollection(Generic[T_co]):
     """只读集合"""
     def __init__(self, items: list[T_co]):
         self._items = items
-    
+
     def get(self, index: int) -> T_co:
         """获取元素"""
         return self._items[index]
-    
+
     def __iter__(self):
         return iter(self._items)
 
@@ -540,8 +540,8 @@ arr: Array[int, int, int] = Array(2, 3, 4)  # 3维数组
 **掌握泛型与协议，构建类型安全代码！** 🔒✨
 
 **相关文档**:
+
 - [01-type-hints-basics.md](01-type-hints-basics.md) - 类型注解基础
 - [04-mypy.md](04-mypy.md) - mypy类型检查
 
 **最后更新**: 2025年10月28日
-

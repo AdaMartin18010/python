@@ -6,11 +6,29 @@
 
 ## 📋 目录
 
-- [类型系统概述](#类型系统概述)
-- [动态类型机制](#动态类型机制)
-- [类型注解系统](#类型注解系统)
-- [类型检查工具](#类型检查工具)
-- [高级类型特性](#高级类型特性)
+- [Python 类型系统](#python-类型系统)
+  - [📋 目录](#-目录)
+  - [类型系统概述](#类型系统概述)
+    - [Python的双重类型系统](#python的双重类型系统)
+    - [类型系统的层次](#类型系统的层次)
+  - [动态类型机制](#动态类型机制)
+    - [鸭子类型 (Duck Typing)](#鸭子类型-duck-typing)
+    - [类型转换与强制](#类型转换与强制)
+  - [类型注解系统](#类型注解系统)
+    - [基础类型注解](#基础类型注解)
+    - [函数类型注解](#函数类型注解)
+    - [泛型类型](#泛型类型)
+  - [类型检查工具](#类型检查工具)
+    - [mypy类型检查](#mypy类型检查)
+    - [Protocol - 结构化类型](#protocol---结构化类型)
+  - [高级类型特性](#高级类型特性)
+    - [Literal类型](#literal类型)
+    - [NewType - 创建新类型](#newtype---创建新类型)
+    - [类型别名](#类型别名)
+  - [📚 核心要点](#-核心要点)
+    - [类型系统特点](#类型系统特点)
+    - [类型注解优势](#类型注解优势)
+    - [最佳实践](#最佳实践)
 
 ---
 
@@ -107,11 +125,11 @@ print(make_it_quack(Person()))  # I'm quacking like a duck!
 
 class StringFile:
     """字符串模拟文件"""
-    
+
     def __init__(self, content: str):
         self.content = content
         self.pos = 0
-    
+
     def read(self, size=-1):
         if size == -1:
             result = self.content[self.pos:]
@@ -120,7 +138,7 @@ class StringFile:
             result = self.content[self.pos:self.pos + size]
             self.pos += size
         return result
-    
+
     def readline(self):
         end = self.content.find('\n', self.pos)
         if end == -1:
@@ -170,15 +188,15 @@ print(bool([1]))    # True
 class Meters:
     def __init__(self, value: float):
         self.value = value
-    
+
     def __int__(self):
         """转换为int"""
         return int(self.value)
-    
+
     def __float__(self):
         """转换为float"""
         return float(self.value)
-    
+
     def __str__(self):
         """转换为str"""
         return f"{self.value}m"
@@ -263,15 +281,15 @@ from typing import Self
 
 class Builder:
     """流式构建器"""
-    
+
     def __init__(self):
         self.value = 0
-    
+
     def add(self, x: int) -> Self:
         """返回自身"""
         self.value += x
         return self
-    
+
     def multiply(self, x: int) -> Self:
         """返回自身"""
         self.value *= x
@@ -295,18 +313,18 @@ T = TypeVar('T')
 
 class Stack(Generic[T]):
     """泛型栈"""
-    
+
     def __init__(self) -> None:
         self._items: List[T] = []
-    
+
     def push(self, item: T) -> None:
         """压栈"""
         self._items.append(item)
-    
+
     def pop(self) -> T:
         """出栈"""
         return self._items.pop()
-    
+
     def is_empty(self) -> bool:
         """是否为空"""
         return len(self._items) == 0
@@ -327,13 +345,13 @@ print(str_stack.pop())  # hello
 
 class Stack[T]:
     """使用新泛型语法"""
-    
+
     def __init__(self) -> None:
         self._items: list[T] = []
-    
+
     def push(self, item: T) -> None:
         self._items.append(item)
-    
+
     def pop(self) -> T:
         return self._items.pop()
 ```
@@ -411,19 +429,19 @@ from typing import Protocol
 
 class Drawable(Protocol):
     """可绘制协议"""
-    
+
     def draw(self) -> str:
         ...
 
 class Circle:
     """圆形"""
-    
+
     def draw(self) -> str:
         return "Drawing circle"
 
 class Square:
     """正方形"""
-    
+
     def draw(self) -> str:
         return "Drawing square"
 
@@ -444,7 +462,7 @@ from typing import runtime_checkable
 @runtime_checkable
 class Sized(Protocol):
     """有大小的对象"""
-    
+
     def __len__(self) -> int:
         ...
 
@@ -593,9 +611,9 @@ type JSON = dict[str, JSON] | list[JSON] | str | int | float | bool | None
 **类型系统让Python更强大、更安全！** 🎯✨
 
 **相关文档**:
+
 - [01-data-model.md](01-data-model.md) - 数据模型
 - [03-memory-model.md](03-memory-model.md) - 内存模型
 - [../03-type-system/](../03-type-system/) - 类型系统深度解析
 
 **最后更新**: 2025年10月28日
-

@@ -6,20 +6,44 @@
 
 ## 📚 目录
 
-- [1. 类型系统概述](#1-类型系统概述)
-  - [1.1 核心概念](#11-核心概念)
-- [2. Python 3.12 类型系统新特性](#2-python-312-类型系统新特性)
-  - [2.1 PEP 695: 类型参数语法](#21-pep-695-类型参数语法)
-  - [2.2 PEP 698: @override 装饰器](#22-pep-698-override-装饰器)
-- [3. 基础类型注解](#3-基础类型注解)
-- [4. 高级类型特性](#4-高级类型特性)
-- [5. 泛型编程](#5-泛型编程)
-- [6. 协议与结构化子类型](#6-协议与结构化子类型)
-- [7. 类型检查工具](#7-类型检查工具)
-- [8. 实战案例](#8-实战案例)
-- [9. 延伸阅读](#9-延伸阅读)
+- [Python 类型系统深度解析](#python-类型系统深度解析)
+  - [📚 目录](#-目录)
+  - [1. 类型系统概述](#1-类型系统概述)
+    - [1.1 核心概念](#11-核心概念)
+  - [2. Python 3.12 类型系统新特性](#2-python-312-类型系统新特性)
+    - [2.1 PEP 695: 类型参数语法](#21-pep-695-类型参数语法)
+    - [2.2 PEP 698: @override 装饰器](#22-pep-698-override-装饰器)
+  - [3. 类型注解层次](#3-类型注解层次)
+    - [Level 1: 基础类型](#level-1-基础类型)
+    - [Level 2: 可选与联合](#level-2-可选与联合)
+    - [Level 3: 泛型与类型变量](#level-3-泛型与类型变量)
+    - [Level 4: 协议与结构化子类型](#level-4-协议与结构化子类型)
+  - [4. 高级类型特性](#4-高级类型特性)
+    - [1. 类型守卫](#1-类型守卫)
+    - [2. 字面量类型](#2-字面量类型)
+    - [3. 类型别名](#3-类型别名)
+    - [4. 参数规范](#4-参数规范)
+  - [5. 类型检查工具](#5-类型检查工具)
+    - [mypy 配置](#mypy-配置)
+    - [pyright 配置](#pyright-配置)
+  - [6. 类型系统最佳实践](#6-类型系统最佳实践)
+    - [1. 优先使用内置泛型](#1-优先使用内置泛型)
+    - [2. 使用协议而非继承](#2-使用协议而非继承)
+    - [3. 使用 TypeAlias 明确意图](#3-使用-typealias-明确意图)
+    - [4. 避免过度使用 Any](#4-避免过度使用-any)
+  - [7. 实际应用案例](#7-实际应用案例)
+    - [案例 1: 类型安全的配置类](#案例-1-类型安全的配置类)
+    - [案例 2: 类型安全的 API 响应](#案例-2-类型安全的-api-响应)
+    - [案例 3: 类型安全的装饰器](#案例-3-类型安全的装饰器)
+  - [8. 延伸阅读](#8-延伸阅读)
+  - [3. Python 3.13 类型系统新特性](#3-python-313-类型系统新特性)
+    - [3.1 PEP 696: 类型参数默认值](#31-pep-696-类型参数默认值)
+    - [3.2 PEP 702: @deprecated 装饰器](#32-pep-702-deprecated-装饰器)
+    - [3.3 PEP 705: TypedDict ReadOnly](#33-pep-705-typeddict-readonly)
+    - [3.4 PEP 742: TypeIs](#34-pep-742-typeis)
 
 **相关子文档**:
+
 - [类型注解基础](01-type-hints-basics.md) - Python 类型注解入门
 - [泛型与协议](02-generics-protocols.md) - 高级类型特性
 - [类型推导](03-type-inference.md) - 类型推导机制
@@ -27,6 +51,10 @@
 - [pyright 类型检查](05-pyright.md) - pyright 使用指南
 - [运行时类型检查](06-runtime-checking.md) - 运行时验证
 - [PEP 695 类型参数](07-pep695-type-parameters.md) - Python 3.12 新特性
+- [PEP 696 类型参数默认值](08-pep696-type-defaults.md) - Python 3.13 新特性 ⭐
+- [PEP 702 @deprecated](09-pep702-deprecated.md) - Python 3.13 新特性 ⭐
+- [PEP 705 ReadOnly](10-pep705-readonly.md) - Python 3.13 新特性 ⭐
+- [PEP 742 TypeIs](11-pep742-typeis.md) - Python 3.13 新特性 ⭐
 
 ---
 
@@ -53,10 +81,10 @@ T = TypeVar("T")
 class Stack(Generic[T]):
     def __init__(self) -> None:
         self._items: list[T] = []
-    
+
     def push(self, item: T) -> None:
         self._items.append(item)
-    
+
     def pop(self) -> T:
         return self._items.pop()
 
@@ -92,10 +120,10 @@ class OldStack(Generic[T]):
 class Stack[T]:
     def __init__(self) -> None:
         self.items: list[T] = []
-    
+
     def push(self, item: T) -> None:
         self.items.append(item)
-    
+
     def pop(self) -> T:
         return self.items.pop()
 
@@ -121,7 +149,7 @@ class Derived(Base):
     @override  # 确保是覆盖父类方法
     def method(self) -> None:
         super().method()
-    
+
     @override
     def typo_method(self) -> None:  # 错误！父类没有此方法
         pass
@@ -212,10 +240,10 @@ class Person:
     def __init__(self, name: str, age: int):
         self.name = name
         self.age = age
-    
+
     def __lt__(self, other: "Person") -> bool:
         return self.age < other.age
-    
+
     def __gt__(self, other: "Person") -> bool:
         return self.age > other.age
 
@@ -411,7 +439,7 @@ class Config:
     debug: bool
     environment: Environment
     port: int = 8000
-    
+
     def is_production(self) -> bool:
         return self.environment == "production"
 
@@ -494,6 +522,79 @@ result: int = slow_function(2)  # 类型正确
 - [PEP 692 - TypedDict with Unpack](https://peps.python.org/pep-0692/)
 - [PEP 695 - Type Parameter Syntax](https://peps.python.org/pep-0695/)
 - [PEP 698 - Override Decorator](https://peps.python.org/pep-0698/)
+
+---
+
+## 3. Python 3.13 类型系统新特性
+
+### 3.1 PEP 696: 类型参数默认值
+
+```python
+from typing import TypeVar
+
+# Python 3.13+：类型参数支持默认值
+T = TypeVar("T", default=str)
+
+class Container[T = str]:
+    def __init__(self) -> None:
+        self.items: list[T] = []
+
+# 可以不指定类型，使用默认值
+container = Container()  # Container[str]
+```
+
+**详细文档**: [PEP 696 类型参数默认值](08-pep696-type-defaults.md)
+
+### 3.2 PEP 702: @deprecated 装饰器
+
+```python
+import warnings
+
+@warnings.deprecated("Use new_function() instead.")
+def old_function():
+    """这个函数已被弃用"""
+    pass
+
+# 调用时发出警告
+old_function()  # DeprecationWarning
+```
+
+**详细文档**: [PEP 702 @deprecated](09-pep702-deprecated.md)
+
+### 3.3 PEP 705: TypedDict ReadOnly
+
+```python
+from typing import TypedDict, ReadOnly
+
+class Config(TypedDict):
+    debug: bool
+    version: ReadOnly[str]  # 只读字段
+
+config: Config = {"debug": True, "version": "1.0.0"}
+config["debug"] = False      # OK
+# config["version"] = "2.0"  # 类型错误！
+```
+
+**详细文档**: [PEP 705 ReadOnly](10-pep705-readonly.md)
+
+### 3.4 PEP 742: TypeIs
+
+```python
+from typing import TypeIs
+
+def is_string(value: object) -> TypeIs[str]:
+    return isinstance(value, str)
+
+def process(value: object) -> None:
+    if is_string(value):
+        # value 被收窄为 str
+        print(value.upper())
+    else:
+        # value 被收窄为 ~str
+        pass
+```
+
+**详细文档**: [PEP 742 TypeIs](11-pep742-typeis.md)
 
 ---
 

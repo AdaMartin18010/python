@@ -548,7 +548,7 @@ class ManagedResource:
     def __enter__(self):
         print("Acquiring resource")
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         print("Releasing resource")
         # 返回True抑制异常,False传播异常
@@ -615,7 +615,7 @@ async with aiohttp.ClientSession() as session:
 ### 上下文管理
 
 - ✅ **with**: 自动资源管理
-- ✅ **__enter__/__exit__**: 协议
+- ✅ ****enter**/**exit****: 协议
 - ✅ **contextmanager**: 装饰器
 - ✅ **async with**: 异步上下文
 
@@ -632,9 +632,9 @@ async with aiohttp.ClientSession() as session:
 **掌握语句语义，控制程序流程！** 🎮✨
 
 **相关文档**:
+
 - [03-expressions.md](03-expressions.md) - 表达式语义
 - [05-functions-closures.md](05-functions-closures.md) - 函数与闭包
 - [../01-language-core/04-execution-model.md](../01-language-core/04-execution-model.md) - 执行模型
 
 **最后更新**: 2025年10月28日
-

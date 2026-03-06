@@ -6,11 +6,30 @@
 
 ## 📋 目录
 
-- [对象模型基础](#对象模型基础)
-- [属性访问机制](#属性访问机制)
-- [描述符协议](#描述符协议)
-- [特殊方法](#特殊方法)
-- [元类系统](#元类系统)
+- [Python 数据模型与对象系统](#python-数据模型与对象系统)
+  - [📋 目录](#-目录)
+  - [对象模型基础](#对象模型基础)
+    - [Python对象的本质](#python对象的本质)
+    - [对象的内部结构](#对象的内部结构)
+  - [属性访问机制](#属性访问机制)
+    - [属性查找顺序](#属性查找顺序)
+    - [属性访问魔法方法](#属性访问魔法方法)
+  - [描述符协议](#描述符协议)
+    - [描述符基础](#描述符基础)
+    - [实用描述符示例](#实用描述符示例)
+  - [特殊方法](#特殊方法)
+    - [运算符重载](#运算符重载)
+    - [容器协议](#容器协议)
+    - [上下文管理器](#上下文管理器)
+  - [元类系统](#元类系统)
+    - [元类基础](#元类基础)
+    - [自定义元类](#自定义元类)
+    - [元类的实际应用](#元类的实际应用)
+  - [📚 核心要点](#-核心要点)
+    - [对象模型](#对象模型)
+    - [属性访问](#属性访问)
+    - [特殊方法](#特殊方法-1)
+    - [元类](#元类)
 
 ---
 
@@ -109,7 +128,7 @@ print(sys.getrefcount(x))  # 2
 
 class Base:
     x = "base"
-    
+
     def __init__(self):
         self.y = "instance"
 
@@ -144,25 +163,25 @@ print(obj.y)  # 'instance' - 从实例中找到
 
 class TrackedAccess:
     """追踪属性访问"""
-    
+
     def __init__(self):
         self._data = {}
-    
+
     def __getattribute__(self, name: str):
         """获取属性时调用"""
         print(f"Getting: {name}")
         return super().__getattribute__(name)
-    
+
     def __getattr__(self, name: str):
         """属性不存在时调用"""
         print(f"Attribute {name} not found, creating...")
         return f"default_{name}"
-    
+
     def __setattr__(self, name: str, value):
         """设置属性时调用"""
         print(f"Setting: {name} = {value}")
         super().__setattr__(name, value)
-    
+
     def __delattr__(self, name: str):
         """删除属性时调用"""
         print(f"Deleting: {name}")
@@ -198,22 +217,22 @@ print(obj.missing)
 
 class Descriptor:
     """数据描述符"""
-    
+
     def __init__(self, name: str):
         self.name = name
-    
+
     def __get__(self, instance, owner):
         """获取属性"""
         if instance is None:
             return self
         print(f"Getting {self.name}")
         return instance.__dict__.get(self.name, None)
-    
+
     def __set__(self, instance, value):
         """设置属性"""
         print(f"Setting {self.name} = {value}")
         instance.__dict__[self.name] = value
-    
+
     def __delete__(self, instance):
         """删除属性"""
         print(f"Deleting {self.name}")
@@ -240,18 +259,18 @@ del obj.x       # Deleting x
 
 class Validated:
     """类型验证描述符"""
-    
+
     def __init__(self, name: str, expected_type: type):
         self.name = name
         self.expected_type = expected_type
-    
+
     def __set__(self, instance, value):
         if not isinstance(value, self.expected_type):
             raise TypeError(
                 f"{self.name} must be {self.expected_type.__name__}"
             )
         instance.__dict__[self.name] = value
-    
+
     def __get__(self, instance, owner):
         if instance is None:
             return self
@@ -261,7 +280,7 @@ class Person:
     """带验证的类"""
     name = Validated("name", str)
     age = Validated("age", int)
-    
+
     def __init__(self, name: str, age: int):
         self.name = name
         self.age = age
@@ -281,15 +300,15 @@ except TypeError as e:
 
 class LazyProperty:
     """懒加载属性"""
-    
+
     def __init__(self, func):
         self.func = func
         self.name = func.__name__
-    
+
     def __get__(self, instance, owner):
         if instance is None:
             return self
-        
+
         # 第一次访问时计算
         value = self.func(instance)
         # 缓存结果
@@ -298,7 +317,7 @@ class LazyProperty:
 
 class DataProcessor:
     """使用懒加载"""
-    
+
     @LazyProperty
     def expensive_result(self):
         """昂贵的计算"""
@@ -323,35 +342,35 @@ print(processor.expensive_result)  # 499999500000 (缓存,不再计算)
 
 class Vector:
     """2D向量类"""
-    
+
     def __init__(self, x: float, y: float):
         self.x = x
         self.y = y
-    
+
     def __repr__(self) -> str:
         """官方字符串表示"""
         return f"Vector({self.x}, {self.y})"
-    
+
     def __str__(self) -> str:
         """用户友好的字符串"""
         return f"({self.x}, {self.y})"
-    
+
     def __add__(self, other: "Vector") -> "Vector":
         """向量加法"""
         return Vector(self.x + other.x, self.y + other.y)
-    
+
     def __mul__(self, scalar: float) -> "Vector":
         """标量乘法"""
         return Vector(self.x * scalar, self.y * scalar)
-    
+
     def __eq__(self, other: "Vector") -> bool:
         """相等比较"""
         return self.x == other.x and self.y == other.y
-    
+
     def __abs__(self) -> float:
         """向量长度"""
         return (self.x ** 2 + self.y ** 2) ** 0.5
-    
+
     def __bool__(self) -> bool:
         """布尔转换"""
         return bool(abs(self))
@@ -375,34 +394,34 @@ print(v1 == v2)     # False
 
 class CustomList:
     """自定义列表类"""
-    
+
     def __init__(self):
         self._items = []
-    
+
     def __len__(self) -> int:
         """长度"""
         return len(self._items)
-    
+
     def __getitem__(self, index: int):
         """索引访问"""
         return self._items[index]
-    
+
     def __setitem__(self, index: int, value):
         """索引赋值"""
         self._items[index] = value
-    
+
     def __delitem__(self, index: int):
         """删除元素"""
         del self._items[index]
-    
+
     def __contains__(self, item) -> bool:
         """成员测试"""
         return item in self._items
-    
+
     def __iter__(self):
         """迭代"""
         return iter(self._items)
-    
+
     def append(self, item):
         """添加元素"""
         self._items.append(item)
@@ -429,22 +448,22 @@ for item in lst:
 
 class DatabaseConnection:
     """数据库连接上下文管理器"""
-    
+
     def __init__(self, db_name: str):
         self.db_name = db_name
         self.connection = None
-    
+
     def __enter__(self):
         """进入上下文"""
         print(f"Connecting to {self.db_name}")
         self.connection = f"Connection to {self.db_name}"
         return self.connection
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         """退出上下文"""
         print(f"Closing connection to {self.db_name}")
         self.connection = None
-        
+
         # 返回True抑制异常,False传播异常
         if exc_type is not None:
             print(f"Exception occurred: {exc_type.__name__}")
@@ -501,9 +520,9 @@ print(obj.value)    # 42
 
 class SingletonMeta(type):
     """单例元类"""
-    
+
     _instances = {}
-    
+
     def __call__(cls, *args, **kwargs):
         """控制类的实例化"""
         if cls not in cls._instances:
@@ -513,7 +532,7 @@ class SingletonMeta(type):
 
 class Database(metaclass=SingletonMeta):
     """使用单例元类"""
-    
+
     def __init__(self, host: str):
         self.host = host
 
@@ -534,7 +553,7 @@ print(db1.host)     # localhost (第一次的参数)
 
 class ModelMeta(type):
     """ORM元类"""
-    
+
     def __new__(mcs, name, bases, namespace):
         # 收集字段
         fields = {}
@@ -542,22 +561,22 @@ class ModelMeta(type):
             if isinstance(value, Field):
                 fields[key] = value
                 value.name = key
-        
+
         # 保存字段信息
         namespace['_fields'] = fields
-        
+
         return super().__new__(mcs, name, bases, namespace)
 
 class Field:
     """字段基类"""
-    
+
     def __init__(self, field_type: type):
         self.field_type = field_type
         self.name = None
 
 class Model(metaclass=ModelMeta):
     """模型基类"""
-    
+
     def __init__(self, **kwargs):
         for name, value in kwargs.items():
             setattr(self, name, value)
@@ -587,7 +606,7 @@ print(user.name)     # Alice
 
 ### 属性访问
 
-- ✅ **查找顺序**: 实例 → 类 → 父类 → __getattr__
+- ✅ **查找顺序**: 实例 → 类 → 父类 → **getattr**
 - ✅ **魔法方法**: `__getattribute__`, `__getattr__`, `__setattr__`
 - ✅ **描述符**: 实现属性的高级控制
 
@@ -608,9 +627,9 @@ print(user.name)     # Alice
 **理解Python对象模型，掌握语言核心！** 🐍✨
 
 **相关文档**:
+
 - [02-type-system.md](02-type-system.md) - 类型系统
 - [03-memory-model.md](03-memory-model.md) - 内存模型
 - [04-execution-model.md](04-execution-model.md) - 执行模型
 
 **最后更新**: 2025年10月28日
-
