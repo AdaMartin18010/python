@@ -63,13 +63,13 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     published = models.BooleanField(default=False)
-    
+
     class Meta:
         ordering = ['-created_at']
         indexes = [
             models.Index(fields=['-created_at']),
         ]
-    
+
     def __str__(self):
         return self.title
 
@@ -100,7 +100,7 @@ class PostListView(ListView):
     template_name = 'myapp/post_list.html'
     context_object_name = 'posts'
     paginate_by = 10
-    
+
     def get_queryset(self):
         return Post.objects.filter(published=True)
 
@@ -111,7 +111,7 @@ class PostDetailView(DetailView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
-    
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -165,9 +165,9 @@ urlpatterns = [
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
     {% endif %}
-    
+
     <span>第 {{ page_obj.number }} 页 / 共 {{ page_obj.paginator.num_pages }} 页</span>
-    
+
     {% if page_obj.has_next %}
     <a href="?page={{ page_obj.next_page_number }}">下一页</a>
     {% endif %}
@@ -332,7 +332,7 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'created_at'
     ordering = ['-created_at']
-    
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.select_related('author')
@@ -356,7 +356,7 @@ from .models import Post
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
-    
+
     class Meta:
         model = Post
         fields = ['id', 'title', 'content', 'author', 'created_at', 'published']
@@ -369,7 +369,7 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.filter(published=True)
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    
+
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
@@ -446,18 +446,18 @@ class PostModelTest(TestCase):
             content='Test Content',
             author=self.user
         )
-    
+
     def test_post_creation(self):
         self.assertEqual(self.post.title, 'Test Post')
         self.assertFalse(self.post.published)
-    
+
     def test_post_str(self):
         self.assertEqual(str(self.post), 'Test Post')
 
 class PostViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-    
+
     def test_post_list_view(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
@@ -497,10 +497,10 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
     help = '导入数据'
-    
+
     def add_arguments(self, parser):
         parser.add_argument('file', type=str)
-    
+
     def handle(self, *args, **options):
         file_path = options['file']
         self.stdout.write(f'导入文件: {file_path}')
@@ -521,4 +521,3 @@ class Command(BaseCommand):
 ---
 
 **最后更新**: 2025年10月28日
-

@@ -26,14 +26,14 @@
 
 ### 异步框架
 
-4. **[Starlette](04-starlette.md)**
+1. **[Starlette](04-starlette.md)**
    - 轻量级ASGI框架
    - FastAPI的基础
 
-5. **[aiohttp](05-aiohttp.md)**
+2. **[aiohttp](05-aiohttp.md)**
    - 异步HTTP客户端/服务器
 
-6. **[httpx](06-httpx.md)**
+3. **[httpx](06-httpx.md)**
    - 现代HTTP客户端
    - 支持HTTP/2
 
@@ -55,12 +55,13 @@
 ## 📚 学习路径
 
 ### 初学者
+
 1. Flask基础 → FastAPI → 异步编程
 
 ### 进阶者
+
 1. Django深入 → FastAPI高级特性 → 性能优化
 
 ---
 
 **最后更新**: 2025年10月28日
-

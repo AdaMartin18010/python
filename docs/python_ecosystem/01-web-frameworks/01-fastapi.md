@@ -53,9 +53,10 @@ uvicorn main:app --reload
 ```
 
 访问:
-- API: http://localhost:8000
-- 交互式文档: http://localhost:8000/docs
-- 备用文档: http://localhost:8000/redoc
+
+- API: <http://localhost:8000>
+- 交互式文档: <http://localhost:8000/docs>
+- 备用文档: <http://localhost:8000/redoc>
 
 ---
 
@@ -420,4 +421,3 @@ async def get_user(user_id: int):
 ---
 
 **最后更新**: 2025年10月28日
-

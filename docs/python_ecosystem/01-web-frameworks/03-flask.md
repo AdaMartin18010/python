@@ -98,16 +98,16 @@ def create_user():
     data = request.json
     username = data.get('username')
     email = data.get('email')
-    
+
     # 表单数据
     # username = request.form.get('username')
-    
+
     # 查询参数
     page = request.args.get('page', 1, type=int)
-    
+
     # 文件上传
     # file = request.files['file']
-    
+
     return jsonify({
         'message': 'User created',
         'username': username,
@@ -140,7 +140,7 @@ def profile(username):
 <body>
     <h1>{{ user.username }}</h1>
     <p>Email: {{ user.email }}</p>
-    
+
     <h2>Posts</h2>
     <ul>
     {% for post in user.posts %}
@@ -219,12 +219,12 @@ from config import Config
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    
+
     # 注册蓝图
     from app.routes import main_bp, auth_bp
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
-    
+
     return app
 
 # run.py
@@ -252,7 +252,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    
+
     def __repr__(self):
         return f'<User {self.username}>'
 
@@ -328,14 +328,14 @@ class UserResource(Resource):
     def get(self, user_id):
         user = User.query.get_or_404(user_id)
         return {'username': user.username, 'email': user.email}
-    
+
     def put(self, user_id):
         user = User.query.get_or_404(user_id)
         data = request.json
         user.email = data.get('email', user.email)
         db.session.commit()
         return {'message': 'User updated'}
-    
+
     def delete(self, user_id):
         user = User.query.get_or_404(user_id)
         db.session.delete(user)
@@ -392,7 +392,7 @@ from app.models import User
 @pytest.fixture
 def client():
     app = create_app('testing')
-    
+
     with app.test_client() as client:
         with app.app_context():
             db.create_all()
@@ -516,4 +516,3 @@ def send():
 ---
 
 **最后更新**: 2025年10月28日
-

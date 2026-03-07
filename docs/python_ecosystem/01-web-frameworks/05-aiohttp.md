@@ -140,13 +140,13 @@ app = web.Application(middlewares=[error_middleware])
 async def websocket_handler(request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)
-    
+
     async for msg in ws:
         if msg.type == aiohttp.WSMsgType.TEXT:
             await ws.send_str(f"Echo: {msg.data}")
         elif msg.type == aiohttp.WSMsgType.ERROR:
             break
-    
+
     return ws
 
 app.add_routes([web.get('/ws', websocket_handler)])
@@ -182,4 +182,3 @@ for url in urls:
 ---
 
 **最后更新**: 2025年10月28日
-
